@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { motion } from "motion/react";
 import { assets, menuLinkFirst, menuLinkSecond } from "../assets/assets";
-import { Link, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import NavItem from "./helpers/NavItem";
 
 const NavBar = () => {
   const [lgMenuOpen, setLgMenuOpen] = useState(false); // переключення між двома групами меню
   const [mobileOpen, setMobileOpen] = useState(false); // мобільне меню
+  const isPath = useLocation().pathname.includes("/analytical")
   const navigate = useNavigate();
 
   return (
@@ -24,7 +25,7 @@ const NavBar = () => {
           onClick={() => navigate("/")}
         >
           <img src={assets.logo} alt="logo" className="w-10 h-11" />
-          <p className="font-semibold">Name</p>
+          <p className={`font-semibold ${!isPath ? "text-white" : "text-[#03383A]"}`}>Name</p>
         </div>
 
         {/* MENU LINKS */}
@@ -77,7 +78,7 @@ const NavBar = () => {
 
       {/* MOBILE SLIDE MENU */}
       <div
-        className={`lg:hidden absolute top-16 right-0 w-64 h-screen bg-primary border-l border-gray-300 transition-transform duration-300 z-40 p-6 flex flex-col gap-6 ${mobileOpen ? "translate-x-0" : "translate-x-full"}`}>
+        className={`lg:hidden fixed top-16 right-0 w-64 h-screen bg-primary border-l border-gray-300 transition-transform duration-300 z-40 p-6 flex flex-col gap-6 ${mobileOpen ? "translate-x-0" : "translate-x-full"}`}>
 
         <div className="flex flex-row justify-between">
           {/* SWITCH BUTTON */}

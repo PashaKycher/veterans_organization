@@ -12,9 +12,8 @@ const Hero = () => {
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, ease: "easeOut" }}
-            className="relative w-full overflow-visible"   // ❗ ГОЛОВНИЙ ФІКС
-        >
-
+            className="relative w-full overflow-visible">   
+        
             {/* Background image */}
             <img
                 src={assets.homeHero}
@@ -27,7 +26,7 @@ const Hero = () => {
 
             {/* Hero content */}
             <div className="relative z-20 flex flex-col items-center gap-4 px-4 
-                lg:absolute lg:top-60 lg:left-1/2 lg:-translate-x-1/2 lg:w-280">
+                lg:absolute lg:top-60 lg:left-1/2 lg:-translate-x-1/2 lg:w-200">
 
                 <h3 className='text-2xl lg:text-3xl uppercase text-black lg:text-white font-bold max-[800px]:text-center max-[800px]:pt-8'>
                     Підтримуємо тих, хто захищає Україну

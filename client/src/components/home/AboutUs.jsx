@@ -17,7 +17,7 @@ const AboutUs = () => {
                     <img
                         src={assets.homeAboutUs}
                         alt="homeAboutUs"
-                        className="w-full  rounded-lg shadow-md"
+                        className="w-full max-w-[550px] rounded-lg shadow-md"
                     />
                 </div>
 
