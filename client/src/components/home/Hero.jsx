@@ -30,16 +30,16 @@ const Hero = () => {
                 lg:absolute lg:top-60 lg:left-1/2 lg:-translate-x-1/2 lg:w-280">
 
                 <h3 className='text-2xl lg:text-3xl uppercase text-black lg:text-white font-bold max-[800px]:text-center max-[800px]:pt-8'>
-                    Підтримуємо ветеранів разом
+                    Підтримуємо тих, хто захищає Україну
                 </h3>
 
                 <p className="text-black lg:text-white max-w-88 lg:max-w-136 text-start lg:text-center font-semibold mt-4 mb-6">
-                    Об’єднуємо ресурси, досвід та небайдужих людей задля допомоги захисникам і їхнім родинам.
+                    Аналітика, волонтерська допомога, реабілітація, розвиток юнацтва.
                 </p>
 
                 <button className="w-full md:w-auto px-9 py-4 font-semibold text-md backdrop-blur-sm uppercase 
                     border border-primary text-white hover:bg-primary hover:border-primary max-[800px]:bg-primary lg:bg-none lg:border-white lg:hover:bg-primary lg:hover:border-primary cursor-pointer mb-4">
-                    Аналітичні огляди
+                    Долучитись до волонтерів
                 </button>
             </div>
 
