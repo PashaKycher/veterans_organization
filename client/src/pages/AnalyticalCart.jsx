@@ -32,7 +32,6 @@ const AnalyticalArticle = () => {
             </div>
         )
     }
-    console.log(category)
 
     return (
         <div className='bg-sand-500/20'>
