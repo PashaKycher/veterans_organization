@@ -7,7 +7,8 @@ import NavItem from "./helpers/NavItem";
 const NavBar = () => {
   const [lgMenuOpen, setLgMenuOpen] = useState(false); // переключення між двома групами меню
   const [mobileOpen, setMobileOpen] = useState(false); // мобільне меню
-  const isPath = useLocation().pathname.includes("/analytical")
+  const isPathAnalytical = useLocation().pathname.includes("/analytical")
+  const isPathNews = useLocation().pathname.includes("/news")
   const navigate = useNavigate();
 
   return (
@@ -25,7 +26,9 @@ const NavBar = () => {
           onClick={() => navigate("/")}
         >
           <img src={assets.logo} alt="logo" className="w-10 h-11" />
-          <p className={`font-semibold ${!isPath ? "text-white" : "text-[#03383A]"}`}>Name</p>
+          <p className={`font-semibold 
+            ${!isPathAnalytical ? "text-white" : "text-[#03383A]"}
+            ${!isPathNews ? "text-white" : "text-[#03383A]"}`}>Name</p>
         </div>
 
         {/* MENU LINKS */}

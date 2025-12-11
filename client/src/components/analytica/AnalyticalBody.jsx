@@ -1,7 +1,6 @@
 import React, { useState, useMemo } from "react";
 import { motion } from "motion/react";
 import { useNavigate } from "react-router-dom";
-import { Title } from "../helpers/Title";
 import { analyticalReviews, analyticalCategories, assets } from "../../assets/assets";
 
 const AnalyticalBody = () => {
@@ -62,17 +61,12 @@ const AnalyticalBody = () => {
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 1 }}
-      className="flex flex-col gap-10 items-center w-full py-6 md:px-16 lg:px-24 xl:px-40"
-    >
-
-      {/* ----------- TITLE ----------- */}
-      {/* <Title text="Аналітичні огляди" color="black" /> */}
+      className="flex flex-col gap-10 items-center w-full py-6 md:px-16 lg:px-24 xl:px-40">
 
       {/* ----------- FILTER FORM ----------- */}
       <motion.form
         onSubmit={handleSubmit}
-        className="w-full bg-white shadow-md rounded-xl p-6 flex flex-col md:flex-row gap-6 items-start md:items-end"
-      >
+        className="w-full bg-white shadow-md rounded-xl p-6 flex flex-col md:flex-row gap-6 items-start md:items-end">
         {/* Category */}
         <div className="flex flex-col w-full">
           <label className="text-sm text-gray-600 font-semibold">Категорія</label>
