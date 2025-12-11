@@ -1,4 +1,4 @@
-import React, { useState }  from 'react'
+import React, { useState } from "react";
 import MFHero from '../components/militaryFamilies/MFHero'
 import MFAbout from '../components/militaryFamilies/MFAbout'
 import MFSupportDirections from '../components/militaryFamilies/MFSupportDirections'
@@ -8,6 +8,7 @@ import MFFAQ from '../components/militaryFamilies/MFFAQ'
 import { militaryFamiliesLinks } from '../assets/assets'
 
 const MilitaryFamilies = () => {
+
   const [open, setOpen] = useState(true);
   const data = militaryFamiliesLinks
 
