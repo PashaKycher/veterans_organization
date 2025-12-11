@@ -9,6 +9,7 @@ import arrow_icon from './arrow_icon.svg'
 import homeHero from './homeHero.png'
 import homeAboutUs from './homeAboutUs.png'
 import homeOpportunitiesAndApproach from './homeOpportunitiesAndApproach.png'
+import mfHero from './mfHero.jpg'
 
 export const assets = {
     logo,
@@ -22,6 +23,7 @@ export const assets = {
     homeHero,
     homeAboutUs,
     homeOpportunitiesAndApproach,
+    mfHero,
 }
 
 export const menuLinkFirst = [

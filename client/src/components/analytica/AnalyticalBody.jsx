@@ -66,14 +66,14 @@ const AnalyticalBody = () => {
       {/* ----------- FILTER FORM ----------- */}
       <motion.form
         onSubmit={handleSubmit}
-        className="w-full bg-white shadow-md rounded-xl p-6 flex flex-col md:flex-row gap-6 items-start md:items-end">
+        className="w-full bg-white shadow-md rounded-xl p-6 flex flex-col lg:flex-row gap-3 items-start md:items-end">
         {/* Category */}
         <div className="flex flex-col w-full">
-          <label className="text-sm text-gray-600 font-semibold">Категорія</label>
+          <label className="text-xs xl:text-sm text-gray-600 font-semibold">Категорія</label>
           <select
             value={category}
             onChange={(e) => setCategory(e.target.value)}
-            className="border p-2 rounded-md"
+            className="border p-2 rounded-md text-xs xl:text-sm"
           >
             <option value="">Всі категорії</option>
             {analyticalCategories.map((cat) => (
@@ -86,11 +86,11 @@ const AnalyticalBody = () => {
 
         {/* Sort */}
         <div className="flex flex-col w-full">
-          <label className="text-sm text-gray-600 font-semibold">Сортування</label>
+          <label className="text-xs xl:text-sm text-gray-600 font-semibold">Сортування</label>
           <select
             value={sortOrder}
             onChange={(e) => setSortOrder(e.target.value)}
-            className="border p-2 rounded-md"
+            className="border p-2 rounded-md text-xs xl:text-sm"
           >
             <option value="">Не сортувати</option>
             <option value="asc">Дата ↑</option>
@@ -100,24 +100,24 @@ const AnalyticalBody = () => {
 
         {/* Exact date */}
         <div className="flex flex-col w-full">
-          <label className="text-sm text-gray-600 font-semibold">Точна дата</label>
+          <label className="text-xs xl:text-sm text-gray-600 font-semibold">Точна дата</label>
           <input
             type="date"
             value={exactDate}
             onChange={(e) => setExactDate(e.target.value)}
-            className="border p-2 rounded-md"
+            className="border p-2 rounded-md text-xs xl:text-sm"
           />
         </div>
 
         {/* Text search */}
         <div className="flex flex-col w-full">
-          <label className="text-sm text-gray-600 font-semibold">Пошук</label>
+          <label className="text-xs xl:text-sm text-gray-600 font-semibold">Пошук</label>
           <input
             type="text"
             placeholder="Введіть ключове слово..."
             value={searchText}
             onChange={(e) => setSearchText(e.target.value)}
-            className="border p-2 rounded-md"
+            className="border p-2 rounded-md text-xs xl:text-sm"
           />
         </div>
 
@@ -126,7 +126,7 @@ const AnalyticalBody = () => {
           type="submit"
           className="bg-primary text-white px-6 py-3 rounded-md hover:bg-primary/80 transition"
         >
-          Застосувати
+          OK
         </button>
       </motion.form>
 

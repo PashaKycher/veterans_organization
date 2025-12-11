@@ -19,6 +19,7 @@ import Youth from './pages/Youth'
 
 function App() {
   const isOwnerPath = useLocation().pathname.includes("/owner")
+  const isRehabilitation = useLocation().pathname.includes("/rehabilitation")
 
   return (
     <>
@@ -46,7 +47,7 @@ function App() {
         </Route>
       </Routes>
       
-      <LearnMore />
+      {!isRehabilitation && <LearnMore />}
       <Footer />
     </>
   )
