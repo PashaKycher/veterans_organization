@@ -4,6 +4,7 @@ import close_icon from './close_icon.svg'
 import arrow_btn from './arrow_btn.png'
 import nawBarBtn from './nawBarBtn.png'
 import homeClose_btn from './homeClose_btn.png'
+import arrow_icon from './arrow_icon.svg'
 
 import homeHero from './homeHero.png'
 import homeAboutUs from './homeAboutUs.png'
@@ -16,6 +17,7 @@ export const assets = {
     arrow_btn,
     nawBarBtn,
     homeClose_btn,
+    arrow_icon,
 
     homeHero,
     homeAboutUs,
@@ -100,7 +102,7 @@ export const analyticalReviews = [
   {
     _id: "6740a11d-f1d0-4c98-9001-01",
     user_id: "user-001",
-    category_id: "cat-01",
+    category_id: "c1",
     image: "/img/reviews/state-policy-1.jpg",
     video: "",
     name: "Оновлена державна стратегія щодо ветеранів до 2030 року",
@@ -124,7 +126,7 @@ export const analyticalReviews = [
   {
     _id: "6740a11d-f1d0-4c98-9001-02",
     user_id: "user-001",
-    category_id: "cat-01",
+    category_id: "c1",
     image: "/img/reviews/state-policy-2.jpg",
     video: "",
     name: "Інституційні зміни в роботі Міністерства у справах ветеранів",
@@ -151,7 +153,7 @@ export const analyticalReviews = [
   {
     _id: "6740a11d-f1d0-4c98-9002-01",
     user_id: "user-002",
-    category_id: "cat-02",
+    category_id: "c2",
     image: "/img/reviews/laws-1.jpg",
     video: "",
     name: "Закон 3551-XII: ключові оновлення 2024 року",
@@ -175,7 +177,7 @@ export const analyticalReviews = [
   {
     _id: "6740a11d-f1d0-4c98-9002-02",
     user_id: "user-002",
-    category_id: "cat-02",
+    category_id: "c2",
     image: "",
     video: "/videos/law-reform.mp4",
     name: "Порівняльний аналіз нових та старих норм щодо соцвиплат",
@@ -202,7 +204,7 @@ export const analyticalReviews = [
   {
     _id: "6740a11d-f1d0-4c98-9003-01",
     user_id: "user-003",
-    category_id: "cat-03",
+    category_id: "c3",
     image: "/img/reviews/employment-1.jpg",
     video: "",
     name: "Стан працевлаштування ветеранів у 2024 році",
@@ -228,7 +230,7 @@ export const analyticalReviews = [
   {
     _id: "6740a11d-f1d0-4c98-9004-01",
     user_id: "user-004",
-    category_id: "cat-04",
+    category_id: "c4",
     image: "/img/reviews/rehab-1.jpg",
     video: "",
     name: "Брак реабілітаційних центрів: чому ситуація критична?",
@@ -255,7 +257,7 @@ export const analyticalReviews = [
   {
     _id: "6740a11d-f1d0-4c98-9005-01",
     user_id: "user-005",
-    category_id: "cat-05",
+    category_id: "c5",
     image: "/img/reviews/social-1.jpg",
     video: "",
     name: "Ефективність програми «Є-відновлення» для ветеранів",
@@ -283,7 +285,7 @@ export const analyticalReviews = [
   {
     _id: "6740a11d-f1d0-4c98-9006-01",
     user_id: "user-006",
-    category_id: "cat-06",
+    category_id: "c6",
     image: "/img/reviews/orgs-1.jpg",
     video: "",
     name: "ТОП-10 ветеранських організацій України",
