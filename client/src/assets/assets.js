@@ -10,6 +10,8 @@ import homeHero from './homeHero.png'
 import homeAboutUs from './homeAboutUs.png'
 import homeOpportunitiesAndApproach from './homeOpportunitiesAndApproach.png'
 import mfHero from './mfHero.jpg'
+import veterans from './veterans.jpg'
+import volunteering from './volunteering.jpg'
 
 export const assets = {
     logo,
@@ -24,6 +26,8 @@ export const assets = {
     homeAboutUs,
     homeOpportunitiesAndApproach,
     mfHero,
+    veterans,
+    volunteering,
 }
 
 export const menuLinkFirst = [

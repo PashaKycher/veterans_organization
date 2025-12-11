@@ -1,5 +1,7 @@
 import React from "react";
+import { motion } from "motion/react";
 import { assets } from "../assets/assets";
+import { Blackout } from '../components/helpers/Blackout';
 
 const helpAreas = [
   {
@@ -44,10 +46,25 @@ const stories = [
 
 const Volunteering = () => {
   return (
-    <main className="bg-[#F1F4F4] min-h-screen text-[#383737]">
+    <motion.main
+      initial={{ opacity: 0, x: -40 }}
+      whileInView={{ opacity: 1, x: 0 }}
+      transition={{ duration: 1 }}
+      className="bg-[#F1F4F4] min-h-screen text-dark">
+
+      {/* Background image */}
+      <img
+        src={assets.volunteering}
+        alt="homeHero"
+        className="w-full h-auto lg:h-screen object-cover"
+      />
+
+      {/* Dark overlay */}
+      <Blackout />
+
       <section className="max-w-6xl mx-auto px-5 py-12 space-y-12">
         {/* Hero */}
-        <div className="relative overflow-hidden bg-gradient-to-r from-primary/15 via-white to-primary/10 border border-primary/10 shadow-lg rounded-2xl p-8 md:p-12 flex flex-col md:flex-row gap-8 items-center">
+        <div className="relative overflow-hidden bg-linear-to-r from-primary/15 via-white to-primary/10 border border-primary/10 shadow-lg rounded-2xl p-8 md:p-12 flex flex-col md:flex-row gap-8 items-center">
           <div className="space-y-4 md:max-w-xl">
             <p className="text-sm font-semibold uppercase text-primary tracking-wide">
               Волонтерство для ветеранів
@@ -56,7 +73,7 @@ const Volunteering = () => {
               Спільнота, що підсилює ветеранів і їхні родини
             </h1>
             <p className="text-sm md:text-base text-neutral-700 leading-relaxed">
-              Волонтери — це люди, які перетворюють підтримку на дію: від психологічного супроводу до логістики та зборів. 
+              Волонтери — це люди, які перетворюють підтримку на дію: від психологічного супроводу до логістики та зборів.
               Ми об’єднуємо тих, хто хоче допомогти, із тими, хто потребує допомоги, щоб ветеранська спільнота відчувала опору щодня.
             </p>
             <div className="flex flex-wrap gap-3">
@@ -127,7 +144,7 @@ const Volunteering = () => {
               <h2 className="text-2xl md:text-3xl font-bold text-primary">Як долучитися</h2>
             </div>
             <p className="text-sm md:text-base text-neutral-700 leading-relaxed">
-              Оберіть зручний формат участі: допомога у зборі коштів, доставка, консультації чи інформаційна підтримка. 
+              Оберіть зручний формат участі: допомога у зборі коштів, доставка, консультації чи інформаційна підтримка.
               Ми підкажемо, з чого почати, та забезпечимо прозорість процесів.
             </p>
             <div className="flex flex-wrap gap-3">
@@ -165,7 +182,7 @@ const Volunteering = () => {
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
             {stories.map((story) => (
               <div key={story.name} className="bg-white rounded-2xl shadow-md p-6 border border-primary/10 space-y-3">
-                <div className="w-full h-32 bg-gradient-to-br from-primary/15 to-white rounded-xl border border-primary/10 flex items-center justify-center text-primary font-semibold">
+                <div className="w-full h-32 bg-linear-to-br from-primary/15 to-white rounded-xl border border-primary/10 flex items-center justify-center text-primary font-semibold">
                   Фото
                 </div>
                 <div className="space-y-1">
@@ -178,7 +195,7 @@ const Volunteering = () => {
           </div>
         </section>
       </section>
-    </main>
+    </motion.main>
   );
 };
 
