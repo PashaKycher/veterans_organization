@@ -6,6 +6,7 @@ import RehabSteps from "../components/rehabilitation/RehabSteps";
 import RehabStories from "../components/rehabilitation/RehabStories";
 import RehabCTA from "../components/rehabilitation/RehabCTA";
 import { rehabilitationLinks } from '../assets/assets';
+import ModalWindow from '../components/helpers/ModalWindow';
 
 const Rehabilitation = () => {
   const [open, setOpen] = useState(true);

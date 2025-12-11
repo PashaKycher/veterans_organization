@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import MFHero from '../components/militaryFamilies/MFHero'
 import MFAbout from '../components/militaryFamilies/MFAbout'
 import MFSupportDirections from '../components/militaryFamilies/MFSupportDirections'
@@ -6,10 +6,12 @@ import MFPrograms from '../components/militaryFamilies/MFPrograms'
 import MFGuides from '../components/militaryFamilies/MFGuides'
 import MFFAQ from '../components/militaryFamilies/MFFAQ'
 import { militaryFamiliesLinks } from '../assets/assets'
+import ModalWindow from "../components/helpers/ModalWindow";
 
 const MilitaryFamilies = () => {
+  const [open, setOpen] = useState(true);
+  const data = militaryFamiliesLinks
 
-  
 
   return (
     <div className='bg-[#F1F4F4]'>
@@ -20,11 +22,11 @@ const MilitaryFamilies = () => {
       <MFGuides />
       <MFFAQ />
 
-      {/* <ModalWindow
+      <ModalWindow
         isOpen={open}
         onClose={() => setOpen(false)}
         items={data}
-      /> */}
+      />
     </div>
   )
 }

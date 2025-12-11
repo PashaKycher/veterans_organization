@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { assets, veteransLinks } from '../assets/assets'
 import { Blackout } from '../components/helpers/Blackout'
+import ModalWindow from '../components/helpers/ModalWindow'
 
 const resourceBlocks = [
     {
