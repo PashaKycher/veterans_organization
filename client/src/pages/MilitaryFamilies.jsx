@@ -1,4 +1,4 @@
-import React from 'react'
+import React { useState }  from 'react'
 import MFHero from '../components/militaryFamilies/MFHero'
 import MFAbout from '../components/militaryFamilies/MFAbout'
 import MFSupportDirections from '../components/militaryFamilies/MFSupportDirections'
@@ -19,7 +19,7 @@ const MilitaryFamilies = () => {
       <MFPrograms />
       <MFGuides />
       <MFFAQ />
-      
+
       <ModalWindow
         isOpen={open}
         onClose={() => setOpen(false)}

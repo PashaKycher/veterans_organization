@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { assets, veteransLinks } from '../assets/assets'
 import { Blackout } from '../components/helpers/Blackout'
 
