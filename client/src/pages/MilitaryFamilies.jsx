@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import MFHero from '../components/militaryFamilies/MFHero'
 import MFAbout from '../components/militaryFamilies/MFAbout'
 import MFSupportDirections from '../components/militaryFamilies/MFSupportDirections'
@@ -9,8 +9,7 @@ import { militaryFamiliesLinks } from '../assets/assets'
 
 const MilitaryFamilies = () => {
 
-  const [open, setOpen] = useState(true);
-  const data = militaryFamiliesLinks
+  
 
   return (
     <div className='bg-[#F1F4F4]'>
@@ -21,11 +20,11 @@ const MilitaryFamilies = () => {
       <MFGuides />
       <MFFAQ />
 
-      <ModalWindow
+      {/* <ModalWindow
         isOpen={open}
         onClose={() => setOpen(false)}
         items={data}
-      />
+      /> */}
     </div>
   )
 }
