@@ -1,11 +1,17 @@
 import { Link, useLocation } from "react-router-dom";
 
 const NavItem = ({ name, desc, path }) => {
-  const isPath = useLocation().pathname.includes("/analytical")
+  const isPathAnalytical = useLocation().pathname.includes("/analytical")
+  const isPathNews = useLocation().pathname.includes("/news")
+
+  let color = false
+  if (isPathAnalytical || isPathNews) {
+    color = true
+  }
 
   return (
     <div className="relative group flex items-center">
-      <Link to={path} className={`px-3 py-2 hover:text-primary transition ${!isPath ? "text-white" : "text-[#03383A]"}`}>
+      <Link to={path} className={`px-3 py-2 hover:text-primary transition ${!color ? "text-white" : "text-[#03383A]"}`}>
         {name}
       </Link>
 
