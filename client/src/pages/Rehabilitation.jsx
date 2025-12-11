@@ -5,17 +5,27 @@ import RehabCenters from "../components/rehabilitation/RehabCenters";
 import RehabSteps from "../components/rehabilitation/RehabSteps";
 import RehabStories from "../components/rehabilitation/RehabStories";
 import RehabCTA from "../components/rehabilitation/RehabCTA";
+import { rehabilitationLinks } from '../assets/assets';
 
 const Rehabilitation = () => {
+  const [open, setOpen] = useState(true);
+  const data = rehabilitationLinks
+
   return (
-            <div className="bg-[#F1F4F4]">
-            <RehabHero />
-            <RehabPrograms />
-            <RehabCenters />
-            <RehabSteps />
-            <RehabStories />
-            <RehabCTA />
-        </div>
+    <div className="bg-[#F1F4F4]">
+      <RehabHero />
+      <RehabPrograms />
+      <RehabCenters />
+      <RehabSteps />
+      <RehabStories />
+      <RehabCTA />
+
+      <ModalWindow
+        isOpen={open}
+        onClose={() => setOpen(false)}
+        items={data}
+      />
+    </div>
   )
 }
 
