@@ -13,7 +13,7 @@ const Rehabilitation = () => {
   const data = rehabilitationLinks
 
   return (
-    <div className="bg-[#F1F4F4]">
+    <main className="bg-[#F1F4F4] min-h-screen text-dark">
       <RehabHero />
       <RehabPrograms />
       <RehabCenters />
@@ -26,7 +26,7 @@ const Rehabilitation = () => {
         onClose={() => setOpen(false)}
         items={data}
       />
-    </div>
+    </main>
   )
 }
 

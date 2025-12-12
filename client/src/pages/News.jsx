@@ -4,10 +4,10 @@ import NewsBody from '../components/news/NewsBody'
 
 const News = () => {
   return (
-    <div>
+    <main className="bg-[#F1F4F4] min-h-screen text-dark">
       <Hero />
       <NewsBody />
-    </div>
+    </main>
   )
 }
 

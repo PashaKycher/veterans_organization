@@ -14,7 +14,7 @@ const MilitaryFamilies = () => {
 
 
   return (
-    <div className='bg-[#F1F4F4]'>
+    <main className="bg-[#F1F4F4] min-h-screen text-dark">
       <MFHero />
       <MFAbout />
       <MFSupportDirections />
@@ -27,7 +27,7 @@ const MilitaryFamilies = () => {
         onClose={() => setOpen(false)}
         items={data}
       />
-    </div>
+    </main>
   )
 }
 

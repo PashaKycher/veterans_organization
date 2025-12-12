@@ -1,6 +1,7 @@
 import React from "react";
 import { motion } from "motion/react";
 import { assets } from "../../assets/assets";
+import { Blackout } from "../helpers/Blackout";
 
 const RehabHero = () => {
     return (
@@ -11,13 +12,13 @@ const RehabHero = () => {
             className="relative w-full overflow-hidden"
         >
             <img
-                src={assets.rehabHero || "https://placehold.co/1920x900"}
+                src={assets.rehabHero}
                 alt="rehabHero"
-                className="w-full h-[80vh] object-cover"
+                className="w-full h-auto lg:h-screen object-cover"
             />
 
-            {/* Overlay */}
-            <div className="absolute inset-0 bg-black/50" />
+            {/* Dark overlay */}
+            <Blackout />
 
             {/* Content */}
             <div className="absolute inset-0 flex flex-col justify-center items-center text-center px-6">

@@ -1,6 +1,7 @@
 import React from "react";
 import { motion } from "motion/react";
 import { Title } from "../helpers/Title";
+import { assets } from "../../assets/assets";
 
 const MFAbout = () => {
     return (
@@ -14,7 +15,7 @@ const MFAbout = () => {
                 
                 <div>
                     <img
-                        src="https://placehold.co/550x450?text=Military+Family"
+                        src={assets.militaryFamilies}
                         alt="militaryFamily"
                         className="w-full max-w-[550px] rounded-lg shadow-md"
                     />

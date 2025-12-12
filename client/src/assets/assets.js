@@ -5,6 +5,12 @@ import arrow_btn from './arrow_btn.png'
 import nawBarBtn from './nawBarBtn.png'
 import homeClose_btn from './homeClose_btn.png'
 import arrow_icon from './arrow_icon.svg'
+import advisory from './advisory.png'
+import community from './community.png'
+import mental from './mental-health.png'
+import couseling from './online-counseling.png'
+import rehab from './rehab.png'
+import supporting from './supporting.png'
 
 import homeHero from './homeHero.png'
 import homeAboutUs from './homeAboutUs.png'
@@ -12,7 +18,19 @@ import homeOpportunitiesAndApproach from './homeOpportunitiesAndApproach.png'
 import mfHero from './mfHero.jpg'
 import veterans from './veterans.webp'
 import volunteering from './volunteering.webp'
+import militaryFamilies from './MilitaryFamily.webp'
+import mfPrograms from './mfPrograms.webp'
+import ira from './ira.webp'
+import olena from './olena.webp'
+import maksim from './maksim.webp'
+import rehabHero from './rehabHero.webp'
+import rehub1 from './rehub1.webp'
+import rehub2 from './rehub2.webp'
+import rehub3 from './rehub3.webp'
+import oleksandr from './oleksandr.webp'
+import irina from './irina.webp'
 
+// pictures and icons
 export const assets = {
     logo,
     buttonMenu,
@@ -28,15 +46,21 @@ export const assets = {
     mfHero,
     veterans,
     volunteering,
+    militaryFamilies,
+    mfPrograms,
+    rehabHero,
+    rehub1,
+    rehub2,
+    rehub3,
 }
 
+// Home page Links
 export const menuLinkFirst = [
     { name: "Аналітичні огляди", desc: "Оперативна аналітика про ветеранську політику та соціальні процеси.", path: "/analytical" },
     { name: "Ветерани", desc: "Підтримка військових, статус, пільги, адаптація.", path: "/veterans" },
     { name: "Родини військовових", desc: "Підтримка сімей захисників, соціальні виплати та програми.", path: "/military-families" },
     { name: "Волонтерство", desc: "Як допомогти, куди долучитися, активні ініціативи.", path: "/volunteering" },
 ]
-
 export const menuLinkSecond = [
     { name: "Новини", desc: "Головні події та зміни у сфері ветеранства.", path: "/news" },
     { name: "Діячі", desc: "Профілі людей, які формують ветеранську культуру.", path: "/public-figures" },
@@ -44,13 +68,12 @@ export const menuLinkSecond = [
     { name: "До військова підготовка", desc: "Освітні матеріали та курси для підготовки молоді.", path: "/pre-military-training" },
     { name: "Реабілітація", desc: "Психологічна та фізична підтримка ветеранів.", path: "/rehabilitation" },
 ]
-
 export const menuLinkSecondMore = [
     { name: "Психологічна", path: "/" },
     { name: "Вишколи", path: "/" },
 ]
 
-
+// AnalyticalReviews page data
 export const analyticalCategories = [
   {
     _id: "c1",
@@ -101,7 +124,6 @@ export const analyticalCategories = [
     created_at: "2024-11-12T10:20:00Z",
   }
 ];
-
 export const analyticalReviews = [
   // -------------------------------------------------------
   // 1. ДЕРЖАВНА ПОЛІТИКА ЩОДО ВЕТЕРАНІВ
@@ -312,7 +334,7 @@ export const analyticalReviews = [
   }
 ];
 
-
+// News page data
 export const newsCategories = [
   {
     _id: "nc1",
@@ -371,7 +393,6 @@ export const newsCategories = [
     createdAt: "2025-01-10"
   }
 ];
-
 export const newsArticles = [
   // ================================
   // 1. ВІЙСЬКОВІ ОНОВЛЕННЯ (nc1)
@@ -582,6 +603,168 @@ export const newsArticles = [
   }
 ];
 
+// Veterans page data
+// resource
+export const resourceBlocks = [
+    {
+        title: 'Психологічна підтримка',
+        items: [
+            'Консультації з кризовими психологами',
+            'Ресурси для адаптації після повернення',
+            'Групи підтримки для ветеранів та родин'
+        ]
+    },
+    {
+        title: 'Юридична допомога',
+        items: [
+            'Як оформити статус ветерана',
+            'Які документи потрібні та де їх отримати',
+            'Допомога з пільгами, правами та захистом'
+        ]
+    },
+    {
+        title: 'Фінансова підтримка',
+        items: [
+            'Гранти й програми підтримки бізнесу',
+            'Компенсації та одноразові виплати',
+            'Фінансове планування та консультації'
+        ]
+    }
+]
+// links and testimonials
+export const linksAndGuides = [
+    'Державні сервіси (Мінветеранів та партнери)',
+    'Інструкції: як отримати статус ветерана чи пільги',
+    'Перелік зовнішніх порталів для ветеранів і родин'
+]
+export const testimonials = [
+    {
+        name: 'Олег, ветеран',
+        quote: 'Команда допомогла знайти юриста та швидко оформити документи. Почуваюся захищеним.'
+    },
+    {
+        name: 'Наталія, ветеранка',
+        quote: 'Групи підтримки стали опорою після повернення. Важливо знати, що ти не сам.'
+    }
+]
+// other
+export const faq = [
+    { q: 'Як отримати соціальну допомогу?', a: 'Зверніться до центру підтримки ветеранів у вашому регіоні: вони допоможуть подати заяву, підготувати документи та проконтролюють розгляд.' },
+    { q: 'Які права має ветеран?', a: 'Пільги на проїзд, медичне забезпечення, реабілітацію, освітні програми, а також податкові та кредитні послаблення за чинним законодавством.' },
+    { q: 'Де знайти психолога?', a: 'Скористайтеся картою центрів підтримки або запишіться на онлайн-консультацію через наш чат — ми підберемо перевіреного фахівця.' }
+]
+export const interactiveTools = [
+    'Калькулятор пільг та можливих компенсацій',
+    'Карта центрів підтримки й локальних хабів',
+    'Реєстр актуальних грантів, курсів та стажувань'
+]
+export const updates = [
+    'Нові групи підтримки для родин ветеранів — старт наступного тижня.',
+    'Відкрито прийом заявок на грантову програму для малого бізнесу.',
+    'Додано онлайн-курс з фінансового планування після служби.'
+]
+
+// MilitaryFamilies
+export const guides = [
+    { title: "Як оформити статус члена сімʼї загиблого", desc: "Покрокова інструкція та потрібні документи." },
+    { title: "Пільги для дітей військових", desc: "Освітні можливості, медичні гарантії, психологічна допомога." },
+    { title: "Як отримати санаторно-курортне лікування", desc: "Пояснення умов, заяви та процедури." },
+];
+
+// Volonteering
+// help
+export const helpAreas = [
+  {
+    title: "Психологічна підтримка",
+    desc: "Організація кризових консультацій, груп взаємодопомоги, супровід ветеранів та їхніх родин під час адаптації."
+  },
+  {
+    title: "Юридична консультація",
+    desc: "Роз’яснення прав, допомога з оформленням статусу, пільг та захистом інтересів ветеранів у держорганах."
+  },
+  {
+    title: "Допомога родинам ветеранів",
+    desc: "Підтримка сімей у питаннях догляду, навчання дітей, доступу до соцпослуг і стабільних побутових рішень."
+  },
+  {
+    title: "Організаційна / логістична підтримка",
+    desc: "Закупівлі та доставка спорядження, координація гуманітарних вантажів, забезпечення роботи локальних хабів."
+  },
+  {
+    title: "Фандрейзинг та благодійність",
+    desc: "Збір коштів, прозорі звіти, партнерства з бізнесом і фондами для сталих волонтерських програм."
+  }
+];
+// stories
+export const stories = [
+  {
+    image: olena,
+    name: "Історія Олени",
+    role: "Координаторка логістики",
+    text: "Команда за місяць зібрала й відправила три партії обладнання на деокуповані території. Довіра людей — наша мотивація.",
+  },
+  {
+    image: maksim,
+    name: "Досвід Максима",
+    role: "Психолог-волонтер",
+    text: "Групові зустрічі допомогли ветеранам відчути підтримку спільноти. Малими кроками ми повертаємо людям стійкість.",
+  },
+  {
+    image: ira,
+    name: "Відгук Іри",
+    role: "Фандрейзинг",
+    text: "Коли бізнес і громада працюють разом, можна запускати системні ініціативи — від авто до програм реабілітації.",
+  },
+];
+
+// Rehabilitation
+// programs
+export const programs = [
+    { title: "Фізична реабілітація", desc: "Відновлення після травм, ЛФК, масаж, фізіотерапія.", icon: rehab || "https://placehold.co/60" },
+    { title: "Психологічна підтримка", desc: "Консультації, групові заняття, робота з ПТСР.", icon: mental || "https://placehold.co/60" },
+    { title: "Соціальна адаптація", desc: "Допомога у поверненні до цивільного життя.", icon: community || "https://placehold.co/60" },
+    { title: "Робота з сім'ями", desc: "Сімейні консультації та підтримка партнерів.", icon: supporting || "https://placehold.co/60" },
+    { title: "Професійний розвиток", desc: "Навчання, тренінги та перекваліфікація.", icon: advisory || "https://placehold.co/60" },
+    { title: "Онлайн підтримка", desc: "Дистанційні зустрічі та консультації.", icon: couseling || "https://placehold.co/60" },
+];
+// centers
+export const centers = [
+    {
+        title: "Державні реабілітаційні центри",
+        desc: "Затверджені державою програми відновлення, реабілітаційні пакети, фахові лікарі.",
+        img: rehub1 || "https://placehold.co/500x350"
+    },
+    {
+        title: "Приватні клініки-партнери",
+        desc: "Перевірені установи з сучасним обладнанням та міжнародними підходами.",
+        img: rehub3 || "https://placehold.co/500x350"
+    },
+    {
+        title: "Психологічні хаби",
+        desc: "Спільноти підтримки, групові тренінги, консультації та робота з сім’ями.",
+        img: rehub2 || "https://placehold.co/500x350"
+    },
+];
+// stories
+export const rehabStories = [
+    {
+        name: "Олександр",
+        text: "Після травми думав, що не повернуся до активного життя. Завдяки програмі реабілітації зміг відновитися та повернутися до спорту.",
+        img: oleksandr || "https://placehold.co/350x350"
+    },
+    {
+        name: "Ірина",
+        text: "Психологічна підтримка стала для нашої родини справжнім порятунком. Дякуємо за професіоналізм.",
+        img: irina || "https://placehold.co/350x350"
+    }
+];
+
+
+
+
+
+
+// ModalWindow data
 export const homeLinks = [
   {
     title: "Допомога ветеранам",
@@ -604,7 +787,6 @@ export const homeLinks = [
     link: "/rehabilitation"
   }
 ]
-
 export const militaryFamiliesLinks = [
   {
     title: "Соціальна допомога",
@@ -627,7 +809,6 @@ export const militaryFamiliesLinks = [
     link: "/military-families/children"
   }
 ]
-
 export const rehabilitationLinks = [
   {
     title: "Фізична реабілітація",
@@ -650,7 +831,6 @@ export const rehabilitationLinks = [
     link: "/rehabilitation/adaptation"
   }
 ]
-
 export const veteransLinks = [
   {
     title: "Пільги та гарантії",
@@ -673,7 +853,6 @@ export const veteransLinks = [
     link: "/veterans/organizations"
   }
 ]
-
 export const volunteeringLinks = [
   {
     title: "Як стати волонтером",

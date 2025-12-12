@@ -1,16 +1,7 @@
 import React from "react";
 import { motion } from "motion/react";
 import { Title } from "../helpers/Title";
-import { assets } from "../../assets/assets";
-
-const programs = [
-    { title: "Фізична реабілітація", desc: "Відновлення після травм, ЛФК, масаж, фізіотерапія.", icon: assets.rehab_phys || "https://placehold.co/60" },
-    { title: "Психологічна підтримка", desc: "Консультації, групові заняття, робота з ПТСР.", icon: assets.rehab_psy || "https://placehold.co/60" },
-    { title: "Соціальна адаптація", desc: "Допомога у поверненні до цивільного життя.", icon: assets.rehab_social || "https://placehold.co/60" },
-    { title: "Робота з сім'ями", desc: "Сімейні консультації та підтримка партнерів.", icon: assets.rehab_family || "https://placehold.co/60" },
-    { title: "Професійний розвиток", desc: "Навчання, тренінги та перекваліфікація.", icon: assets.rehab_work || "https://placehold.co/60" },
-    { title: "Онлайн підтримка", desc: "Дистанційні зустрічі та консультації.", icon: assets.rehab_online || "https://placehold.co/60" },
-];
+import { programs } from "../../assets/assets";
 
 const RehabPrograms = () => {
     return (

@@ -1,6 +1,7 @@
 import React from "react";
 import { motion } from "motion/react";
 import { Title } from "../helpers/Title";
+import { assets } from "../../assets/assets";
 
 const MFPrograms = () => {
     return (
@@ -10,8 +11,8 @@ const MFPrograms = () => {
             transition={{ duration: 1 }}
         >
             <img
-                src="https://placehold.co/1600x700?text=Programs+for+Families"
-                className="w-full h-auto"
+                src={assets.mfPrograms}
+                className="w-full max-h-[500px] object-cover"
             />
 
             <motion.section

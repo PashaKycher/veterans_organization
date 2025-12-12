@@ -21,7 +21,7 @@ const NavBar = () => {
       initial={{ opacity: 0, y: 40 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8, ease: "easeOut" }}
-      className="absolute left-0 right-0 z-50 text-gray-200">
+      className={`absolute left-0 right-0 z-50 ${!color ? "text-white" : "text-[#03383A]"}`}>
 
       {/* DESKTOP NAVBAR */}
       <div className="hidden lg:flex items-center justify-between mx-auto w-5xl px-6 py-3 mt-6">
@@ -31,11 +31,11 @@ const NavBar = () => {
           onClick={() => navigate("/")}
         >
           <img src={assets.logo} alt="logo" className="w-10 h-11" />
-          <p className={`font-semibold ${!color ? "text-white" : "text-[#03383A]"}`}>Name</p>
+          <p className={`font-semibold `}>Name</p>
         </div>
 
         {/* MENU LINKS */}
-        <div className="flex items-center gap-10">
+        <div className={`flex items-center gap-10 ${!color ? "text-white" : "text-[#03383A]"}`}>
           {!lgMenuOpen &&
             menuLinkFirst.map((item, i) => (
               <NavItem

@@ -10,8 +10,8 @@ const NavItem = ({ name, desc, path }) => {
   }
 
   return (
-    <div className="relative group flex items-center">
-      <Link to={path} className={`px-3 py-2 hover:text-primary transition ${!color ? "text-white" : "text-[#03383A]"}`}>
+    <div className={`relative group flex items-center ${!color ? "text-white" : "text-[#03383A]"}`}>
+      <Link to={path} className='px-3 py-2 hover:text-primary transition'>
         {name}
       </Link>
 

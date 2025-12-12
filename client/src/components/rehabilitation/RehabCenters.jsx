@@ -1,25 +1,7 @@
 import React from "react";
 import { motion } from "motion/react";
 import { Title } from "../helpers/Title";
-import { assets } from "../../assets/assets";
-
-const centers = [
-    {
-        title: "Державні реабілітаційні центри",
-        desc: "Затверджені державою програми відновлення, реабілітаційні пакети, фахові лікарі.",
-        img: assets.rehabCenter1 || "https://placehold.co/500x350"
-    },
-    {
-        title: "Приватні клініки-партнери",
-        desc: "Перевірені установи з сучасним обладнанням та міжнародними підходами.",
-        img: assets.rehabCenter2 || "https://placehold.co/500x350"
-    },
-    {
-        title: "Психологічні хаби",
-        desc: "Спільноти підтримки, групові тренінги, консультації та робота з сім’ями.",
-        img: assets.rehabCenter3 || "https://placehold.co/500x350"
-    },
-];
+import { centers } from "../../assets/assets";
 
 const RehabCenters = () => {
     return (

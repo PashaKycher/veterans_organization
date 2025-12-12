@@ -10,21 +10,19 @@ const Home = () => {
   const [open, setOpen] = useState(true);
   const data = homeLinks
 
-
-  
   return (
-    <div className='bg-[#F1F4F4]'>
+    <main className="bg-[#F1F4F4] min-h-screen text-dark">
       <Hero />
       <AboutUs />
       <CoreValuesSection />
       <OpportunitiesAndApproach />
-
+      
       <ModalWindow
         isOpen={open}
         onClose={() => setOpen(false)}
         items={data}
       />
-    </div>
+    </main>
   )
 }
 

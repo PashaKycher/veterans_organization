@@ -1,11 +1,7 @@
 import React from "react";
 import { motion } from "motion/react";
+import { assets, guides } from "../../assets/assets";
 
-const guides = [
-    { title: "Як оформити статус члена сімʼї загиблого", desc: "Покрокова інструкція та потрібні документи." },
-    { title: "Пільги для дітей військових", desc: "Освітні можливості, медичні гарантії, психологічна допомога." },
-    { title: "Як отримати санаторно-курортне лікування", desc: "Пояснення умов, заяви та процедури." },
-];
 
 const MFGuides = () => {
     return (
