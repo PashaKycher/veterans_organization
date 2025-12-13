@@ -2,13 +2,12 @@ import React from 'react'
 import Hero from '../components/analytica/Hero'
 import AnalyticalBody from '../components/analytica/AnalyticalBody'
 
-
 const AnalyticalReviews = () => {
   return (
-    <div className='bg-[#F1F4F4]'>
+    <main className="bg-[#F1F4F4] min-h-screen text-dark">
         <Hero />
         <AnalyticalBody />
-    </div>
+    </main>
   )
 }
 

@@ -6,7 +6,7 @@ import { Title } from '../helpers/Title'
 
 const OpportunitiesAndApproach = () => {
     return (
-        <motion.div
+        <motion.section
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 1 }}>
@@ -35,7 +35,7 @@ const OpportunitiesAndApproach = () => {
                     />
                 </div>
             </motion.section>
-        </motion.div>
+        </motion.section>
     )
 }
 

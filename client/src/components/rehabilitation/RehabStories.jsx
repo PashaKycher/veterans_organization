@@ -1,20 +1,9 @@
 import React from "react";
 import { motion } from "motion/react";
 import { Title } from "../helpers/Title";
-import { assets } from "../../assets/assets";
+import { rehabStories } from "../../assets/assets";
 
-const stories = [
-    {
-        name: "Олександр",
-        text: "Після травми думав, що не повернуся до активного життя. Завдяки програмі реабілітації зміг відновитися та повернутися до спорту.",
-        img: assets.rehabStory1 || "https://placehold.co/350x350"
-    },
-    {
-        name: "Ірина",
-        text: "Психологічна підтримка стала для нашої родини справжнім порятунком. Дякуємо за професіоналізм.",
-        img: assets.rehabStory2 || "https://placehold.co/350x350"
-    }
-];
+
 
 const RehabStories = () => {
     return (
@@ -23,7 +12,7 @@ const RehabStories = () => {
                 <Title title="Історії відновлення" subtitle="Реальні люди. Реальні результати." />
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mt-10">
-                    {stories.map((s, i) => (
+                    {rehabStories.map((s, i) => (
                         <motion.div
                             key={i}
                             initial={{ opacity: 0, y: 20 }}
