@@ -1,41 +1,21 @@
-import React from 'react'
-import { motion } from 'motion/react'
-import { assets } from '../../assets/assets'
-
-import { Blackout } from '../helpers/Blackout'
+import { assets } from "../../assets/assets";
+import { Blackout } from "../helpers/Blackout";
+import { HeroText } from "../helpers/HeroText";
 
 const Hero = () => {
     return (
-        <motion.section
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, ease: "easeOut" }}
-            className="relative w-full overflow-visible">   
-        
-            {/* Background image */}
-            <img
-                src={assets.homeHero}
-                alt="homeHero"
-                className="w-full h-auto lg:h-screen object-cover"
-            />
+        <section className="relative w-full overflow-hidden">
 
-            {/* Dark overlay */}
+            <img src={assets.homeHero} alt="Hero" className="w-full h-auto lg:h-screen object-cover" />
+
             <Blackout />
 
-            {/* Hero content */}
-            <div className="relative z-20 flex flex-col items-center gap-4 px-4 
-                lg:absolute lg:top-60 lg:left-1/2 lg:-translate-x-1/2 lg:w-200">
+            <HeroText
+                title="Клуб Захисників України"
+                subTitle="Інтелектуальний і лідерський центр оборонної нації. Простір людей дії, відповідальності та стратегічного мислення."
+            />
+        </section>
+    );
+};
 
-                <h3 className='text-2xl lg:text-3xl uppercase text-black lg:text-white font-bold max-[800px]:text-center max-[800px]:pt-8'>
-                    Підтримуємо тих, хто захищає Україну
-                </h3>
-
-                <p className="text-black lg:text-white max-w-88 lg:max-w-136 text-start lg:text-center font-semibold mt-4 mb-6">
-                    Наша організація — це точка опори на шляху відродження. Ми об’єднуємо ветеранів, їхні родини та небайдужих громадян у живу екосистему підтримки. Тут кожен знайде розуміння, професійну допомогу та спільноту, де цінність людини є найвищим орієнтиром.
-                </p>
-            </div>
-        </motion.section>
-    )
-}
-
-export default Hero
+export default Hero;
