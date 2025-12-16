@@ -12,12 +12,12 @@ export const Title = ({ title, subtitle }) => {
   // const lgColorClass = colorMap[color] || colorMap['white'];
 
   return (
-    <div>
-      <h2 className="text-primary font-semibold text-xl lg:text-3xl mb-4 underline underline-offset-8">
+    <div className="max-w-4xl">
+      <h1 className="text-3xl md:text-4xl font-semibold text-title leading-tight">
         {title}
-      </h2>
+      </h1>
 
-      <p className="text-neutral-600 text-xs lg:text-sm leading-relaxed max-w-md">
+      <p className="mt-6 text-base md:text-lg text-subTitle leading-relaxed">
         {subtitle}
       </p>
     </div>

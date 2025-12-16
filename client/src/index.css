@@ -10,9 +10,13 @@ html {
 }
 
 @theme {
-  --color-primary: #29D3DA;
-  --color-dark: #383737;
-  --color-white: #fff;
+  --color-primary: #1F3A5F;          /* державний темно-синій */
+  --color-bg: #F1F4F4;               /* світло-сірий фон */
+  --color-hover-button: #162A45;     /* затемнений primary */
+  --color-border-button: #2E4A6F;    /* стриманий контур */
+  --color-title: #0F1F33;            /* графітовий заголовок */
+  --color-subTitle: #3A4A5E;         /* вторинний текст */
+  --color-text: #4A5568;             /* основний текст */
 }
 
 @keyframes scroll {

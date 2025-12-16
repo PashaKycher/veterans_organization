@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 
-import Hero from "../components/news/Hero";
-import Filters from "../components/news/Filters";
-import Grid from "../components/news/Grid";
+import Hero from "../components/analytica/Hero";
+import Filters from "../components/analytica/Filters";
+import Grid from "../components/analytica/Grid";
 
-const News = () => {
+const Analytical = () => {
   const [filters, setFilters] = useState({
     category: "",
     sort: "",
@@ -21,4 +21,4 @@ const News = () => {
   );
 };
 
-export default News;
+export default Analytical;

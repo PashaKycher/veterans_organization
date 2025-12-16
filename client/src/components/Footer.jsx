@@ -2,28 +2,21 @@ import React from "react";
 import { motion } from "motion/react";
 import { assets } from "../assets/assets";
 import { Link, useNavigate } from "react-router-dom";
+import { Logo } from "./helpers/Logo";
 
 const Footer = () => {
   const navigate = useNavigate();
 
   return (
-    <footer className="w-full bg-[#03383A] text-white py-16 px-6">
+    <footer className="w-full bg-[#03383A] text-white pt-16 pb-6 px-6">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-16">
 
         {/* Logo + Description */}
         <div className="flex flex-col items-center md:items-start gap-4 text-center md:text-left">
-          <div 
-            className="flex items-center gap-2 cursor-pointer" 
-            onClick={() => navigate("/")}
-          >
-            <img src={assets.logo} alt="logo" className="w-10 h-11" />
-            <p className="font-semibold text-lg">Name</p>
-          </div>
+          <Logo footer={true} />
 
           <p className="opacity-80 leading-relaxed max-w-sm">
-            Ми працюємо, щоб ветерани та їхні родини отримували своєчасну консультацію, підтримку
-            та доступ до перевірених сервісів. Відкриті до партнерства та ініціатив, що допомагають
-            створювати зміни.
+            Підтримка в КЗУ — це не допомога «ззовні», а спільна дія людей, обʼєднаних досвідом, гідністю та відповідальністю за своїх.
           </p>
         </div>
 
@@ -31,10 +24,10 @@ const Footer = () => {
         <div className="flex flex-col gap-3 text-center md:text-left">
           <h3 className="text-lg font-semibold mb-2">Навігація</h3>
 
-          <Link to="/" className="opacity-80 hover:opacity-100 transition">Аналітичні огляди</Link>
-          <Link to="/about" className="opacity-80 hover:opacity-100 transition">Ветерани</Link>
-          <Link to="/jobs" className="opacity-80 hover:opacity-100 transition">Родини військових</Link>
-          <Link to="/contact" className="opacity-80 hover:opacity-100 transition">Волонтерство</Link>
+          <Link to="/analytical" className="opacity-80 hover:opacity-100 transition">Аналітичні огляди</Link>
+          <Link to="/position" className="opacity-80 hover:opacity-100 transition">Наша позиція</Link>
+          <Link to="/club" className="opacity-80 hover:opacity-100 transition">Клуб</Link>
+          <Link to="/support" className="opacity-80 hover:opacity-100 transition">Підтримка та взаємодія</Link>
         </div>
 
         {/* Contacts */}

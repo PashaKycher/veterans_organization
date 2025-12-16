@@ -1,26 +1,21 @@
-import React from "react";
-import { motion } from "motion/react";
-import { Dot } from "lucide-react";
+import React from 'react'
 
 export const AdditionalBlock = ({ title, subtitle }) => {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 40 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 1 }}
-      className="mx-auto mt-4 w-screen md:w-[720px] bg-white shadow-lg rounded-xl px-10 py-12 lg:absolute lg:-bottom-50 lg:left-1/2 lg:-translate-x-1/2">
-      <div className="flex items-start gap-6">
-        <div className="pt-1 hidden md:block">
-          <Dot className="w-10 h-10 text-primary" />
-        </div>
+    <section className="hidden md:block relative md:-mt-20 xl:-mt-32 z-30">
 
-        <div>
-          <h2 className="text-2xl font-bold uppercase text-primary">{title}</h2>
-          <p className="text-neutral-600 font-medium text-sm mt-4 leading-relaxed">
-            {subtitle}
-          </p>
-        </div>
+      <div className="p-6 max-w-[600px] lg:max-w-[800px] xl:max-w-6xl mx-auto bg-primary text-white xl:p-16 shadow-2xl">
+
+        <h3 className="text-medium lg:text-2xl font-semibold mb-6">
+          {title}
+        </h3>
+        <p className="text-sm lg:text-medium text-white/90">
+          {subtitle}
+        </p>
+
       </div>
-    </motion.div>
-  );
-};
+
+    </section>
+  )
+}
+

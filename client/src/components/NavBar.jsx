@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { motion } from "motion/react";
 import { assets, menuLinkFirst, menuLinkSecond } from "../assets/assets";
 import { useLocation, useNavigate } from "react-router-dom";
-import NavItem from "./helpers/NavItem";
+import { NavItem } from "./helpers/NavItem";
+import { Logo } from "./helpers/Logo";
 
 const NavBar = () => {
   const [lgMenuOpen, setLgMenuOpen] = useState(false); // переключення між двома групами меню
@@ -12,7 +13,7 @@ const NavBar = () => {
   const isPathNews = useLocation().pathname.includes("/news")
 
   let color = false
-  if(isPathAnalytical || isPathNews) {
+  if (isPathAnalytical || isPathNews) {
     color = true
   }
 
@@ -26,13 +27,7 @@ const NavBar = () => {
       {/* DESKTOP NAVBAR */}
       <div className="hidden lg:flex items-center justify-between mx-auto w-5xl px-6 py-3 mt-6">
         {/* LOGO */}
-        <div
-          className="flex items-center gap-2 cursor-pointer"
-          onClick={() => navigate("/")}
-        >
-          <img src={assets.logo} alt="logo" className="w-10 h-11" />
-          <p className={`font-semibold `}>Name</p>
-        </div>
+        <Logo />
 
         {/* MENU LINKS */}
         <div className={`flex items-center gap-10 ${!color ? "text-white" : "text-[#03383A]"}`}>
@@ -73,8 +68,7 @@ const NavBar = () => {
       {/* MOBILE NAVBAR (HEADER BAR) */}
       <div className="flex lg:hidden items-center justify-between px-5 py-2 bg-primary/20">
         <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate("/")}>
-          <img src={assets.logo} alt="logo" className="w-10 h-11" />
-          <p className="font-semibold">Name</p>
+          <Logo />
         </div>
 
         <button onClick={() => setMobileOpen(!mobileOpen)} className="cursor-pointer">
@@ -84,7 +78,7 @@ const NavBar = () => {
 
       {/* MOBILE SLIDE MENU */}
       <div
-        className={`lg:hidden fixed top-16 right-0 w-64 h-screen bg-primary border-l border-gray-300 transition-transform duration-300 z-40 p-6 flex flex-col gap-6 ${mobileOpen ? "translate-x-0" : "translate-x-full"}`}>
+        className={`lg:hidden fixed top-24 md:top-14 right-0 w-full md:w-2/5 h-screen bg-primary transition-transform duration-300 z-40 p-6 flex flex-col gap-6 ${mobileOpen ? "translate-x-0" : "translate-x-full"}`}>
 
         <div className="flex flex-row justify-between">
           {/* SWITCH BUTTON */}
@@ -106,7 +100,7 @@ const NavBar = () => {
           initial={{ opacity: 0, x: 60 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.4 }}
-          className="flex flex-col gap-4">
+          className={`flex flex-col gap-4 ${!color ? "text-white" : "text-white"}`}>
 
           {!lgMenuOpen &&
             menuLinkFirst.map((item, index) => (
