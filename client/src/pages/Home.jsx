@@ -5,12 +5,12 @@ import Values from "../components/home/Values";
 import About from "../components/home/About";
 import Directions from "../components/home/Directions";
 
-import { homeLinks } from "../assets/assets";
+import { mobileWindowsLink } from "../assets/assets";
 import { AdditionalBlock } from "../components/helpers/AdditionalBlock";
-import {ModalWindow} from "../components/helpers/ModalWindow";
+import { ModalWindow } from "../components/helpers/ModalWindow";
 
 const Home = () => {
-  const [open, setOpen] = useState(true);
+  const [openMobal, setOpenMobal] = useState(true);
 
   return (
     <main className="bg-bg min-h-screen text-text overflow-hidden">
@@ -26,9 +26,9 @@ const Home = () => {
       <Directions />
 
       <ModalWindow
-        isOpen={open}
-        onClose={() => setOpen(false)}
-        items={homeLinks}
+        isOpen={openMobal}
+        onClose={() => setOpenMobal(false)}
+        items={mobileWindowsLink}
       />
     </main>
 

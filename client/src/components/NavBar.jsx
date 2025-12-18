@@ -4,8 +4,11 @@ import { assets, menuLinkFirst, menuLinkSecond } from "../assets/assets";
 import { useLocation, useNavigate } from "react-router-dom";
 import { NavItem } from "./helpers/NavItem";
 import { Logo } from "./helpers/Logo";
+import { useDispatch } from "react-redux";
+import { setIsOpen } from "../store/loginSlice";
 
 const NavBar = () => {
+  const dispatch = useDispatch();
   const [lgMenuOpen, setLgMenuOpen] = useState(false); // переключення між двома групами меню
   const [mobileOpen, setMobileOpen] = useState(false); // мобільне меню
   const navigate = useNavigate();
@@ -62,6 +65,9 @@ const NavBar = () => {
               <img src={assets.nawBarBtn} className="w-10 h-10 bg-primary rounded-full" />
             )}
           </button>
+          <button onClick={()=> dispatch(setIsOpen(true))} className="cursor-pointer">
+            <img src={assets.userLogin} className="w-10 h-10 bg-primary rounded-full" />
+          </button>
         </div>
       </div>
 
@@ -89,6 +95,10 @@ const NavBar = () => {
               <img src={assets.nawBarBtn} className="w-10 h-10 bg-primary rounded-full" />
             )}
           </button>
+          {/* LOGIN BUTTON */}
+          <button onClick={()=> dispatch(setIsOpen(true))} className="self-end mb-4">
+            <img src={assets.userLogin} className="w-10 h-10 bg-primary rounded-full" />
+          </button>
           {/* CLOSE BUTTON */}
           <button onClick={() => setMobileOpen(false)} className="self-end mb-4">
             <img src={assets.homeClose_btn} className="w-10 h-10 bg-primary rounded-full" />
@@ -109,6 +119,7 @@ const NavBar = () => {
                 name={item.name}
                 desc={item.desc}
                 path={item.path}
+                onClose={() => setMobileOpen(false)}
               />
             ))}
 
@@ -119,6 +130,7 @@ const NavBar = () => {
                 name={item.name}
                 desc={item.desc}
                 path={item.path}
+                onClose={() => setMobileOpen(false)}
               />
             ))}
         </motion.div>

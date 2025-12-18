@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link, useLocation } from "react-router-dom";
 
-export const NavItem = ({ name, desc, path }) => {
+export const NavItem = ({ name, desc, path, onClose }) => {
   const isPathAnalytical = useLocation().pathname.includes("/analytical")
   const isPathNews = useLocation().pathname.includes("/news")
 
@@ -12,7 +12,7 @@ export const NavItem = ({ name, desc, path }) => {
 
   return (
     <div className={`relative group flex items-center`}>
-      <Link to={path} className='px-3 py-2 hover:text-primary transition'>
+      <Link to={path} className='px-3 py-2 hover:text-primary transition' onClick={onClose}>
         {name}
       </Link>
 

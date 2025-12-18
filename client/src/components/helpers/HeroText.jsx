@@ -32,7 +32,8 @@ export const HeroText = ({ title, subTitle }) => {
                 {subTitle}
             </p>
 
-            {isAddBtn &&<AddToUsBtn />}
+            <AddToUsBtn />
+
         </motion.div >
     )
 }

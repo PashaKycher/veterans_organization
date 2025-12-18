@@ -6,6 +6,7 @@ import nawBarBtn from './icon/nawBarBtn.png'
 import homeClose_btn from './icon/homeClose_btn.png'
 import arrow_icon from './icon/arrow_icon.svg'
 import user from './icon/user.png'
+import userLogin from './icon/userLogin.png'
 
 import homeHero from './homeHero.png'
 import positionHero from './positionHero.webp'
@@ -22,6 +23,7 @@ export const assets = {
   nawBarBtn,
   homeClose_btn,
   arrow_icon,
+  userLogin,
 
   homeHero,
   positionHero,
@@ -720,116 +722,29 @@ export const partnership = [
 
 
 // ModalWindow data
-export const homeLinks = [
+export const mobileWindowsLink = [
   {
-    title: "Допомога ветеранам",
-    description: "Інформація щодо пільг, консультацій та можливостей для ветеранів.",
-    link: "/veterans"
+    title: "Аналітика",
+    description: "Оперативна аналітика про ветеранську політику та соціальні процеси.",
+    link: "/analytical"
   },
   {
-    title: "Підтримка родин військових",
-    description: "Корисні ресурси, адресна допомога та соціальні програми.",
-    link: "/military-families"
+    title: "Позиція",
+    description: "Субʼєктна позиція у ключових питаннях війни, держави та відповідальності.",
+    link: "/position"
   },
   {
-    title: "Волонтерські ініціативи",
-    description: "Долучайтеся до програм підтримки захисників та їхніх родин.",
-    link: "/volunteering"
+    title: "Клуб",
+    description: "Клуб Захисників України — це люди",
+    link: "/club"
   },
   {
-    title: "Реабілітація",
-    description: "Комплексна психологічна та фізична підтримка ветеранів.",
-    link: "/rehabilitation"
+    title: "Лідерство",
+    description: "Лідерство — це відповідальність діяти.",
+    link: "/leaders"
   }
 ]
-export const militaryFamiliesLinks = [
-  {
-    title: "Соціальна допомога",
-    description: "Пільги, компенсації та державні програми для родин військових.",
-    link: "/military-families/social-support"
-  },
-  {
-    title: "Психологічна підтримка",
-    description: "Безкоштовні консультації, гарячі лінії та групи підтримки.",
-    link: "/military-families/psychology"
-  },
-  {
-    title: "Адресна допомога",
-    description: "Гуманітарна, фінансова та побутова допомога у складних ситуаціях.",
-    link: "/military-families/aid"
-  },
-  {
-    title: "Підтримка дітей військових",
-    description: "Освітні програми, табори, стипендії та творчі проєкти.",
-    link: "/military-families/children"
-  }
-]
-export const rehabilitationLinks = [
-  {
-    title: "Фізична реабілітація",
-    description: "Центри, програми відновлення, спортивні курси для ветеранів.",
-    link: "/rehabilitation/physical"
-  },
-  {
-    title: "Психологічна підтримка",
-    description: "Робота з ПТСР, індивідуальна та групова терапія, консультації.",
-    link: "/rehabilitation/psychological"
-  },
-  {
-    title: "Медичні програми",
-    description: "Лікування травм, реабілітаційні курси, лікарські рекомендації.",
-    link: "/rehabilitation/medical"
-  },
-  {
-    title: "Програми адаптації",
-    description: "Повернення до цивільного життя, соціалізація, супровід.",
-    link: "/rehabilitation/adaptation"
-  }
-]
-export const veteransLinks = [
-  {
-    title: "Пільги та гарантії",
-    description: "Актуальна інформація згідно законів України та місцевих програм.",
-    link: "/veterans/benefits"
-  },
-  {
-    title: "Працевлаштування",
-    description: "Вакансії, навчальні програми, перекваліфікація та гранти.",
-    link: "/veterans/employment"
-  },
-  {
-    title: "Підтримка ветеранів",
-    description: "Юридична допомога, консультації, ветеранські простори.",
-    link: "/veterans/support"
-  },
-  {
-    title: "Діяльність ветеранських організацій",
-    description: "Ініціативи, програми, події та історії успіху.",
-    link: "/veterans/organizations"
-  }
-]
-export const volunteeringLinks = [
-  {
-    title: "Як стати волонтером",
-    description: "Покрокова інструкція, реєстрація та можливості долучитися.",
-    link: "/volunteering/join"
-  },
-  {
-    title: "Актуальні волонтерські проєкти",
-    description: "Потреби, напрямки роботи, ініціативи та партнерські програми.",
-    link: "/volunteering/projects"
-  },
-  {
-    title: "Збір коштів та гуманітарної допомоги",
-    description: "Безпечні способи допомоги, списки необхідного, реквізити.",
-    link: "/volunteering/donations"
-  },
-  {
-    title: "Волонтерські історії",
-    description: "Приклади успішних місцевих ініціатив та історії підтримки.",
-    link: "/volunteering/stories"
-  }
-]
+
 
 
 

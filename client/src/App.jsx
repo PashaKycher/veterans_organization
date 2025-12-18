@@ -19,12 +19,15 @@ import NewsCard from './pages/card/NewsCard'
 import PositionCard from './pages/card/PositionCard'
 import LeadersCard from './pages/card/LeadersCard'
 import ClubCard from './pages/card/ClubCard'
+import Login from './pages/Login'
+import { useSelector } from 'react-redux'
 
 function App() {
   const isOwnerPath = useLocation().pathname.includes("/owner")
   const isRehabilitation = useLocation().pathname.includes("/rehabilitation")
   const isLeaders = useLocation().pathname.includes("/leaders")
   const isSupport = useLocation().pathname.includes("/support")
+  const isOpen = useSelector(state => state.login.isOpen);
 
   const [isLearnMore, setIsLearnMore] = useState(true)
 
@@ -39,37 +42,45 @@ function App() {
   return (
     <>
       <Toaster />
+      {!isOpen ? (
+        <>
+          <NavBar />
 
-      <NavBar />
+          <Routes>
+            <Route path="/" element={<Home />} />
 
-      <Routes>
-        <Route path="/" element={<Home />} />
+            <Route path="/analytical" element={<Analytical />} />
+            <Route path="/analytical/:id" element={<AnalyticalCard />} />
 
-        <Route path="/analytical" element={<Analytical />} />
-        <Route path="/analytical/:id" element={<AnalyticalCard />} />
+            <Route path="/news" element={<News />} />
+            <Route path="/news/:id" element={<NewsCard />} />
 
-        <Route path="/news" element={<News />} />
-        <Route path="/news/:id" element={<NewsCard />} />
+            <Route path="/position" element={<Position />} />
+            {/* <Route path="/position/:id" element={<PositionCard />} /> */}
 
-        <Route path="/position" element={<Position />} />
-        {/* <Route path="/position/:id" element={<PositionCard />} /> */}
+            <Route path="/leaders" element={<Leaders />} />
+            {/* <Route path="/leaders/:id" element={<LeadersCard />} /> */}
 
-        <Route path="/leaders" element={<Leaders />} />
-        {/* <Route path="/leaders/:id" element={<LeadersCard />} /> */}
+            <Route path="/club" element={<Club />} />
+            {/* <Route path="/club/:id" element={<ClubCard />} /> */}
 
-        <Route path="/club" element={<Club />} />
-        {/* <Route path="/club/:id" element={<ClubCard />} /> */}
+            <Route path="/support" element={<SupportAndInteraction />} />
 
-        <Route path="/support" element={<SupportAndInteraction />} />
+            <Route path='/owner' element={<p>Owner</p>}>
+              <Route index element={<p>Dashboard</p>} />
+              <Route path='addCategory' element={<p>AddCategory</p>} />
+            </Route>
+          </Routes>
 
-        <Route path='/owner' element={<p>Owner</p>}>
-          <Route index element={<p>Dashboard</p>} />
-          <Route path='addCategory' element={<p>AddCategory</p>} />
-        </Route>
-      </Routes>
+          {isLearnMore && <LearnMore />}
 
-      {isLearnMore && <LearnMore />}
-      <Footer />
+          <Footer />
+        </>
+      ) : (
+        <>
+          <Login />
+        </>
+      )}
     </>
   )
 }

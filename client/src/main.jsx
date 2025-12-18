@@ -2,19 +2,19 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.jsx'
 import { BrowserRouter } from 'react-router-dom'
-// import { Provider } from 'react-redux'
-// import { store } from './store/store.js'
+import { Provider } from 'react-redux'
+import { store } from './store/store.js'
 // import { AppProvider } from './context/AppContext.jsx'
-// import { MotionConfig } from 'motion/react'
+import { MotionConfig } from 'motion/react'
 
 createRoot(document.getElementById('root')).render(
   <BrowserRouter>
     {/* <AppProvider> */}
-      {/* <Provider store={store}> */}
-        {/* <MotionConfig viewport={{ once: true }}> */}
+    <Provider store={store}>
+      <MotionConfig viewport={{ once: true }}>
         <App />
-        {/* </MotionConfig> */}
-      {/* </Provider> */}
+      </MotionConfig>
+    </Provider>
     {/* </AppProvider> */}
   </BrowserRouter>
 )
