@@ -14,6 +14,8 @@ import Leaders from './pages/Leaders'
 import Club from './pages/Club'
 import SupportAndInteraction from './pages/SupportAndInteraction'
 
+import VerifyEmail from './components/helpers/VerifyEmail'
+
 import AnalyticalCard from './pages/card/AnalyticalCard'
 import NewsCard from './pages/card/NewsCard'
 import PositionCard from './pages/card/PositionCard'
@@ -48,6 +50,7 @@ function App() {
 
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/verify-email" element={<VerifyEmail />} />
 
             <Route path="/analytical" element={<Analytical />} />
             <Route path="/analytical/:id" element={<AnalyticalCard />} />

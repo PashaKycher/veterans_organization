@@ -1,60 +1,117 @@
-import { AnimatePresence, motion } from 'motion/react';
-import React from 'react'
-import { useDispatch } from 'react-redux';
-import { setIsOpen } from '../store/loginSlice';
+import { AnimatePresence, motion } from "motion/react";
+import React from "react";
+import { useDispatch } from "react-redux";
+import { setIsOpen } from "../store/loginSlice";
+import api from "../api/axios";
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const Login = () => {
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const [state, setState] = React.useState("login");
-    const [name, setName] = React.useState("");
-    const [email, setEmail] = React.useState("");
-    const [password, setPassword] = React.useState("");
+
+    const [formData, setFormData] = React.useState({
+        full_name: "",
+        email: "",
+        password: "",
+    });
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const { data } = await api.post(`/api/users/${state}`, formData);
+            if (data.message) {
+                dispatch(setIsOpen(false));
+                navigate("/");
+                toast.success(data.message);
+            } else {
+                toast.error(data.error);
+            }
+        } catch (error) {
+            toast.error(error?.response?.data?.message || error.message);
+        }
+    };
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData((prev) => ({ ...prev, [name]: value }));
+    };
 
     return (
         <AnimatePresence>
-            <motion.section
+            <motion.main
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className='w-full h-full mx-auto'>
+                className="min-h-screen bg-bg flex items-center justify-center px-4">
 
-                <div className='my-12 lg:my-24 bg-white w-full max-w-3xl mx-auto rounded p-3 md:p-7'>
-                    <form className="relative flex flex-col gap-4 m-auto items-start p-2 md:p-8 py-12 w-full md:w-[352px] lg:w-[600px] text-text rounded-lg shadow-xl border border-gray-200 bg-white">
-                        <p className="text-2xl font-medium m-auto">
-                            <span className="text-primary">User</span> {state === "login" ? "Login" : "Sign Up"}
-                            <button onClick={() => dispatch(setIsOpen(false))} className="absolute top-2 right-4 text-text hover:text-red-500">✕</button>
-                        </p>
-                        {state === "register" && (
-                            <div className="w-full text-primary">
-                                <p>Name</p>
-                                <input onChange={(e) => setName(e.target.value)} value={name} placeholder="type here" className="border border-gray-200 rounded w-full p-2 mt-1 outline-indigo-500" type="text" required />
-                            </div>
-                        )}
-                        <div className="w-full text-primary ">
-                            <p>Email</p>
-                            <input onChange={(e) => setEmail(e.target.value)} value={email} placeholder="type here" className="border border-gray-200 rounded w-full p-2 mt-1 outline-indigo-500" type="email" required />
+                <form onSubmit={handleSubmit} className="relative w-full max-w-sm bg-white border border-gray-300/60 rounded-2xl px-8 py-10">
+                    <button type="button" onClick={() => dispatch(setIsOpen(false))} className="absolute top-3 right-4 text-gray-500 hover:text-red-500">
+                        ✕
+                    </button>
+
+                    <h1 className="text-2xl font-medium text-gray-900 text-center">
+                        {state === "login" ? "Вхід до спільноти" : "Створення облікового запису"}
+                    </h1>
+
+                    <p className="mt-3 text-sm text-gray-600 text-center">
+                        {state === "login" ? "Авторизуйтесь для доступу до матеріалів порталу." : "Реєстрація відкриває доступ до спільноти та аналітики."}
+                    </p>
+
+                    {state !== "login" && (
+                        <div className="mt-6">
+                            <input
+                                type="text"
+                                name="full_name"
+                                placeholder="Повне П.І.П."
+                                className="w-full h-11 px-4 rounded-full border border-gray-300 focus:outline-none focus:ring-1 focus:ring-gray-400"
+                                value={formData.full_name}
+                                onChange={handleChange}
+                                required
+                            />
                         </div>
-                        <div className="w-full text-primary ">
-                            <p>Password</p>
-                            <input onChange={(e) => setPassword(e.target.value)} value={password} placeholder="type here" className="border border-gray-200 rounded w-full p-2 mt-1 outline-indigo-500" type="password" required />
-                        </div>
-                        {state === "register" ? (
-                            <p>
-                                Already have account? <span onClick={() => setState("login")} className="text-indigo-500 cursor-pointer">click here</span>
-                            </p>
+                    )}
+
+                    <div className="mt-4">
+                        <input
+                            type="email"
+                            name="email"
+                            placeholder="Електронна пошта"
+                            className="w-full h-11 px-4 rounded-full border border-gray-300 focus:outline-none focus:ring-1 focus:ring-gray-400"
+                            value={formData.email}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+
+                    <div className="mt-4">
+                        <input
+                            type="password"
+                            name="password"
+                            placeholder="Пароль"
+                            className="w-full h-11 px-4 rounded-full border border-gray-300 focus:outline-none focus:ring-1 focus:ring-gray-400"
+                            value={formData.password}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+
+                    <button type="submit" className="mt-6 w-full h-11 rounded-full bg-[#2F3E46] text-white text-sm hover:opacity-90 transition">
+                        {state === "login" ? "Увійти" : "Зареєструватися"}
+                    </button>
+
+                    <p onClick={() => setState((prev) => prev === "login" ? "register" : "login")} className="mt-6 text-sm text-gray-600 text-center cursor-pointer">
+                        {state === "login" ? (
+                            <span>Немає облікового запису? <span className="text-blue-500 hover:text-green-500 hover:underline">Створити</span></span>
                         ) : (
-                            <p>
-                                Create an account? <span onClick={() => setState("register")} className="text-indigo-500 cursor-pointer">click here</span>
-                            </p>
+                            <span>Вже маєте обліковий запис? <span className="text-blue-400 hover:text-green-500 hover:underline">Увійти</span></span>
                         )}
-                        <button className="bg-indigo-500 hover:bg-indigo-600 transition-all text-white w-full py-2 rounded-md cursor-pointer">
-                            {state === "register" ? "Create Account" : "Login"}
-                        </button>
-                    </form>
-                </div>
-            </motion.section>
+                    </p>
+                </form>
+            </motion.main>
         </AnimatePresence>
     );
-}
+};
 
-export default Login
+export default Login;

@@ -32,3 +32,26 @@ html {
 .animate-scroll {
   animation: scroll 20s linear infinite;
 }
+
+/* iPhone layout fixes */
+html, body {
+  width: 100%;
+  max-width: 100%;
+  overscroll-behavior: none;
+}
+
+body {
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* Правильна висота на iOS */
+:root {
+  --safe-vh: 100%;
+}
+
+@supports (-webkit-touch-callout: none) {
+  :root {
+    --safe-vh: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+  }
+}

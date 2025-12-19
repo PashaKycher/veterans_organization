@@ -14,9 +14,10 @@ const NavBar = () => {
   const navigate = useNavigate();
   const isPathAnalytical = useLocation().pathname.includes("/analytical")
   const isPathNews = useLocation().pathname.includes("/news")
+  const isPathVerify = useLocation().pathname.includes("/verify-email")
 
   let color = false
-  if (isPathAnalytical || isPathNews) {
+  if (isPathAnalytical || isPathNews || isPathVerify) {
     color = true
   }
 
