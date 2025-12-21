@@ -1,22 +1,44 @@
-import React, { useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import { motion } from "motion/react";
 import { assets, menuLinkFirst, menuLinkSecond } from "../assets/assets";
 import { useLocation, useNavigate } from "react-router-dom";
 import { NavItem } from "./helpers/NavItem";
 import { Logo } from "./helpers/Logo";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setIsOpen } from "../store/loginSlice";
 
 const NavBar = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const user = useSelector(state => state.user.user)
+
   const [lgMenuOpen, setLgMenuOpen] = useState(false); // переключення між двома групами меню
   const [mobileOpen, setMobileOpen] = useState(false); // мобільне меню
-  const navigate = useNavigate();
+
+  const hendleUserButton = () => {
+    if (user.role === "user") {
+      navigate("/user")
+    } else if (user.role === "superAdmin") {
+      navigate("/owner")
+    } else if (user.role === "newsAdmin") {
+      navigate("/owner")
+    } else if (user.role === "positionAdmin") {
+      navigate("/owner")
+    } else if (user.role === "analyticalAdmin") {
+      navigate("/owner")
+    } else if (user.role === "clubAdmin") {
+      navigate("/owner")
+    } else if (user.role === "leadersAdmin") {
+      navigate("/owner")
+    } else {
+      dispatch(setIsOpen(true));
+    }
+  }
+
+  let color = false
   const isPathAnalytical = useLocation().pathname.includes("/analytical")
   const isPathNews = useLocation().pathname.includes("/news")
   const isPathVerify = useLocation().pathname.includes("/verify-email")
-
-  let color = false
   if (isPathAnalytical || isPathNews || isPathVerify) {
     color = true
   }
@@ -56,17 +78,12 @@ const NavBar = () => {
             ))}
 
           {/* SWITCH BUTTON */}
-          <button
-            onClick={() => setLgMenuOpen(!lgMenuOpen)}
-            className="cursor-pointer"
-          >
-            {lgMenuOpen ? (
-              <img src={assets.nawBarBtn} className="w-10 h-10 bg-primary rounded-full" />
-            ) : (
-              <img src={assets.nawBarBtn} className="w-10 h-10 bg-primary rounded-full" />
-            )}
+          <button onClick={() => setLgMenuOpen(!lgMenuOpen)} className="cursor-pointer">
+            <img src={assets.nawBarBtn} className="w-10 h-10 bg-primary rounded-full" />
           </button>
-          <button onClick={()=> dispatch(setIsOpen(true))} className="cursor-pointer">
+
+          {/* USER BUTTON */}
+          <button onClick={hendleUserButton} className="cursor-pointer">
             <img src={assets.userLogin} className="w-10 h-10 bg-primary rounded-full" />
           </button>
         </div>
@@ -90,16 +107,14 @@ const NavBar = () => {
         <div className="flex flex-row justify-between">
           {/* SWITCH BUTTON */}
           <button onClick={() => setLgMenuOpen(!lgMenuOpen)} className="self-end mb-4">
-            {lgMenuOpen ? (
-              <img src={assets.nawBarBtn} className="w-10 h-10 bg-primary rounded-full" />
-            ) : (
-              <img src={assets.nawBarBtn} className="w-10 h-10 bg-primary rounded-full" />
-            )}
+            <img src={assets.nawBarBtn} className="w-10 h-10 bg-primary rounded-full" />
           </button>
-          {/* LOGIN BUTTON */}
-          <button onClick={()=> dispatch(setIsOpen(true))} className="self-end mb-4">
+
+          {/* USER BUTTON */}
+          <button onClick={hendleUserButton} className="self-end mb-4">
             <img src={assets.userLogin} className="w-10 h-10 bg-primary rounded-full" />
           </button>
+
           {/* CLOSE BUTTON */}
           <button onClick={() => setMobileOpen(false)} className="self-end mb-4">
             <img src={assets.homeClose_btn} className="w-10 h-10 bg-primary rounded-full" />

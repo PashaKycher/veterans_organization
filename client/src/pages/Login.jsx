@@ -1,10 +1,11 @@
 import { AnimatePresence, motion } from "motion/react";
 import React from "react";
-import { useDispatch } from "react-redux";
 import { setIsOpen } from "../store/loginSlice";
 import api from "../api/axios";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import { setUserData } from "../store/userSlice";
+import { useDispatch } from "react-redux";
 
 const Login = () => {
     const navigate = useNavigate();
@@ -21,10 +22,34 @@ const Login = () => {
         e.preventDefault();
         try {
             const { data } = await api.post(`/api/users/${state}`, formData);
-            if (data.message) {
-                dispatch(setIsOpen(false));
-                navigate("/");
-                toast.success(data.message);
+            if (data.succses) {
+                if (state === "login") {
+                    localStorage.setItem("token", data.token);
+                    dispatch(setUserData(data.updatedUser));
+                    dispatch(setIsOpen(false));
+                    toast.success(data.message);
+                    if (data.updatedUser.role === "user") {
+                        navigate("/user")
+                    } else if (data.updatedUser.role === "superAdmin") {
+                        navigate("/owner")
+                    } else if (data.updatedUser.role === "newsAdmin") {
+                        navigate("/owner")
+                    } else if (data.updatedUser.role === "positionAdmin") {
+                        navigate("/owner")
+                    } else if (data.updatedUser.role === "analyticalAdmin") {
+                        navigate("/owner")
+                    } else if (data.updatedUser.role === "clubAdmin") {
+                        navigate("/owner")
+                    } else if (data.updatedUser.role === "leadersAdmin") {
+                        navigate("/owner")
+                    } else {
+                        dispatch(setIsOpen(true));
+                        navigate("/")
+                    }
+                } else if (state === "register") {
+                    dispatch(setIsOpen(false));
+                    navigate("/")
+                }
             } else {
                 toast.error(data.error);
             }

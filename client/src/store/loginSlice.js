@@ -5,7 +5,7 @@ const initialValue = {
 };
 
 const loginSlice = createSlice({
-    name: "address",
+    name: "login",
     initialState: initialValue,
     reducers: {
         setIsOpen: (state, action) => {

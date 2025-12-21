@@ -109,12 +109,12 @@ export const loginUser = async (req, res) => {
         }
 
         const refresh_token = generateRefreshToken(user._id);
-        const updatedUser = await User.findByIdAndUpdate(user._id, { refresh_token }, { new: true });
-
         const token = generateSessionToken(user._id);
-        user.password = undefined;
 
-        res.status(200).json({ message: "User logged in successfully", succses: true, error: false, token, user });
+        const updatedUser = await User.findOneAndUpdate( { _id: user._id }, { new: true });
+        updatedUser.password = undefined;
+
+        res.status(200).json({ message: "User logged in successfully", succses: true, error: false, token, refresh_token, updatedUser });
     } catch (error) {
         res.status(500).json({ message: "Error logging in user", error, succses: false, error: true });
     }

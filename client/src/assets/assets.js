@@ -7,6 +7,8 @@ import homeClose_btn from './icon/homeClose_btn.png'
 import arrow_icon from './icon/arrow_icon.svg'
 import user from './icon/user.png'
 import userLogin from './icon/userLogin.png'
+import dashboardIcon from './icon/dashboardIcon.svg'
+import dashboardIconColored from './icon/dashboardIconColored.svg'
 
 import homeHero from './homeHero.png'
 import positionHero from './positionHero.webp'
@@ -721,7 +723,7 @@ export const partnership = [
 ]
 
 
-// ModalWindow data
+// // ModalWindow data
 export const mobileWindowsLink = [
   {
     title: "Аналітика",
@@ -743,6 +745,46 @@ export const mobileWindowsLink = [
     description: "Лідерство — це відповідальність діяти.",
     link: "/leaders"
   }
+]
+
+// // owner menu link
+export const ownerMenuLinks = [
+  { 
+    title: "Dashboard", 
+    link: "/owner", 
+    icon: dashboardIcon, 
+    coloredIcon: dashboardIconColored 
+  },
+  {
+    title: "Аналітика",
+    link: "/owner/analytical",
+    icon: dashboardIcon, 
+    coloredIcon: dashboardIconColored 
+  },{
+    title: "Новини",
+    link: "/owner/news",
+    icon: dashboardIcon, 
+    coloredIcon: dashboardIconColored 
+  },
+
+  {
+    title: "Позиція",
+    link: "/owner/position",
+    icon: dashboardIcon, 
+    coloredIcon: dashboardIconColored 
+  },
+  {
+    title: "Лідерство",
+    link: "/owner/leaders",
+    icon: dashboardIcon, 
+    coloredIcon: dashboardIconColored 
+  },
+  {
+    title: "Клуб",
+    link: "/owner/club",
+    icon: dashboardIcon, 
+    coloredIcon: dashboardIconColored 
+  },
 ]
 
 

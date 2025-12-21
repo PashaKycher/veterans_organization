@@ -19,18 +19,18 @@ const userSchema = new mongoose.Schema({
     connection: [{ type: String, ref: 'User' }],
 
     status: { type: String, enum: ["active", "inactive", "suspended"], default: "active" },
-    role: [{ type: String, enum: ["user", "superAdmin", "newsAdmin", "analyticalAdmin", "clubAdmin", "leadersAdmin"], default: "user" }],
+    role: { type: String, enum: ["user", "superAdmin", "newsAdmin", "positionAdmin", "analyticalAdmin", "clubAdmin", "leadersAdmin"], default: "user" },
+
+    analiticals: [{ type: mongoose.Schema.Types.ObjectId, ref: "Analytical" }],
+    stories: [{ type: mongoose.Schema.Types.ObjectId, ref: "Story" }],
+    posts: [{ type: mongoose.Schema.Types.ObjectId, ref: "Post" }],
+    news: [{ type: mongoose.Schema.Types.ObjectId, ref: "News" }],
 
     refresh_token: { type: String, default: "" },
 
     email_verify_token: { type: String, default: null },
     email_verify_expiry: { type: Date, default: null },
     verify_email: { type: Boolean, default: false },
-    
-    analiticals: [{ type: mongoose.Schema.Types.ObjectId, ref: "Analytical" }],
-    stories: [{ type: mongoose.Schema.Types.ObjectId, ref: "Story" }],
-    posts: [{ type: mongoose.Schema.Types.ObjectId, ref: "Post" }],
-    news: [{ type: mongoose.Schema.Types.ObjectId, ref: "News" }],
     
     forgot_password_otp: { type: String, default: null },
     forgot_password_expiry: { type: Date, default: "" },

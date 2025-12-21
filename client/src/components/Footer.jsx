@@ -24,10 +24,10 @@ const Footer = () => {
         <div className="flex flex-col gap-3 text-center md:text-left">
           <h3 className="text-lg font-semibold mb-2">Навігація</h3>
 
-          <Link to="/analytical" className="opacity-80 hover:opacity-100 transition">Аналітичні огляди</Link>
-          <Link to="/position" className="opacity-80 hover:opacity-100 transition">Наша позиція</Link>
-          <Link to="/club" className="opacity-80 hover:opacity-100 transition">Клуб</Link>
-          <Link to="/support" className="opacity-80 hover:opacity-100 transition">Підтримка та взаємодія</Link>
+          <Link to="/analytical" className="opacity-80 hover:opacity-100 transition" onClick={scrollTo(0, 0)}>Аналітичні огляди</Link>
+          <Link to="/position" className="opacity-80 hover:opacity-100 transition" onClick={scrollTo(0, 0)}>Наша позиція</Link>
+          <Link to="/club" className="opacity-80 hover:opacity-100 transition" onClick={scrollTo(0, 0)}>Клуб</Link>
+          <Link to="/support" className="opacity-80 hover:opacity-100 transition" onClick={scrollTo(0, 0)}>Підтримка та взаємодія</Link>
         </div>
 
         {/* Contacts */}
