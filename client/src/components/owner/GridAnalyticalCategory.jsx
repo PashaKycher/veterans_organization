@@ -1,0 +1,74 @@
+import React, { useEffect, useState } from "react";
+import { motion } from "motion/react";
+import toast from "react-hot-toast";
+import api from "../../api/axios";
+import moment from "moment";
+
+
+const GridAnalyticalCategory = ({ filters }) => {
+    const [category, setCategory] = useState([]);
+
+    const fetchData = async () => {
+        try {
+            const { data } = await api.get('/api/analyticalcategory/get');
+            if (data.success) {
+                setCategory(data.data);
+            } else {
+                toast.error(data.message);
+            }
+        } catch (error) {
+            toast.error(error.message);
+        }
+    }
+
+    const delCategory = async (id) => {
+        try {
+            const token = localStorage.getItem('token');
+            const { data } = await api.post('/api/analyticalcategory/delete', {id:id}, { headers: { Authorization: token } });
+            if (data.success) {
+                localStorage.setItem("token", data.token);
+                toast.success(data.message);
+                fetchData();
+            } else {
+                toast.error(data.message);
+            }
+        } catch (error) {
+            toast.error(error.message);
+        }
+    }
+
+    useEffect(() => {
+        fetchData();
+    }, []);
+
+    return (
+        <section className="px-6 md:px-16 lg:px-24 xl:px-40 py-16">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+                {category.map(article => (
+                    <motion.article
+                        key={article._id}
+                        className="bg-white border border-neutral-200 rounded-xl p-6 transition">
+
+                        <h3 className="text-xl font-semibold text-title">
+                            {article.title}
+                        </h3>
+
+                        <p className="mt-4 text-sm text-text leading-relaxed">
+                            {article.description}
+                        </p>
+
+                        <div className="flex flex-col md:flex-row gap-4 md:justify-between">
+                            <div className="mt-6 flex justify-between items-center text-xs text-gray-500">
+                                <span>{moment(article.createdAt).format("DD-MM-YYYY")}</span>
+                            </div>
+
+                            <button className="mt-4 inline-flex items-center justify-center text-xs text-primary hover:text-white cursor-pointer px-2 py-1 rounded-lg border bg-red-200 border-red-500 hover:bg-red-500" type="button" onClick={()=>delCategory(article._id)}>видалити</button>
+                        </div>
+                    </motion.article>
+                ))}
+            </div>
+        </section>
+    );
+};
+
+export default GridAnalyticalCategory;

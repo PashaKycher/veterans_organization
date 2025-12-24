@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { use, useEffect, useState } from 'react'
 import { Route, Routes, useLocation } from 'react-router-dom'
 import { Toaster } from 'react-hot-toast'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import api from './api/axios'
+import { setUserData } from './store/userSlice'
 
 import NavBar from './components/NavBar'
 import LearnMore from './components/LearnMore'
@@ -24,8 +26,14 @@ import PositionCard from './pages/card/PositionCard'
 import LeadersCard from './pages/card/LeadersCard'
 import ClubCard from './pages/card/ClubCard'
 
-import LayoutAdmin from './pages/owner/LayoutAdmin'
 import LayoutUser from './pages/user/LayoutUser'
+
+import LayoutAdmin from './pages/owner/LayoutAdmin'
+import AnalyticalOwner from './pages/owner/AnalyticalOwner'
+import AddAnalyticalOwner from './pages/owner/AddAnalyticalOwner'
+import AddCategoryAnalytical from './pages/owner/AddCategoryAnalyticalOwner'
+import UpdateAnalyticalOwner from './pages/owner/UpdateAnalyticalOwner'
+
 
 function App() {
   const isOwnerPath = useLocation().pathname.includes("/owner")
@@ -38,6 +46,23 @@ function App() {
   const [isLearnMore, setIsLearnMore] = useState(true)
   const [isNawBar, setIsNawBar] = useState(true)
 
+  const dispatch = useDispatch();
+
+  const userData = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const { data } = await api.get("/api/users/data", { headers: { Authorization: token } });
+      if (data.success) {
+        dispatch(setUserData(data.user));
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  useEffect(() => {
+    userData()
+  }, [])
   useEffect(() => {
     if (isOwnerPath || isRehabilitation || isLeaders || isSupport) {
       setIsLearnMore(false)
@@ -84,11 +109,14 @@ function App() {
 
             <Route path='/owner' element={<LayoutAdmin />}>
               <Route index element={<p>Dashboard</p>} />
-              <Route path='analytical' element={<p>analytical</p>} />
+              <Route path='analytical' element={<AnalyticalOwner />} />
+              <Route path='addanalytical' element={<AddAnalyticalOwner />} />
+              <Route path='addcategoryanalytical' element={<AddCategoryAnalytical />} />
+              <Route path='editanalytical/:id' element={<UpdateAnalyticalOwner />} />
+
               <Route path='news' element={<p>news</p>} />
               <Route path='position' element={<p>position</p>} />
-              <Route path='leaders' element={<p>leaders</p>} />
-              <Route path='club' element={<p>club</p>} />
+              <Route path='users' element={<p>leaders</p>} />
             </Route>
 
             <Route path='/user' element={<LayoutUser />}>

@@ -2,29 +2,34 @@ import React, { useState } from 'react'
 import { assets, ownerMenuLinks } from '../../assets/assets'
 import { NavLink, useLocation } from 'react-router-dom'
 import toast from 'react-hot-toast'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import api from '../../api/axios'
+import { setUserData } from '../../store/userSlice'
 
 const Sidebar = () => {
+    const dispatch = useDispatch()
     const user = useSelector(state => state.user.user)
     const location = useLocation()
     const [image, setImage] = useState('')
 
-    // const updeteImage = async () => {
-    //     try {
-    //         const formData = new FormData()
-    //         formData.append('image', image)
-    //         const { data } = await axios.post('/api/owner/update-image', formData)
-    //         if (data.success) {
-    //             fetchUser()
-    //             toast.success(data.message)
-    //             setImage('')
-    //         } else {
-    //             toast.error(data.message)
-    //         }
-    //     } catch (error) {
-    //         toast.error(error.message)
-    //     }
-    // }
+    const updeteImage = async () => {
+        try {
+            const token = localStorage.getItem("token");
+            const formData = new FormData()
+            formData.append('avatar', image)
+            const { data } = await api.post("/api/users/avatar", formData, { headers: { Authorization: token } })
+            if (data.success) {
+                toast.success(data.message)
+                dispatch(setUserData(data.user))
+                setImage('')
+            } else {
+                toast.error(data.message)
+            }
+        } catch (error) {
+            toast.error(error.message)
+            console.error(error.message)
+        }
+    }
 
     return (
         <div className='relative min-h-screen md:flex flex-col items-center pt-8
@@ -33,7 +38,7 @@ const Sidebar = () => {
             <div className='group relative'>
                 <label htmlFor="image">
                     <img alt="" className='mx-auto w-10 h-10 max-md:mt-3 mb-1 md:w-20 md:h-20 rounded-full object-cover cursor-pointer'
-                        src={image ? URL.createObjectURL(image) : user?.image
+                        src={image ? URL.createObjectURL(image) : user?.avatar
                             || "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"} />
 
                     <input type="file" id='image' accept='image/*' className="hidden"

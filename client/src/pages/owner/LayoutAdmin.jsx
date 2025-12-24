@@ -10,7 +10,7 @@ const LayoutAdmin = () => {
         <Navbar />
         <div className='flex'>
             <Sidebar />
-            <Outlet />
+            <Outlet /> 
         </div>
     </div>
   )

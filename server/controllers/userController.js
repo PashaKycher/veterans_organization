@@ -5,6 +5,9 @@ import { generateSessionToken } from "../utils/generateSessionToken.js";
 import { generateRefreshToken } from "../utils/generateRefreshToken.js";
 import { generateEmailVerifyToken } from "../utils/generateEmailVerifyToken.js";
 import { sendVerifyEmail } from "../utils/sendVerifyEmail.js";
+import imagekit from "../configs/imageKit.js";
+import fs from "fs";
+
 
 // register user 
 // POST: /api/users/register
@@ -117,5 +120,75 @@ export const loginUser = async (req, res) => {
         res.status(200).json({ message: "User logged in successfully", succses: true, error: false, token, refresh_token, updatedUser });
     } catch (error) {
         res.status(500).json({ message: "Error logging in user", error, succses: false, error: true });
+    }
+}
+
+// get user by using token
+// GET: /api/users/data
+export const getUserDataController = async (req, res) => {
+    try {
+        const { userId } = req
+        const user = await User.findOne({ _id: userId }).select("-password");
+
+        res.status(200).json({
+            success: true,
+            error: false,
+            message: "Авторізація успішна",
+            user
+        });
+    } catch (error) {
+        console.log(error.message || error);
+
+        res.status(500).json({
+            success: false,
+            error: true,
+            message: error.message || error
+        });
+    }
+};
+
+// upload avatar
+// POST: /api/users/avatar
+export const uploadAvatar = async (req, res) => {
+    try {
+        const imageFile = req.file
+        const { userId } = req
+        const user = await User.findOne({ _id: userId });
+
+        if (!user) {
+            return res.status(404).json({ message: "User not found", succses: false, error: true });
+        }
+        if (!user.verify_email) {
+            return res.status(403).json({
+                message: "Підтвердіть email перед входом",
+            });
+        }
+
+        // upload image to ImageKit
+        const fileBuffer = fs.readFileSync(imageFile.path);
+        const response = await imagekit.upload({
+            file: fileBuffer,
+            fileName: imageFile.originalname,
+            folder: "/veteransOrganization/users/avatars",
+        })
+        // generation url for image from respons imagekit
+        const imageUrl = imagekit.url({
+            path: response.filePath,
+            transformation: [
+                {width: '1280'},   // Resize to width 1280
+                {quality: 'auto'}, // Auto compression 
+                {format: 'webp'}   // Convert to modern image format
+            ]
+        })
+        const image = imageUrl
+
+        user.avatar = image
+        await user.save()
+
+        const token = generateSessionToken(user._id);
+
+        res.status(200).json({ message: "Аватар успішно завантажено", success: true, error: false, token, user });
+    } catch (error) {
+        res.status(500).json({ message: "Помилка завантаження аватара", error, succses: false, error: true });
     }
 }

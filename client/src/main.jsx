@@ -4,17 +4,17 @@ import App from './App.jsx'
 import { BrowserRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import { store } from './store/store.js'
-// import { AppProvider } from './context/AppContext.jsx'
+import { AppProvider } from './context/AppContext.jsx'
 import { MotionConfig } from 'motion/react'
 
 createRoot(document.getElementById('root')).render(
   <BrowserRouter>
-    {/* <AppProvider> */}
+    <AppProvider>
     <Provider store={store}>
       <MotionConfig viewport={{ once: true }}>
         <App />
       </MotionConfig>
     </Provider>
-    {/* </AppProvider> */}
+    </AppProvider>
   </BrowserRouter>
 )

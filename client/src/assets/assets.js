@@ -9,6 +9,7 @@ import user from './icon/user.png'
 import userLogin from './icon/userLogin.png'
 import dashboardIcon from './icon/dashboardIcon.svg'
 import dashboardIconColored from './icon/dashboardIconColored.svg'
+import upload_icon from './icon/upload_icon.svg'
 
 import homeHero from './homeHero.png'
 import positionHero from './positionHero.webp'
@@ -26,6 +27,7 @@ export const assets = {
   homeClose_btn,
   arrow_icon,
   userLogin,
+  upload_icon,
 
   homeHero,
   positionHero,
@@ -63,6 +65,7 @@ export const values = [
 ];
 
 // // Analytical page data
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 export const analyticalCategories = [
   {
     _id: "c1",
@@ -112,7 +115,8 @@ export const analyticalCategories = [
     slug: "veteran-organizations-overview",
     created_at: "2024-11-12T10:20:00Z",
   }
-];
+]; 
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 export const analyticalReviews = [
   // -------------------------------------------------------
   // 1. ДЕРЖАВНА ПОЛІТИКА ЩОДО ВЕТЕРАНІВ
@@ -775,13 +779,7 @@ export const ownerMenuLinks = [
   },
   {
     title: "Лідерство",
-    link: "/owner/leaders",
-    icon: dashboardIcon, 
-    coloredIcon: dashboardIconColored 
-  },
-  {
-    title: "Клуб",
-    link: "/owner/club",
+    link: "/owner/users",
     icon: dashboardIcon, 
     coloredIcon: dashboardIconColored 
   },

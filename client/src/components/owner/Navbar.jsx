@@ -22,7 +22,7 @@ const Navbar = () => {
             {/* logo */}
             <Logo />
             {/* profile */}
-            <p className='text-right'>Бажаємо здоров'я, {user?.name || "Owner"}</p>
+            <p className='max-md:hidden text-right'>Бажаємо здоров'я, {user?.name || "Owner"}</p>
             {/* logout */}
             <button className='px-3 py=2 rounded-2xl bg-red-400 hover:bg-red-600' onClick={hendlLogout}>Вийти</button>
         </div>

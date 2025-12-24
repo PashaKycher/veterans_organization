@@ -47,7 +47,7 @@ const Footer = () => {
       </div>
 
       <div className="mt-12 border-t border-white/20 pt-6 text-center opacity-70 text-sm">
-        © {new Date().getFullYear()} Name. Всі права захищені.
+        © {new Date().getFullYear()} Клуб Захисників України. Всі права захищені.
       </div>
     </footer>
   );
