@@ -33,7 +33,7 @@ export const createAnalytical = async (req, res) => {
         let image_urls = [];
         if (req.files?.length) {
             for (const file of req.files) {
-                const buffer = fs.readFileSync(file.path);
+                const buffer = file.buffer;
                 const response = await imagekit.upload({
                     file: buffer,
                     fileName: file.originalname,

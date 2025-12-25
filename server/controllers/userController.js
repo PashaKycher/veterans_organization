@@ -165,9 +165,9 @@ export const uploadAvatar = async (req, res) => {
         }
 
         // upload image to ImageKit
-        const fileBuffer = fs.readFileSync(imageFile.path);
+        const buffer = file.buffer;
         const response = await imagekit.upload({
-            file: fileBuffer,
+            file: buffer,
             fileName: imageFile.originalname,
             folder: "/veteransOrganization/users/avatars",
         })
