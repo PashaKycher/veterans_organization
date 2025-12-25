@@ -2,7 +2,7 @@ import Analytical from "../models/analyticalModel.js";
 import User from "../models/userModel.js";
 import slugify from "slugify";
 import fs from "fs";
-import imagekit from "../configs/imagekit.js";
+import imagekit from "../configs/imageKit.js"
 import { generateSessionToken } from "../utils/generateSessionToken.js";
 
 /* =======================
@@ -33,7 +33,7 @@ export const createAnalytical = async (req, res) => {
         let image_urls = [];
         if (req.files?.length) {
             for (const file of req.files) {
-                const buffer = file.buffer;
+                const buffer = fs.readFileSync(file.path);
                 const response = await imagekit.upload({
                     file: buffer,
                     fileName: file.originalname,

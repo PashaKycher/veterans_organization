@@ -6,7 +6,7 @@ import { generateRefreshToken } from "../utils/generateRefreshToken.js";
 import { generateEmailVerifyToken } from "../utils/generateEmailVerifyToken.js";
 import { sendVerifyEmail } from "../utils/sendVerifyEmail.js";
 import fs from "fs";
-import imagekit from "../configs/imagekit.js";
+import imagekit from "../configs/imageKit.js";
 
 
 // register user 
@@ -165,9 +165,9 @@ export const uploadAvatar = async (req, res) => {
         }
 
         // upload image to ImageKit
-        const buffer = file.buffer;
+        const fileBuffer = fs.readFileSync(imageFile.path);
         const response = await imagekit.upload({
-            file: buffer,
+            file: fileBuffer,
             fileName: imageFile.originalname,
             folder: "/veteransOrganization/users/avatars",
         })
