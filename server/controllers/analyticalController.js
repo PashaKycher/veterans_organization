@@ -34,12 +34,20 @@ export const createAnalytical = async (req, res) => {
         if (req.files?.length) {
             for (const file of req.files) {
                 const buffer = fs.readFileSync(file.path);
-                const uploaded = await imagekit.upload({
+                const response = await imagekit.upload({
                     file: buffer,
                     fileName: file.originalname,
                     folder: "/veterans_organization/analytical"
                 });
-                image_urls.push(uploaded.url);
+                const imageUrl = imagekit.url({
+                    path: response.filePath,
+                    transformation: [
+                        { width: '1280' },   // Resize to width 1280
+                        { quality: 'auto' }, // Auto compression 
+                        { format: 'webp' }   // Convert to modern image format
+                    ]
+                })
+                image_urls.push(imageUrl);
             }
         }
 
@@ -183,7 +191,7 @@ export const publishAnalytical = async (req, res) => {
     try {
         const { userId } = req;
         const user = await User.findById(userId);
-    
+
         if (!user.verify_email) {
             return res.status(403).json({ message: "Підтвердіть email перед входом", succses: false, error: true });
         }
@@ -208,7 +216,7 @@ export const toggleFeatured = async (req, res) => {
     try {
         const { userId } = req;
         const user = await User.findById(userId);
-    
+
         if (!user.verify_email) {
             return res.status(403).json({ message: "Підтвердіть email перед входом", succses: false, error: true });
         }
@@ -231,7 +239,7 @@ export const likeAnalytical = async (req, res) => {
     try {
         const { userId } = req;
         const user = await User.findById(userId);
-    
+
         if (!user.verify_email) {
             return res.status(403).json({ message: "Підтвердіть email перед входом", succses: false, error: true });
         }

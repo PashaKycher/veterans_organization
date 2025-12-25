@@ -5,8 +5,8 @@ import { generateSessionToken } from "../utils/generateSessionToken.js";
 import { generateRefreshToken } from "../utils/generateRefreshToken.js";
 import { generateEmailVerifyToken } from "../utils/generateEmailVerifyToken.js";
 import { sendVerifyEmail } from "../utils/sendVerifyEmail.js";
-import imagekit from "../configs/imageKit.js";
 import fs from "fs";
+import imagekit from "../configs/imagekit.js";
 
 
 // register user 
