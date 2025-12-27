@@ -7,6 +7,7 @@ import { generateEmailVerifyToken } from "../utils/generateEmailVerifyToken.js";
 import { sendVerifyEmail } from "../utils/sendVerifyEmail.js";
 import fs from "fs";
 import imagekit from "../configs/imageKit.js";
+import Analytical from "../models/analyticalModel.js";
 
 
 // register user 
@@ -51,7 +52,7 @@ export const registerUser = async (req, res) => {
 }
 
 // verify email
-// POST /api/users/verify-email
+// POST: /api/users/verify-email
 export const verifyEmail = async (req, res) => {
     try {
         const { token } = req.body;
@@ -82,7 +83,6 @@ export const verifyEmail = async (req, res) => {
         res.status(500).json({ message: "Помилка верифікації", error });
     }
 };
-
 
 // login user
 // POST: /api/users/login
@@ -123,6 +123,55 @@ export const loginUser = async (req, res) => {
     }
 }
 
+// upload avatar
+// POST: /api/users/avatar
+export const uploadAvatar = async (req, res) => {
+    try {
+        const imageFile = req.file
+        const { userId } = req
+        const user = await User.findOne({ _id: userId });
+
+        if (!user) {
+            return res.status(404).json({ message: "User not found", succses: false, error: true });
+        }
+        if (!user.verify_email) {
+            return res.status(403).json({
+                message: "Підтвердіть email перед входом",
+            });
+        }
+
+        // upload image to ImageKit
+        const fileBuffer = fs.readFileSync(imageFile.path);
+        const response = await imagekit.upload({
+            file: fileBuffer,
+            fileName: imageFile.originalname,
+            folder: "/veterans_organization/users/avatars",
+        })
+        // generation url for image from respons imagekit
+        const imageUrl = imagekit.url({
+            path: response.filePath,
+            transformation: [
+                {width: '1280'},   // Resize to width 1280
+                {quality: 'auto'}, // Auto compression 
+                {format: 'webp'}   // Convert to modern image format
+            ]
+        })
+        const image = imageUrl
+
+        const refresh_token = generateRefreshToken(user._id);
+
+        user.avatar = image
+        user.refresh_token = refresh_token
+        await user.save()
+
+        const token = generateSessionToken(user._id);
+
+        res.status(200).json({ message: "Аватар успішно завантажено", success: true, error: false, token, user });
+    } catch (error) {
+        res.status(500).json({ message: "Помилка завантаження аватара", error, succses: false, error: true });
+    }
+}
+
 // get user by using token
 // GET: /api/users/data
 export const getUserDataController = async (req, res) => {
@@ -147,48 +196,28 @@ export const getUserDataController = async (req, res) => {
     }
 };
 
-// upload avatar
-// POST: /api/users/avatar
-export const uploadAvatar = async (req, res) => {
+// toggle user featured analytical
+// PUT: /api/user/analytical-featured/:id
+export const toggleUserFeaturedAnalytical = async (req, res) => {
     try {
-        const imageFile = req.file
-        const { userId } = req
-        const user = await User.findOne({ _id: userId });
+        const { userId } = req;
+        const { id } = req.params;
 
-        if (!user) {
-            return res.status(404).json({ message: "User not found", succses: false, error: true });
-        }
-        if (!user.verify_email) {
-            return res.status(403).json({
-                message: "Підтвердіть email перед входом",
-            });
-        }
+        const user = await User.findById(userId);
+        if (!user.verify_email) { return res.status(403).json({ success: false, message: "Підтвердіть email перед входом" }); }
 
-        // upload image to ImageKit
-        const fileBuffer = fs.readFileSync(imageFile.path);
-        const response = await imagekit.upload({
-            file: fileBuffer,
-            fileName: imageFile.originalname,
-            folder: "/veteransOrganization/users/avatars",
-        })
-        // generation url for image from respons imagekit
-        const imageUrl = imagekit.url({
-            path: response.filePath,
-            transformation: [
-                {width: '1280'},   // Resize to width 1280
-                {quality: 'auto'}, // Auto compression 
-                {format: 'webp'}   // Convert to modern image format
-            ]
-        })
-        const image = imageUrl
+        const analytical = await Analytical.findById(id);
+        if (!analytical) { return res.status(404).json({ success: false, message: "Стаття не знайдена" });}
 
-        user.avatar = image
-        await user.save()
+        const exists = user.analiticals.includes(id);
+        if (exists) { user.analiticals.pull(id); } 
+        else { user.analiticals.push(id); }
+        await user.save();
 
         const token = generateSessionToken(user._id);
-
-        res.status(200).json({ message: "Аватар успішно завантажено", success: true, error: false, token, user });
+        res.status(200).json({ success: true, token, featured: !exists, message: exists ? "Статтю видалено з обраного" : "Статтю додано в обране" });
     } catch (error) {
-        res.status(500).json({ message: "Помилка завантаження аватара", error, succses: false, error: true });
+        res.status(500).json({ success: false, message: error.message });
     }
-}
+};
+

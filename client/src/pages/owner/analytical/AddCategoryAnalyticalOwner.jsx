@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import toast from 'react-hot-toast';
-import { Title } from '../../components/helpers/Title';
-import api from '../../api/axios';
+import { Title } from '../../../components/helpers/Title';
+import api from '../../../api/axios';
 
-const AddCategoryAnalytical = () => {
+const AddCategoryAnalyticalOwner = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const [category, setCategory] = useState({
@@ -85,5 +85,5 @@ const AddCategoryAnalytical = () => {
   );
 };
 
-export default AddCategoryAnalytical;
+export default AddCategoryAnalyticalOwner;
 

@@ -3,7 +3,7 @@ import Sidebar from '../../components/owner/Sidebar'
 import Navbar from '../../components/owner/Navbar'
 import { Outlet } from 'react-router-dom'
 
-const LayoutAdmin = () => {
+const LayoutOwner = () => {
 
   return (
     <div className='flex flex-col'>
@@ -16,4 +16,4 @@ const LayoutAdmin = () => {
   )
 }
 
-export default LayoutAdmin
+export default LayoutOwner

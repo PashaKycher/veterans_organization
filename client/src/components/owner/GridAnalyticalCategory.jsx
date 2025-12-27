@@ -47,7 +47,7 @@ const GridAnalyticalCategory = ({ filters }) => {
                 {category.map(article => (
                     <motion.article
                         key={article._id}
-                        className="bg-white border border-neutral-200 rounded-xl p-6 transition">
+                        className="bg-white border border-neutral-200 rounded-xl p-6 transition flex flex-col h-full">
 
                         <h3 className="text-xl font-semibold text-title">
                             {article.title}
@@ -57,7 +57,7 @@ const GridAnalyticalCategory = ({ filters }) => {
                             {article.description}
                         </p>
 
-                        <div className="flex flex-col md:flex-row gap-4 md:justify-between">
+                        <div className="mt-auto pt-6 flex flex-col md:flex-row gap-4 md:justify-between">
                             <div className="mt-6 flex justify-between items-center text-xs text-gray-500">
                                 <span>{moment(article.createdAt).format("DD-MM-YYYY")}</span>
                             </div>

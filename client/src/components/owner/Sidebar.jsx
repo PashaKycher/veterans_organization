@@ -21,6 +21,7 @@ const Sidebar = () => {
             if (data.success) {
                 toast.success(data.message)
                 dispatch(setUserData(data.user))
+                localStorage.setItem("token", data.token)
                 setImage('')
             } else {
                 toast.error(data.message)

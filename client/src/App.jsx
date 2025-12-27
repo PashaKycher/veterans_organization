@@ -28,11 +28,11 @@ import ClubCard from './pages/card/ClubCard'
 
 import LayoutUser from './pages/user/LayoutUser'
 
-import LayoutAdmin from './pages/owner/LayoutAdmin'
-import AnalyticalOwner from './pages/owner/AnalyticalOwner'
-import AddAnalyticalOwner from './pages/owner/AddAnalyticalOwner'
-import AddCategoryAnalytical from './pages/owner/AddCategoryAnalyticalOwner'
-import UpdateAnalyticalOwner from './pages/owner/UpdateAnalyticalOwner'
+import LayoutOwner from './pages/owner/LayoutOwner'
+import AnalyticalOwner from './pages/owner/analytical/AnalyticalOwner'
+import AddCategoryAnalyticalOwner from './pages/owner/analytical/AddCategoryAnalyticalOwner'
+import AddAnalyticalOwner from './pages/owner/analytical/AddAnalyticalOwner'
+import UpdateAnalyticalOwner from './pages/owner/analytical/UpdateAnalyticalOwner'
 
 
 function App() {
@@ -107,11 +107,11 @@ function App() {
 
             <Route path="/support" element={<SupportAndInteraction />} />
 
-            <Route path='/owner' element={<LayoutAdmin />}>
+            <Route path='/owner' element={<LayoutOwner />}>
               <Route index element={<p>Dashboard</p>} />
               <Route path='analytical' element={<AnalyticalOwner />} />
+              <Route path='addcategoryanalytical' element={<AddCategoryAnalyticalOwner />} />
               <Route path='addanalytical' element={<AddAnalyticalOwner />} />
-              <Route path='addcategoryanalytical' element={<AddCategoryAnalytical />} />
               <Route path='editanalytical/:id' element={<UpdateAnalyticalOwner />} />
 
               <Route path='news' element={<p>news</p>} />

@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
-import Filters from '../../components/analytica/Filters';
-import GridAnalytical from '../../components/owner/GridAnalytical';
+import Filters from '../../../components/analytica/Filters';
+import GridAnalytical from '../../../components/owner/GridAnalytical';
 import { useNavigate } from 'react-router-dom';
-import { Title } from '../../components/helpers/Title';
-import GridAnalyticalCategory from '../../components/owner/GridAnalyticalCategory';
+import { Title } from '../../../components/helpers/Title';
+import GridAnalyticalCategory from '../../../components/owner/GridAnalyticalCategory';
 
 const AnalyticalOwner = () => {
   const navigate = useNavigate();

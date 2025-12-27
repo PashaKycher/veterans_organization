@@ -33,6 +33,27 @@ html {
   animation: scroll 20s linear infinite;
 }
 
+@layer base {
+    button {
+        @apply cursor-pointer;
+    }
+
+    input:not([type="checkbox"]) {
+        @apply outline-none focus:ring border border-gray-300
+        focus:ring-blue-500 focus:border-blue-500 rounded-lg;
+    }
+
+    textarea {
+        @apply outline-none focus:ring border border-gray-300
+        focus:ring-blue-500 focus:border-blue-500 rounded-lg resize-none;
+    }
+
+    select {
+        @apply outline-none focus:ring border border-gray-300
+        focus:ring-blue-500 focus:border-blue-500 rounded-lg;
+    }
+}
+
 /* iPhone layout fixes */
 html, body {
   width: 100%;

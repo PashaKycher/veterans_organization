@@ -4,6 +4,7 @@ import { motion } from "motion/react";
 import { analyticalReviews } from "../../assets/assets";
 import moment from "moment";
 import api from "../../api/axios";
+import toast from "react-hot-toast";
 
 const GridAnalytical = ({ filters }) => {
   const [analyticals, setAnalyticals] = useState([]);
@@ -11,7 +12,7 @@ const GridAnalytical = ({ filters }) => {
 
   const fetchData = async () => {
     try {
-      const { data } = await api.get("/api/analytical/get");
+      const { data } = await api.get("/api/analytical/get-admin", { headers: { Authorization: localStorage.getItem("token") } });
       if (data.success) {
         setAnalyticals(data.data);
       } else {
@@ -25,13 +26,12 @@ const GridAnalytical = ({ filters }) => {
   const delAnalytical = async (id) => {
     try {
       const token = localStorage.getItem("token");
-      const { data } = await api.delete(`/api/analytical/delete/${id}`, {
-        headers: { Authorization: token }
-      });
+      const { data } = await api.delete(`/api/analytical/delete/${id}`, { headers: { Authorization: token } });
 
       if (data.success) {
         toast.success(data.message);
         fetchData();
+        localStorage.setItem("token", data.token);
       } else {
         toast.error(data.message);
       }
@@ -58,12 +58,12 @@ const GridAnalytical = ({ filters }) => {
 
   return (
     <section className="px-6 md:px-16 lg:px-24 xl:px-40 py-16">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-10">
         {data.map(article => (
           <motion.article
             key={article._id}
             whileHover={{ y: -4 }}
-            className="bg-white border border-neutral-200 rounded-xl p-6 cursor-pointer transition">
+            className="bg-white border border-neutral-200 rounded-xl p-6 cursor-pointer transition flex flex-col h-full">
 
             <h3 className="text-xl font-semibold text-title">
               {article.title}
@@ -73,14 +73,17 @@ const GridAnalytical = ({ filters }) => {
               {article.excerpt}
             </p>
 
-            <div className="mt-6 flex justify-between items-center text-xs text-gray-500">
-              <span>{moment(article.createdAt).format("DD-MM-YYYY")}</span>
+            <div className="mt-auto pt-6 flex justify-between items-center text-xs text-gray-500">
+              <div className="flex flex-col md:flex-row gap-2 md:gap-8 mx-auto items-center">
+                <button type="button" className="inline-flex items-center justify-center text-xs text-primary hover:text-white cursor-pointer px-2 py-1 rounded-lg border bg-green-200 border-green-500 hover:bg-green-500" onClick={() => navigate(`/owner/editanalytical/${article._id}`)}>змінити</button>
 
-              <button type="button" className="inline-flex items-center justify-center text-xs text-primary hover:text-white cursor-pointer px-2 py-1 rounded-lg border bg-green-200 border-green-500 hover:bg-green-500" onClick={() => navigate(`/owner/editanalytical/${article._id}`)}>змінити</button>
-
-              <button type="button" className="inline-flex items-center justify-center text-xs text-primary hover:text-white cursor-pointer px-2 py-1 rounded-lg border bg-red-200 border-red-500 hover:bg-red-500" onClick={() => delAnalytical(article._id)}>видалити</button>
-
+                <button type="button" className="inline-flex items-center justify-center text-xs text-primary hover:text-white cursor-pointer px-2 py-1 rounded-lg border bg-red-200 border-red-500 hover:bg-red-500" onClick={() => delAnalytical(article._id)}>видалити</button>
+              </div>
+              
+              <div className="flex flex-col md:flex-row gap-2 md:gap-8 mx-auto items-center">
+                <span>{moment(article.createdAt).format("DD-MM-YYYY")}</span>
               <button type="button" onClick={() => { navigate(`/analytical/${article._id}`); scrollTo(0, 0) }} className="text-primary font-medium">Читати →</button>
+              </div>
             </div>
           </motion.article>
         ))}

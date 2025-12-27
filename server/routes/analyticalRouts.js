@@ -2,31 +2,25 @@ import express from "express";
 import protect from "../middlewares/authMiddleware.js";
 import upload from "../configs/multer.js";
 
-import {
-  createAnalytical,
-  updateAnalytical,
-  deleteAnalytical,
-  getAllAnalytical,
-  getSingleAnalytical,
-  publishAnalytical,
-  toggleFeatured,
-  likeAnalytical
+import { createAnalytical, updateAnalytical, deleteAnalytical, getAllAnalytical, getSingleAnalytical, publishAnalytical, toggleFeatured,
+  likeAnalytical, getSingleAnalyticalById, getAllAnalyticalAdmin,
 } from "../controllers/analyticalController.js";
 
 const analyticalRouts = express.Router();
 
-// public
-analyticalRouts.get("/get", getAllAnalytical);
-analyticalRouts.get("/:slug", getSingleAnalytical);
 
 // protected
+analyticalRouts.get("/get-admin", protect, getAllAnalyticalAdmin);
 analyticalRouts.post("/create", protect, upload.array("images", 5), createAnalytical);
-
-analyticalRouts.put("/update/:id", protect, upload.array("images", 5), updateAnalytical);
-
+analyticalRouts.post("/update/:id", protect, upload.array("images", 5), updateAnalytical);
 analyticalRouts.delete("/delete/:id", protect, deleteAnalytical);
-analyticalRouts.patch("/publish/:id", protect, publishAnalytical);
-analyticalRouts.patch("/featured/:id", protect, toggleFeatured);
-analyticalRouts.patch("/like/:id", protect, likeAnalytical);
+analyticalRouts.put("/publish/:id", protect, publishAnalytical);
+analyticalRouts.put("/featured/:id", protect, toggleFeatured);
+analyticalRouts.put("/like/:id", protect, likeAnalytical);
+
+// public
+analyticalRouts.get("/get", getAllAnalytical);
+analyticalRouts.get("/get/:id", getSingleAnalyticalById);
+analyticalRouts.get("/:slug", getSingleAnalytical);
 
 export default analyticalRouts;

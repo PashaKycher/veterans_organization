@@ -1,129 +1,191 @@
-import React, { useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
-import { motion } from 'motion/react'
-import { assets, analyticalReviews, analyticalCategories } from '../../assets/assets'
-
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { motion } from "motion/react";
+import toast from "react-hot-toast";
+import api from "../../api/axios";
+import { assets } from "../../assets/assets";
+import moment from "moment";
 
 const AnalyticalCard = () => {
-    const { id } = useParams()
-    const navigate = useNavigate()
-    const [article, setArticle] = useState(null)
-    const [category, setCategory] = useState(null)
+    const { id } = useParams();
+    const navigate = useNavigate();
 
-    const feathData = async () => {
-        if (!id) navigate("/analytical")
-        const data = await analyticalReviews.find(item => item._id === id)
-        setArticle(data)
+    const [article, setArticle] = useState(null);
+    const [currentImage, setCurrentImage] = useState(0);
+    const [isLiking, setIsLiking] = useState(false);
+    const [isFeaturing, setIsFeaturing] = useState(false);
 
-        if (data.category_id) {
-            const catData = await analyticalCategories.filter(item => item._id === data.category_id)
-            setCategory(catData)
+    const fetchData = async () => {
+        try {
+            const { data } = await api.get(`/api/analytical/get/${id}`);
+            if (data.success) {
+                setArticle(data.data);
+                console.log(data.data);
+                setArticle((prev) => ({ ...prev, likes: data.data.likes.length }));
+            }
+        } catch {
+            toast.error("Не вдалося завантажити статтю");
         }
-    }
+    };
+
+    const handleLike = async () => {
+        if (isLiking) return;
+
+        try {
+            setIsLiking(true);
+
+            const { data } = await api.put(`/api/analytical/like/${id}`, {}, { headers: { Authorization: localStorage.getItem("token") } });
+
+            if (data.success) {
+                setArticle((prev) => ({ ...prev, likes: data.likes, likedByMe: data.likedByMe, }));
+            }
+        } catch {
+            toast.error("Не вдалося поставити лайк");
+        } finally {
+            setIsLiking(false);
+        }
+    };
+
+
+    const handleFeatured = async () => {
+        try {
+            setIsFeaturing(true);
+            await api.put(`/api/users/analytical-featured/${id}`, {}, { headers: { Authorization: localStorage.getItem("token") } });
+            setArticle((prev) => ({
+                ...prev,
+                is_featured: !prev.is_featured,
+            }));
+        } catch {
+            toast.error("Помилка при зміні статусу");
+        } finally {
+            setIsFeaturing(false);
+        }
+    };
 
     useEffect(() => {
-        feathData()
-    }, [id])
+        if (!id) navigate("/analytical");
+        fetchData();
+    }, [id]);
 
     if (!article) {
         return (
             <div className="w-full py-32 text-center text-gray-500">
-                Завантаження...
+                Завантаження…
             </div>
-        )
+        );
     }
 
     return (
-        <div className='bg-sand-500/20'>
-            {/* HEADER BACKGROUND */}
-            <div className='w-full py-10 md:py-16'></div>
+        <div className="bg-gray-50 pt-18">
+            <div className="px-6 md:px-16 lg:px-24 xl:px-32 py-12">
 
-            <div className='px-6 md:px-16 lg:px-24 xl:px-32 mt-6'>
-
-                {/* Back button */}
-                <button
-                    onClick={() => navigate(-1)}
-                    className='flex items-center gap-2 mb-8 text-primary font-medium'
-                >
-                    <img src={assets.arrow_icon} className="rotate-180 opacity-70" />
-                    Назад
+                {/* Back */}
+                <button onClick={() => navigate(-1)} className="flex items-center gap-2 mb-8 text-sm text-gray-600 hover:text-gray-900">
+                    <img src={assets.arrow_icon} className="rotate-180 opacity-60" />Назад
                 </button>
 
-                <div className='grid grid-cols-1 lg:grid-cols-3 gap-10'>
+                <div className="grid grid-cols-1 xl:grid-cols-3 gap-12">
 
                     {/* MAIN CONTENT */}
                     <motion.div
-                        initial={{ opacity: 0, y: 30 }}
+                        initial={{ opacity: 0, y: 24 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6 }}
-                        className='lg:col-span-2'
-                    >
-                        {/* Big Image */}
-                        {article.image && (
-                            <motion.img
-                                initial={{ opacity: 0, scale: 0.98 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                transition={{ duration: 0.5 }}
-                                src={article.image}
-                                alt={article.title}
-                                className="w-full h-auto rounded-xl shadow mb-6 object-cover"
-                            />
+                        transition={{ duration: 0.5 }}
+                        className="lg:col-span-2 space-y-8">
+
+                        {/* Category & Date */}
+                        <div className="text-sm text-gray-500">
+                            {article.category?.title} ·{" "}{moment(article.createdAt).format("DD.MM.YYYY")}
+                        </div>
+
+                        {/* Title */}
+                        <h1 className="text-3xl font-semibold text-gray-900 leading-tight">
+                            {article.title}
+                        </h1>
+
+                        {/* Excerpt */}
+                        <p className="text-gray-600 leading-relaxed">
+                            {article.excerpt}
+                        </p>
+
+                        {/* Image slider */}
+                        {article.image_urls?.length > 0 && (
+                            <div className="relative">
+                                <img src={article.image_urls[currentImage]} className="w-full rounded-xl object-cover" />
+                                {article.image_urls.length > 1 && (
+                                    <div className="flex justify-center gap-2 mt-3">
+                                        {article.image_urls.map((_, index) => (
+                                            <button key={index} onClick={() => setCurrentImage(index)} className={`w-2 h-2 rounded-full ${currentImage === index ? "bg-gray-800" : "bg-gray-300"}`}
+                                            />
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
                         )}
 
-                        <div className="space-y-8">
+                        {/* Content */}
+                        <div
+                            className="prose prose-gray max-w-none leading-relaxed border-t pt-6"
+                            style={{ whiteSpace: "pre-line" }}
+                            dangerouslySetInnerHTML={{ __html: article.content }}
+                        />
 
-                            {/* Title */}
-                            <div>
-                                <h1 className='text-3xl font-bold text-gray-900'>
-                                    {article.name}
-                                </h1>
-                                <p className='text-gray-500 text-sm mt-1'>
-                                    Категорія: {category[0].name}
-                                </p>
+                        {/* Tags */}
+                        {article.tags?.length > 0 && (
+                            <div className="flex flex-wrap gap-2 pt-6">
+                                {article.tags.map((tag) => (
+                                    <span key={tag} className="text-xs px-3 py-1 bg-gray-200 rounded-full text-gray-700">
+                                        #{tag}
+                                    </span>
+                                ))}
                             </div>
+                        )}
 
-                            <hr className='border-gray-300 my-6' />
+                        {/* Actions */}
+                        <div className="flex items-center gap-6 pt-8 border-t">
+                            <button onClick={handleLike} className="flex items-center gap-2 text-sm text-gray-700">
+                                👍 <span className={`text-xs px-3 py-2 rounded-full ${article.likedByMe ? "bg-yellow-100" : ""} `}>{article.likes || 0}</span>
+                            </button>
 
-                            {/* Short description */}
-                            <div>
-                                <h2 className='text-xl font-semibold text-primary mb-3'>
-                                    Короткий опис
-                                </h2>
-                                <p className='text-gray-600 leading-relaxed'>
-                                    {article.disc}
-                                </p>
-                            </div>
-
-                            {/* FULL CONTENT */}
-                            <div>
-                                <h2 className='text-xl font-semibold text-primary mb-3'>
-                                    Повний аналіз
-                                </h2>
-
-                                <div
-                                    className="prose prose-gray max-w-none leading-relaxed pb-12"
-                                    dangerouslySetInnerHTML={{ __html: article.content }}
-                                />
-                            </div>
-
+                            <button onClick={handleFeatured} className="text-xs px-3 py-1 bg-gray-200 rounded-full text-gray-700 hover:bg-green-300">
+                                {article.is_featured ? "Видалити з обраного" : "Додати в обране"}
+                            </button>
                         </div>
                     </motion.div>
 
                     {/* RIGHT SIDEBAR (optional future blocks) */}
-                    <div className="hidden lg:block">
+                    <div className="lg:block">
                         <div className="sticky top-20 space-y-4 bg-white shadow p-6 rounded-xl">
                             <h3 className="font-semibold text-lg">Інформація</h3>
                             <p className="text-gray-600 text-sm">
                                 Аналітичний матеріал базується на офіційних джерелах, відкритих даних та експертних оцінках.
                             </p>
+                            {/* Author */}
+                            <div className="border-t pt-2">
+                                <p className="text-gray-600 text-medium underline-offs">
+                                    Автор.
+                                </p>
+                                <div className="flex items-center gap-4 pt-2">
+                                    <img src={article.author?.avatar} className="w-12 h-12 rounded-full object-cover" />
+                                    <div>
+                                        <p className="font-medium text-gray-900">
+                                            {article.author?.full_name}
+                                        </p>
+                                        <p className="text-sm text-gray-500">
+                                            {article.author?.email}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default AnalyticalCard
+export default AnalyticalCard;
+
 
