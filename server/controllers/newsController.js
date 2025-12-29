@@ -1,12 +1,12 @@
-import Analytical from "../models/analyticalModel.js";
+import News from "../models/newsModel.js";
 import User from "../models/userModel.js";
 import slugify from "slugify";
 import imagekit from "../configs/imageKit.js"
 import { generateSessionToken } from "../utils/generateSessionToken.js";
 
-// create analytical post
-// POST: /api/analytical/create
-export const createAnalytical = async (req, res) => {
+// create news post
+// POST: /api/news/create
+export const createNews = async (req, res) => {
     try {
         const { userId } = req;
         const user = await User.findById(userId);
@@ -29,7 +29,7 @@ export const createAnalytical = async (req, res) => {
                 const response = await imagekit.upload({
                     file: file.buffer, // ✅ memoryStorage
                     fileName: file.originalname,
-                    folder: "/veterans_organization/analytical"
+                    folder: "/veterans_organization/news"
                 });
 
                 const imageUrl = imagekit.url({
@@ -46,18 +46,19 @@ export const createAnalytical = async (req, res) => {
         }
 
 
-        const analytical = await Analytical.create({ position_type, status, title, excerpt, content, category, post_type, is_featured, tags, author: userId, slug, image_urls });
+        const news = await News.create({ position_type, status, title, excerpt, content, category, post_type, is_featured, tags, author: userId, slug, image_urls });
 
         const token = generateSessionToken(user._id);
-        res.status(201).json({ success: true, token, message: "Матеріал створено", id:analytical._id });
+        res.status(201).json({ success: true, token, message: "Матеріал створено", id: news._id });
     } catch (error) {
+        console.error("createNews error:", error);
         res.status(500).json({ success: false, message: error.message });
     }
 };
 
-// update analytical post
-// POST: /api/analytical/update/:id
-export const updateAnalytical = async (req, res) => {
+// update news post
+// POST: /api/news/update/:id
+export const updateNews = async (req, res) => {
     try {
         const { userId } = req;
         const user = await User.findById(userId);
@@ -69,8 +70,8 @@ export const updateAnalytical = async (req, res) => {
         }
 
         const { id } = req.params;
-        const analytical = await Analytical.findById(id);
-        if (!analytical) {
+        const news = await News.findById(id);
+        if (!news) {
             return res.status(404).json({ success: false, message: "Матеріал не знайдено" });
         }
 
@@ -84,7 +85,7 @@ export const updateAnalytical = async (req, res) => {
 
         /* -------------------- images -------------------- */
         // за замовчуванням — залишаємо як є
-        let image_urls = analytical.image_urls || [];
+        let image_urls = news.image_urls || [];
 
         // якщо фронт передав existing_images — значить користувач керує зображеннями
         if (existing_images !== undefined) {
@@ -104,7 +105,7 @@ export const updateAnalytical = async (req, res) => {
                 const response = await imagekit.upload({
                     file: file.buffer, // ✅ memoryStorage
                     fileName: file.originalname,
-                    folder: "/veterans_organization/analytical"
+                    folder: "/veterans_organization/news"
                 });
 
                 const imageUrl = imagekit.url({
@@ -121,19 +122,19 @@ export const updateAnalytical = async (req, res) => {
         }
 
         /* -------------------- update -------------------- */
-        await analytical.updateOne({ position_type, status, title, excerpt, content, category, post_type, is_featured, tags, slug, image_urls, author: userId });
+        await news.updateOne({ position_type, status, title, excerpt, content, category, post_type, is_featured, tags, slug, image_urls, author: userId });
 
         const token = generateSessionToken(user._id);
-        return res.status(200).json({ success: true, token, message: "Матеріал оновлено", id: analytical._id });
+        return res.status(200).json({ success: true, token, message: "Матеріал оновлено", id: news._id });
     } catch (error) {
-        console.error("updateAnalytical error:", error);
+        console.error("updateNews error:", error);
         return res.status(500).json({ success: false, message: error.message });
     }
 };
 
-// delete analytical post
-// DELETE: /api/analytical/delete/:id
-export const deleteAnalytical = async (req, res) => {
+// delete news post
+// DELETE: /api/news/delete/:id
+export const deleteNews = async (req, res) => {
     try {
         const { userId } = req;
         const user = await User.findById(userId);
@@ -142,24 +143,25 @@ export const deleteAnalytical = async (req, res) => {
         }
 
         const { id } = req.params;
-        const analytical = await Analytical.findById(id);
-        if (!analytical)
+        const news = await News.findById(id);
+        if (!news)
             return res.status(404).json({ success: false, message: "Стаття не знайдена" });
 
-        await analytical.deleteOne();
+        await news.deleteOne();
 
         const token = generateSessionToken(user._id);
         res.status(201).json({ success: true, token, message: "Матеріал видалено" });
     } catch (error) {
+        console.error("deleteNews error:", error);
         res.status(500).json({ success: false, message: error.message });
     }
 };
 
-// get all analyticals ADMIN
-// GET: /api/analytical/get-admin
-export const getAllAnalyticalAdmin = async (req, res) => {
+// get all news ADMIN
+// GET: /api/news/get-admin
+export const getAllNewsAdmin = async (req, res) => {
     try {
-        const data = await Analytical.find({}).populate("author").populate("category").sort({ createdAt: -1 });
+        const data = await News.find({}).populate("author").populate("category").sort({ createdAt: -1 });
 
         res.status(201).json({ success: true, data });
     } catch (error) {
@@ -167,23 +169,24 @@ export const getAllAnalyticalAdmin = async (req, res) => {
     }
 };
 
-// get single analytical by id
-// GET: /api/analytical/get/:id
-export const getSingleAnalyticalById = async (req, res) => {
+// get single news by id
+// GET: /api/news/get/:id
+export const getSingleNewsById = async (req, res) => {
     try {
         const { id } = req.params;
-        const analytical = await Analytical.findById(id).populate("author").populate("category");
-        if (!analytical) return res.status(404).json({ success: false, message: "Стаття не знайдена" });
+        const news = await News.findById(id).populate("author").populate("category");
+        if (!news) return res.status(404).json({ success: false, message: "Стаття не знайдена" });
 
-        res.status(201).json({ success: true, data: analytical });
+        res.status(201).json({ success: true, data: news });
     } catch (error) {
+        console.error("getSingleNewsById error:", error);
         res.status(500).json({ success: false, message: error.message });
     }
 };
 
-// publish analytical
-// GET: /api/analytical/publish/:id
-export const publishAnalytical = async (req, res) => {
+// publish news
+// PUT: /api/news/publish/:id
+export const publishNews = async (req, res) => {
     try {
         const { userId } = req;
         const user = await User.findById(userId);
@@ -192,34 +195,36 @@ export const publishAnalytical = async (req, res) => {
         }
 
         const { id } = req.params
-        const analytical = await Analytical.findById(id);
-        if (!analytical) return res.status(404).json({ success: false, message: "Стаття не знайдена" });
+        const news = await News.findById(id);
+        if (!news) return res.status(404).json({ success: false, message: "Стаття не знайдена" });
 
-        analytical.status = "published";
-        analytical.publishedAt = new Date();
-        await analytical.save();
+        news.status = "published";
+        news.publishedAt = new Date();
+        await news.save();
 
         const token = generateSessionToken(user._id);
         res.status(201).json({ success: true, token, message: "Опубліковано" });
     } catch (error) {
+        console.error("publishNews error:", error);
         res.status(500).json({ success: false, message: error.message });
     }
 };
 
-// get all analyticals PUBLISHED
-// GET: /api/analytical/get
-export const getAllAnalytical = async (req, res) => {
+// get all news PUBLISHED
+// GET: /api/news/get
+export const getAllNews = async (req, res) => {
     try {
-        const data = await Analytical.find({ status: "published" }).populate("author").populate("category");
+        const data = await News.find({ status: "published" }).populate("author").populate("category");
 
         res.status(201).json({ success: true, data });
     } catch (error) {
+        console.error("getAllNews error:", error);
         res.status(500).json({ success: false, message: error.message });
     }
 };
 
 // toggle featured post
-// PUT: /api/analytical/toggle-featured/:id
+// PUT: /api/news/toggle-featured/:id
 export const toggleFeatured = async (req, res) => {
     try {
         const { userId } = req;
@@ -229,21 +234,22 @@ export const toggleFeatured = async (req, res) => {
         }
 
         const { id } = req.params
-        const analytical = await Analytical.findById(id);
-        if (!analytical) return res.status(404).json({ success: false, message: "Стаття не знайдена" });
-        analytical.is_featured = !analytical.is_featured;
-        await analytical.save();
+        const news = await News.findById(id);
+        if (!news) return res.status(404).json({ success: false, message: "Стаття не знайдена" });
+        news.is_featured = !news.is_featured;
+        await news.save();
 
         const token = generateSessionToken(user._id);
-        res.json({ success: true, token, message: analytical.is_featured ? "Додано в обране" : "Знято з обраного" });
+        res.json({ success: true, token, message: news.is_featured ? "Додано в обране" : "Знято з обраного" });
     } catch (error) {
+        console.error("toggleFeatured error:", error);
         res.status(500).json({ success: false, message: error.message });
     }
 };
 
-// like analytical
-// PUT: /api/analytical/like/:id
-export const likeAnalytical = async (req, res) => {
+// like news
+// PUT: /api/news/like/:id
+export const likeNews = async (req, res) => {
     try {
         const { userId } = req;
         const user = await User.findById(userId);
@@ -252,39 +258,41 @@ export const likeAnalytical = async (req, res) => {
         }
 
         const { id } = req.params
-        const analytical = await Analytical.findById(id);
-        if (!analytical) return res.status(404).json({ success: false, message: "Стаття не знайдена" });
+        const news = await News.findById(id);
+        if (!news) return res.status(404).json({ success: false, message: "Стаття не знайдена" });
 
-        const isLiked = analytical.likes.includes(userId);
+        const isLiked = news.likes.includes(userId);
 
-        if (isLiked) { analytical.likes.pull(userId); }
-        else { analytical.likes.push(userId); }
+        if (isLiked) { news.likes.pull(userId); }
+        else { news.likes.push(userId); }
 
-        await analytical.save();
+        await news.save();
 
         const token = generateSessionToken(user._id);
-        res.status(201).json({ success: true, token, message: isLiked ? "Ви видалили лайк" : "Ви додали лайк", likes: analytical.likes.length, likedByMe: isLiked ? false : true });
+        res.status(201).json({ success: true, token, message: isLiked ? "Ви видалили лайк" : "Ви додали лайк", likes: news.likes.length, likedByMe: isLiked ? false : true });
     } catch (error) {
+        console.error("likeNews error:", error);
         res.status(500).json({ success: false, message: error.message });
     }
 };
 
-// add view to analytical
-// GET: /api/analytical/add-view/:id
-export const getAddViewAnalytical = async (req, res) => {
+// add view to news
+// GET: /api/news/add-view/:id
+export const getAddViewNews = async (req, res) => {
     try {
         const { id } = req.params;
 
-        const analytical = await Analytical.findOne({ _id: id, status: "published" });
+        const news = await News.findOne({ _id: id, status: "published" });
 
-        if (!analytical)
+        if (!news)
             return res.status(404).json({ success: false, message: "Стаття не знайдена" });
 
-        analytical.views_count += 1;
-        await analytical.save();
+        news.views_count += 1;
+        await news.save();
 
-        res.status(201).json({ success: true, data: analytical });
+        res.status(201).json({ success: true, data: news });
     } catch (error) {
+        console.error("getAddViewNews error:", error);
         res.status(500).json({ success: false, message: error.message });
     }
 };

@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 import { Title } from "../../../components/helpers/Title";
 import { assets } from "../../../assets/assets";
 
-const UpdateAnalyticalOwner = () => {
+const UpdateNewsOwner = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -32,17 +32,17 @@ const UpdateAnalyticalOwner = () => {
   /* -------------------- categories -------------------- */
   const fetchCategories = async () => {
     try {
-      const { data } = await api.get("/api/analyticalcategory/get");
+      const { data } = await api.get("/api/newscategory/get");
       if (data.success) setCategories(data.data);
     } catch {
       toast.error("Не вдалося завантажити категорії");
     }
   };
 
-  /* -------------------- analytical -------------------- */
-  const fetchAnalytical = async () => {
+  /* -------------------- news -------------------- */
+  const fetchNews = async () => {
     try {
-      const { data } = await api.get(`/api/analytical/get/${id}`);
+      const { data } = await api.get(`/api/news/get/${id}`);
       if (data.success) {
         const post = data.data;
 
@@ -100,15 +100,15 @@ const UpdateAnalyticalOwner = () => {
       // new images
       images.forEach(img => { formData.append("images", img); });
 
-      const { data } = await api.post(`/api/analytical/update/${id}`, formData, { headers: { Authorization: token, "Content-Type": "multipart/form-data", } });
+      const { data } = await api.post(`/api/news/update/${id}`, formData, { headers: { Authorization: token, "Content-Type": "multipart/form-data", } });
 
       if (data.success) {
         if (form.status === "published") {
           console.log(data.id)
-          await api.get(`/api/analytical/publish/${data.id}`, { headers: { Authorization: token } });
+          await api.get(`/api/news/publish/${data.id}`, { headers: { Authorization: token } });
         }
         toast.success("Аналітичний матеріал оновлено");
-        navigate("/owner/analytical");
+        navigate("/owner/news");
         localStorage.setItem("token", data.token);
       } else {
         toast.error(data.message);
@@ -122,7 +122,7 @@ const UpdateAnalyticalOwner = () => {
 
   useEffect(() => {
     fetchCategories();
-    fetchAnalytical();
+    fetchNews();
   }, []);
 
   return (
@@ -239,4 +239,4 @@ const UpdateAnalyticalOwner = () => {
   );
 };
 
-export default UpdateAnalyticalOwner;
+export default UpdateNewsOwner;

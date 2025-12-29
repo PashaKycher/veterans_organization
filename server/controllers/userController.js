@@ -8,6 +8,7 @@ import { sendVerifyEmail } from "../utils/sendVerifyEmail.js";
 import fs from "fs";
 import imagekit from "../configs/imageKit.js";
 import Analytical from "../models/analyticalModel.js";
+import News from "../models/newsModel.js";
 
 
 // register user 
@@ -33,21 +34,25 @@ export const registerUser = async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, 10);
 
         const { emailToken, hashedEmailToken } = generateEmailVerifyToken();
-
+        const user_name = email.split("@")[0];
         const newUser = await User.create({
             full_name,
             email,
+            user_name,
             password: hashedPassword,
             email_verify_token: hashedEmailToken,
             email_verify_expiry: Date.now() + 1000 * 60 * 60, // 1 година
         });
-
         const verifyUrl = `${process.env.CLIENT_URL}/verify-email?token=${emailToken}`;
         await sendVerifyEmail(newUser.email, verifyUrl);
-
         res.status(201).json({ message: "Реєстрація успішна. Перевірте email для підтвердження.", succses: true, error: false });
     } catch (error) {
-        res.status(500).json({ message: "Помилка при реєстрації", error, succses: false, error: true });
+        console.error("REGISTER ERROR:", error);
+        return res.status(500).json({
+            message: "Помилка при реєстрації",
+            succses: false,
+            error: true
+        });
     }
 }
 
@@ -114,7 +119,7 @@ export const loginUser = async (req, res) => {
         const refresh_token = generateRefreshToken(user._id);
         const token = generateSessionToken(user._id);
 
-        const updatedUser = await User.findOneAndUpdate( { _id: user._id }, { new: true });
+        const updatedUser = await User.findOneAndUpdate({ _id: user._id }, { new: true });
         updatedUser.password = undefined;
 
         res.status(200).json({ message: "User logged in successfully", succses: true, error: false, token, refresh_token, updatedUser });
@@ -151,9 +156,9 @@ export const uploadAvatar = async (req, res) => {
         const imageUrl = imagekit.url({
             path: response.filePath,
             transformation: [
-                {width: '1280'},   // Resize to width 1280
-                {quality: 'auto'}, // Auto compression 
-                {format: 'webp'}   // Convert to modern image format
+                { width: '1280' },   // Resize to width 1280
+                { quality: 'auto' }, // Auto compression 
+                { format: 'webp' }   // Convert to modern image format
             ]
         })
         const image = imageUrl
@@ -207,10 +212,35 @@ export const toggleUserFeaturedAnalytical = async (req, res) => {
         if (!user.verify_email) { return res.status(403).json({ success: false, message: "Підтвердіть email перед входом" }); }
 
         const analytical = await Analytical.findById(id);
-        if (!analytical) { return res.status(404).json({ success: false, message: "Стаття не знайдена" });}
+        if (!analytical) { return res.status(404).json({ success: false, message: "Стаття не знайдена" }); }
 
         const exists = user.analiticals.includes(id);
-        if (exists) { user.analiticals.pull(id); } 
+        if (exists) { user.analiticals.pull(id); }
+        else { user.analiticals.push(id); }
+        await user.save();
+
+        const token = generateSessionToken(user._id);
+        res.status(200).json({ success: true, token, featured: !exists, message: exists ? "Статтю видалено з обраного" : "Статтю додано в обране" });
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+};
+
+// toggle user featured news
+// PUT: /api/user/news-featured/:id
+export const toggleUserFeaturedNews = async (req, res) => {
+    try {
+        const { userId } = req;
+        const { id } = req.params;
+
+        const user = await User.findById(userId);
+        if (!user.verify_email) { return res.status(403).json({ success: false, message: "Підтвердіть email перед входом" }); }
+
+        const news = await News.findById(id);
+        if (!news) { return res.status(404).json({ success: false, message: "Стаття не знайдена" }); }
+
+        const exists = user.analiticals.includes(id);
+        if (exists) { user.analiticals.pull(id); }
         else { user.analiticals.push(id); }
         await user.save();
 

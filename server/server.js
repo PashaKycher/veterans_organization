@@ -2,9 +2,14 @@ import express from 'express'
 import 'dotenv/config'
 import cors from 'cors'
 import connectDB from './configs/db.js'
+
 import userRouter from './routes/userRouts.js'
+
 import analyticalCategoryRouts from './routes/analyticalCategoryRouts.js'
 import analyticalRouts from './routes/analyticalRouts.js'
+
+import newsCategoryRouts from './routes/newsCategoryRouts.js'
+import newsRouts from './routes/newsRouts.js'
 
 const app = express()
 
@@ -18,8 +23,12 @@ app.get('/', (req, res) => {
 })
 
 app.use('/api/users', userRouter)
+
 app.use('/api/analyticalcategory', analyticalCategoryRouts)
 app.use('/api/analytical', analyticalRouts)
+
+app.use('/api/newscategory', newsCategoryRouts)
+app.use('/api/news', newsRouts)
 
 
 

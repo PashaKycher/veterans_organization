@@ -10,10 +10,10 @@ const Filters = ({ filters, onChange }) => {
       if (data.success) {
         setCategory(data.data);
       } else {
-        toast.error(data.message);
+        console.error(data.message);
       }
     } catch (error) {
-      toast.error(error.message);
+      console.error(error.message);
     }
   }
   const update = (key, value) => {

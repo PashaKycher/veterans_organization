@@ -1,20 +1,19 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "motion/react";
-import { analyticalReviews } from "../../assets/assets";
 import moment from "moment";
 import api from "../../api/axios";
 import toast from "react-hot-toast";
 
-const GridAnalytical = ({ filters }) => {
-  const [analyticals, setAnalyticals] = useState([]);
+const GridNews = ({ filters }) => {
+  const [news, setNews] = useState([]);
   const navigate = useNavigate();
 
   const fetchData = async () => {
     try {
-      const { data } = await api.get("/api/analytical/get-admin", { headers: { Authorization: localStorage.getItem("token") } });
+      const { data } = await api.get("/api/news/get-admin", { headers: { Authorization: localStorage.getItem("token") } });
       if (data.success) {
-        setAnalyticals(data.data);
+        setNews(data.data);
       } else {
         toast.error(data.message);
       }
@@ -23,10 +22,10 @@ const GridAnalytical = ({ filters }) => {
     }
   };
 
-  const delAnalytical = async (id) => {
+  const delNews = async (id) => {
     try {
       const token = localStorage.getItem("token");
-      const { data } = await api.delete(`/api/analytical/delete/${id}`, { headers: { Authorization: token } });
+      const { data } = await api.delete(`/api/news/delete/${id}`, { headers: { Authorization: token } });
 
       if (data.success) {
         toast.success(data.message);
@@ -41,7 +40,7 @@ const GridAnalytical = ({ filters }) => {
   };
 
   const data = useMemo(() => {
-    let items = [...analyticals];
+    let items = [...news];
 
     if (filters.category) { items = items.filter(i => i.category?._id === filters.category) }
     if (filters.date) { items = items.filter(i => moment(i.createdAt).isSame(filters.date, "day")) }
@@ -50,7 +49,7 @@ const GridAnalytical = ({ filters }) => {
     if (filters.search) { const q = filters.search.toLowerCase(); items = items.filter(i => i.title?.toLowerCase().includes(q) || i.excerpt?.toLowerCase().includes(q)) }
 
     return items;
-  }, [filters, analyticals]);
+  }, [filters, news]);
 
   useEffect(() => {
     fetchData();
@@ -75,14 +74,14 @@ const GridAnalytical = ({ filters }) => {
 
             <div className="mt-auto pt-6 flex justify-between items-center text-xs text-gray-500">
               <div className="flex flex-col md:flex-row gap-2 md:gap-8 mx-auto items-center">
-                <button type="button"  className="inline-flex items-center justify-center text-xs font-medium px-3 py-1.5 rounded-lg text-slate-700 bg-slate-100 hover:bg-slate-700 hover:text-white border border-slate-300 transition-all duration-200 active:scale-95" onClick={() => navigate(`/owner/editanalytical/${article._id}`)}>змінити</button>
+                <button type="button"  className="inline-flex items-center justify-center text-xs font-medium px-3 py-1.5 rounded-lg text-slate-700 bg-slate-100 hover:bg-slate-700 hover:text-white border border-slate-300 transition-all duration-200 active:scale-95" onClick={() => navigate(`/owner/editnews/${article._id}`)}>змінити</button>
 
-                <button type="button" className="inline-flex items-center justify-center text-xs font-medium px-3 py-1.5 rounded-lg text-red-700 bg-red-100 hover:bg-red-600 hover:text-white border border-red-300 transition-all duration-200 active:scale-95" onClick={() => delAnalytical(article._id)}>видалити</button>
+                <button type="button" className="inline-flex items-center justify-center text-xs font-medium px-3 py-1.5 rounded-lg text-red-700 bg-red-100 hover:bg-red-600 hover:text-white border border-red-300 transition-all duration-200 active:scale-95" onClick={() => delNews(article._id)}>видалити</button>
               </div>
               
               <div className="flex flex-col md:flex-row gap-2 md:gap-8 mx-auto items-center">
                 <span>{moment(article.publishedAt).format("DD-MM-YYYY")}</span>
-              <button type="button" onClick={() => { navigate(`/analytical/${article._id}`); scrollTo(0, 0) }} className=" inline-flex items-center gap-1 text-sm font-medium text-slate-700 hover:text-slate-900 transition-colors duration-200 group">Читати <span className="transform transition-transform duration-200 group-hover:translate-x-1">→</span></button>
+              <button type="button" onClick={() => { navigate(`/news/${article._id}`); scrollTo(0, 0) }} className=" inline-flex items-center gap-1 text-sm font-medium text-slate-700 hover:text-slate-900 transition-colors duration-200 group">Читати <span className="transform transition-transform duration-200 group-hover:translate-x-1">→</span></button>
               </div>
             </div>
           </motion.article>
@@ -92,4 +91,4 @@ const GridAnalytical = ({ filters }) => {
   );
 };
 
-export default GridAnalytical;
+export default GridNews;

@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { Title } from "../../../components/helpers/Title";
 import { assets } from "../../../assets/assets";
 
-const AddAnalyticalOwner = () => {
+const AddNewsOwner = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -31,7 +31,7 @@ const AddAnalyticalOwner = () => {
   /* -------------------- categories -------------------- */
   const fetchCategories = async () => {
     try {
-      const { data } = await api.get("/api/analyticalcategory/get");
+      const { data } = await api.get("/api/newscategory/get");
       if (data.success) setCategories(data.data);
     } catch {
       toast.error("Не вдалося завантажити категорії");
@@ -67,15 +67,15 @@ const AddAnalyticalOwner = () => {
 
       images.forEach(img => { formData.append("images", img); });
 
-      const { data } = await api.post("/api/analytical/create", formData, { headers: { Authorization: token, "Content-Type": "multipart/form-data" } });
+      const { data } = await api.post("/api/news/create", formData, { headers: { Authorization: token, "Content-Type": "multipart/form-data" } });
 
       if (data.success) {
         if (form.status === "published") {
           console.log(data.id)
-          await api.get(`/api/analytical/publish/${data.id}`, { headers: { Authorization: token } });
+          await api.get(`/api/news/publish/${data.id}`, { headers: { Authorization: token } });
         }
         toast.success("Аналітичний матеріал створено");
-        navigate("/owner/analytical");
+        navigate("/owner/news");
         localStorage.setItem("token", data.token);
       } else {
         toast.error(data.message);
@@ -228,4 +228,4 @@ const AddAnalyticalOwner = () => {
   );
 };
 
-export default AddAnalyticalOwner;
+export default AddNewsOwner;

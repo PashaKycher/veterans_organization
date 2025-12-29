@@ -14,7 +14,7 @@ export const ModalWindow = ({ isOpen, onClose, items }) => {
         >
           {/* modal body */}
           <motion.div
-            className="relative w-[90%] max-w-2xl h-[20%]"
+            className="hidden [@media(min-width:370px)]:block relative w-[90%] max-w-2xl h-[10%]"
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.9, opacity: 0 }}
@@ -25,7 +25,7 @@ export const ModalWindow = ({ isOpen, onClose, items }) => {
             </button>
 
             {/* grid */}
-            <div className="hidden [@media(min-width:370px)]:grid grid-cols-2 gap-20">
+            <div className="grid grid-cols-2 gap-20">
               {items.map((item, i) => (
                 <Link
                   key={i}

@@ -1,10 +1,28 @@
-import React from "react";
-import { newsCategories } from "../../assets/assets";
+import React, { useEffect, useState } from "react";
+import api from "../../api/axios";
 
 const Filters = ({ filters, onChange }) => {
+   const [category, setCategory] = useState([]);
+
+  const fetchData = async () => {
+    try {
+      const { data } = await api.get('/api/newscategory/get');
+      if (data.success) {
+        setCategory(data.data);
+      } else {
+        console.error(data.message);
+      }
+    } catch (error) {
+      console.error(error.message);
+    }
+  }
   const update = (key, value) => {
     onChange(prev => ({ ...prev, [key]: value }));
   };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   return (
     <section className="px-6 md:px-16 lg:px-24 xl:px-40">
@@ -15,8 +33,8 @@ const Filters = ({ filters, onChange }) => {
           onChange={(e) => update("category", e.target.value)}
           className="border p-2 rounded-md text-sm">
           <option value="">Всі напрями</option>
-          {newsCategories.map(c => (
-            <option key={c._id} value={c._id}>{c.name}</option>
+          {category.map(c => (
+            <option key={c._id} value={c._id}>{c.title}</option>
           ))}
         </select>
 

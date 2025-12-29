@@ -1,14 +1,14 @@
 import User from "../models/userModel.js";
 import slugify from "slugify";
-import AnalyticalCategory from "../models/analyticalCategoryModel.js";
+import NewsCategory from "../models/newsCategoryModel.js";
 import { generateSessionToken } from "../utils/generateSessionToken.js";
 import { generateRefreshToken } from "../utils/generateRefreshToken.js";
 
 // Get all category
-// GET: /api/analyticalcategory/get
+// GET: /api/newscategory/get
 export const getAllCategoryController = async (req, res) => {
     try {
-        const data = await AnalyticalCategory.find({}).sort({ createdAt: -1 });
+        const data = await NewsCategory.find({}).sort({ createdAt: -1 });
         res.status(200).json({
             success: true,
             error: false,
@@ -27,7 +27,7 @@ export const getAllCategoryController = async (req, res) => {
 };
 
 // Add new category
-// POST: /api/analyticalcategory/add
+// POST: /api/newscategory/add
 export const addCategoryController = async (req, res) => {
     try {
         const category = req.body
@@ -54,7 +54,7 @@ export const addCategoryController = async (req, res) => {
             locale: 'uk' // Важно для корректной транслитерации кириллицы
         });
 
-        await AnalyticalCategory.create({ owner: _id, title: category.title, description: category.description, slug: slug });
+        await NewsCategory.create({ owner: _id, title: category.title, description: category.description, slug: slug });
 
         const token = generateSessionToken(user._id);
         const refresh_token = generateRefreshToken(user._id);
@@ -67,7 +67,7 @@ export const addCategoryController = async (req, res) => {
 };
 
 // Delete category
-// POST: /api/analyticalcategory/delete
+// POST: /api/newscategory/delete
 export const deleteCategoryController = async (req, res) => {
     try {
         const { id } = req.body;
@@ -88,7 +88,7 @@ export const deleteCategoryController = async (req, res) => {
             });
         }
 
-        await AnalyticalCategory.findByIdAndDelete(id);
+        await NewsCategory.findByIdAndDelete(id);
 
         const token = generateSessionToken(user._id);
         const refresh_token = generateRefreshToken(user._id);

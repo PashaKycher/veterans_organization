@@ -10,7 +10,7 @@ const GridAnalyticalCategory = ({ filters }) => {
 
     const fetchData = async () => {
         try {
-            const { data } = await api.get('/api/analyticalcategory/get');
+            const { data } = await api.get('/api/newscategory/get');
             if (data.success) {
                 setCategory(data.data);
             } else {
@@ -24,7 +24,7 @@ const GridAnalyticalCategory = ({ filters }) => {
     const delCategory = async (id) => {
         try {
             const token = localStorage.getItem('token');
-            const { data } = await api.post('/api/analyticalcategory/delete', {id:id}, { headers: { Authorization: token } });
+            const { data } = await api.post('/api/newscategory/delete', { id: id }, { headers: { Authorization: token } });
             if (data.success) {
                 localStorage.setItem("token", data.token);
                 toast.success(data.message);
@@ -62,7 +62,7 @@ const GridAnalyticalCategory = ({ filters }) => {
                                 <span>{moment(article.createdAt).format("DD-MM-YYYY")}</span>
                             </div>
 
-                            <button className="inline-flex items-center justify-center text-xs font-medium px-3 py-1.5 rounded-lg text-red-700 bg-red-100 hover:bg-red-600 hover:text-white border border-red-300 transition-all duration-200 active:scale-95" type="button" onClick={()=>delCategory(article._id)}>видалити</button>
+                            <button className="inline-flex items-center justify-center text-xs font-medium px-3 py-1.5 rounded-lg text-red-700 bg-red-100 hover:bg-red-600 hover:text-white border border-red-300 transition-all duration-200 active:scale-95" type="button" onClick={() => delCategory(article._id)}>видалити</button>
                         </div>
                     </motion.article>
                 ))}

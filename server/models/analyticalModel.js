@@ -20,7 +20,8 @@ const analyticalSchema = new mongoose.Schema({
 
   status: { type: String, enum: ['draft', 'review', 'published', 'archived'], default: 'draft' },
 
-  publishedAt: { type: Date },
+  publishedAt: { type: Date, default: null },
+  archivedAt: { type: Date, default: null },
 
   views_count: { type: Number, default: 0 },
   likes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],

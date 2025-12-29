@@ -1,8 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { analyticalReviews } from "../../assets/assets";
 import { motion } from "motion/react";
-import toast from "react-hot-toast";
 import api from "../../api/axios";
 import moment from "moment";
 
@@ -16,10 +14,10 @@ const Grid = ({ filters }) => {
       if (data.success) {
         setAnalyticals(data.data);
       } else {
-        toast.error(data.message);
+        console.error(data.message);
       }
     } catch (error) {
-      toast.error(error.message);
+      console.error(error.message);
     }
   };
 
@@ -41,30 +39,36 @@ const Grid = ({ filters }) => {
 
   return (
     <section className="px-6 md:px-16 lg:px-24 xl:px-40 py-16">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
-            {data.map(article => (
-              <motion.article
-                key={article._id}
-                whileHover={{ y: -4 }}
-                className="bg-white border border-neutral-200 rounded-xl p-6 cursor-pointer transition">
-    
-                <h3 className="text-xl font-semibold text-title">
-                  {article.title}
-                </h3>
-    
-                <p className="mt-4 text-sm text-text leading-relaxed">
-                  {article.excerpt}
-                </p>
-    
-                <div className="mt-6 flex justify-between items-center text-xs text-gray-500">
-                  <span>{moment(article.createdAt).format("DD-MM-YYYY")}</span>
-    
-                  <button type="button" onClick={() => { navigate(`/analytical/${article._id}`); scrollTo(0, 0) }} className="text-primary font-medium">Читати →</button>
-                </div>
-              </motion.article>
-            ))}
-          </div>
-        </section>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+        {data.map(article => (
+          <motion.article
+            key={article._id}
+            whileHover={{ y: -4 }}
+            className="bg-white border border-neutral-200 rounded-xl p-6 cursor-pointer transition flex flex-col h-full">
+
+            <h3 className="text-xl font-semibold text-title">
+              {article.title}
+            </h3>
+
+            <p className="mt-4 text-sm text-text leading-relaxed">
+              {article.excerpt}
+            </p>
+
+            <div className="mt-auto pt-6 flex justify-between items-center text-xs text-primary">
+              <span>{moment(article.publishedAt).format("DD-MM-YYYY")}</span>
+
+              <button type="button" onClick={() => { navigate(`/analytical/${article._id}`); scrollTo(0, 0) }} className=" inline-flex items-center gap-1 text-sm font-medium text-slate-700 hover:text-slate-900 transition-colors duration-200 group">Читати <span className="transform transition-transform duration-200 group-hover:translate-x-1">→</span></button>
+            </div>
+          </motion.article>
+        ))}
+
+        {data.length === 0 && (
+          <p className="text-center text-primary pt-16">
+            Матеріалів за заданими умовами не знайдено.
+          </p>
+        )}
+      </div>
+    </section>
   );
 };
 

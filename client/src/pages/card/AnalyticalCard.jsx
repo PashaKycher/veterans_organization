@@ -20,13 +20,17 @@ const AnalyticalCard = () => {
             const { data } = await api.get(`/api/analytical/get/${id}`);
             if (data.success) {
                 setArticle(data.data);
-                console.log(data.data);
                 setArticle((prev) => ({ ...prev, likes: data.data.likes.length }));
             }
         } catch {
             toast.error("Не вдалося завантажити статтю");
         }
     };
+
+    useEffect(() => {
+        if (!id) navigate("/analytical");
+        fetchData();
+    }, [id]);
 
     const handleLike = async () => {
         if (isLiking) return;
@@ -46,7 +50,6 @@ const AnalyticalCard = () => {
         }
     };
 
-
     const handleFeatured = async () => {
         try {
             setIsFeaturing(true);
@@ -63,11 +66,21 @@ const AnalyticalCard = () => {
     };
 
     useEffect(() => {
-        if (!id) navigate("/analytical");
-        fetchData();
+        if (!id) return;
+
+        const timer = setTimeout(async () => {
+            try {
+                const { data } = await api.get(`/api/analytical/add-view/${id}`);
+                if (data.success) { console.log("View added"); }
+            } catch (error) {
+                console.error("Не вдалося оновити view", error);
+            }
+        }, 10000); // 10 секунд
+
+        return () => clearTimeout(timer);
     }, [id]);
 
-    if (!article) {
+     if (!article) {
         return (
             <div className="w-full py-32 text-center text-gray-500">
                 Завантаження…
@@ -95,7 +108,7 @@ const AnalyticalCard = () => {
 
                         {/* Category & Date */}
                         <div className="text-sm text-gray-500">
-                            {article.category?.title} ·{" "}{moment(article.createdAt).format("DD.MM.YYYY")}
+                            {article.category?.title} ·{" "}{moment(article.publishedAt).format("DD.MM.YYYY")}
                         </div>
 
                         {/* Title */}

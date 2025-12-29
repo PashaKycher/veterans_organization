@@ -33,6 +33,10 @@ import AnalyticalOwner from './pages/owner/analytical/AnalyticalOwner'
 import AddCategoryAnalyticalOwner from './pages/owner/analytical/AddCategoryAnalyticalOwner'
 import AddAnalyticalOwner from './pages/owner/analytical/AddAnalyticalOwner'
 import UpdateAnalyticalOwner from './pages/owner/analytical/UpdateAnalyticalOwner'
+import NewsOwner from './pages/owner/news/NewsOwner'
+import AddCategoryNewsOwner from './pages/owner/news/AddCategoryNewsOwner'
+import AddNewsOwner from './pages/owner/news/AddNewsOwner'
+import UpdateNewsOwner from './pages/owner/news/UpdateNewsOwner'
 
 
 function App() {
@@ -69,7 +73,7 @@ function App() {
     } else {
       setIsLearnMore(true)
     }
-  }, [isOwnerPath, isRehabilitation, isLeaders])
+  }, [isOwnerPath, isRehabilitation, isLeaders, isSupport])
 
   useEffect(() => {
       if (isUserPath || isOwnerPath) {
@@ -101,7 +105,6 @@ function App() {
 
             <Route path="/leaders" element={<Leaders />} />
             {/* <Route path="/leaders/:id" element={<LeadersCard />} /> */}
-
             <Route path="/club" element={<Club />} />
             {/* <Route path="/club/:id" element={<ClubCard />} /> */}
 
@@ -114,7 +117,11 @@ function App() {
               <Route path='addanalytical' element={<AddAnalyticalOwner />} />
               <Route path='editanalytical/:id' element={<UpdateAnalyticalOwner />} />
 
-              <Route path='news' element={<p>news</p>} />
+              <Route path='news' element={<NewsOwner />} />
+              <Route path='addcategorynews' element={<AddCategoryNewsOwner />} />
+              <Route path='addnews' element={<AddNewsOwner />} />
+              <Route path='editnews/:id' element={<UpdateNewsOwner />} />
+
               <Route path='position' element={<p>position</p>} />
               <Route path='users' element={<p>leaders</p>} />
             </Route>
