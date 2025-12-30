@@ -172,8 +172,7 @@ const AnalyticalCard = () => {
                                 👍 <span className={`text-xs px-3 py-2 rounded-full ${article.likedByMe ? "bg-yellow-100" : ""} `}>{article.likes || 0}</span>
                             </button>
 
-                            <button onClick={handleFeatured} className="text-xs px-3 py-1 bg-gray-200 rounded-full text-gray-700 hover:bg-green-300">
-                                {article.is_featured ? "Видалити з обраного" : "Додати в обране"}
+                            <button onClick={handleFeatured} className={`text-xs px-3 py-1 rounded-full text-gray-700  ${article.is_featured ? "bg-green-300 hover:bg-gray-300" : "bg-gray-200 hover:bg-green-300"} `}> {article.is_featured ? "Видалити з обраного" : "Додати в обране"}
                             </button>
                         </div>
                     </motion.div>
