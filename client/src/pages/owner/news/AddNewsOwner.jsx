@@ -18,7 +18,7 @@ const AddNewsOwner = () => {
     content: "",
     category: "",
     tags: "",
-    position_type: "analysis",
+    position_type: "news",
     status: "draft",
     is_featured: false,
     post_type: "",
@@ -94,7 +94,7 @@ const AddNewsOwner = () => {
   return (
     <div className="px-6 md:px-12 max-w-5xl py-10 w-full">
       <Title
-        title="Створення аналітичного матеріалу"
+        title="Створення новин"
         subtitle="Глибокий текст, відповідальність за слово та позицію"
       />
 
@@ -105,7 +105,7 @@ const AddNewsOwner = () => {
           <div className="grid gap-2">
             <label className="label">Тип матеріалу</label>
             <select className="w-full border rounded-lg px-2 py-1" value={form.position_type} onChange={(e) => setForm({ ...form, position_type: e.target.value })}>
-              <option value="analysis">Аналітика</option>
+              <option value="news">Новини</option>
               {/* <option value="position">Позиція</option> */}
             </select>
           </div>

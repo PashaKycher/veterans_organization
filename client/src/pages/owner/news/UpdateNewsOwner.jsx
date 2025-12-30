@@ -104,7 +104,6 @@ const UpdateNewsOwner = () => {
 
       if (data.success) {
         if (form.status === "published") {
-          console.log(data.id)
           await api.get(`/api/news/publish/${data.id}`, { headers: { Authorization: token } });
         }
         toast.success("Аналітичний матеріал оновлено");
@@ -215,7 +214,8 @@ const UpdateNewsOwner = () => {
           <div className="grid gap-2">
             <label className="label">Тип матеріалу</label>
             <select className="w-full border rounded-lg px-2 py-1" value={form.position_type} onChange={(e) => setForm({ ...form, position_type: e.target.value })}>
-              <option value="analysis">Аналітика</option>
+              <option value="news">Новина</option>
+              {/* <option value="position">Позиція</option> */}
             </select>
           </div>
 

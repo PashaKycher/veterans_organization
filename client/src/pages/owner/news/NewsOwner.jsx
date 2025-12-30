@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import Filters from '../../../components/analytica/Filters';
+import Filters from '../../../components/news/Filters';
 import GridNews from '../../../components/owner/GridNews';
 import { useNavigate } from 'react-router-dom';
 import { Title } from '../../../components/helpers/Title';

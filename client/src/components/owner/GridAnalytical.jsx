@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "motion/react";
-import { analyticalReviews } from "../../assets/assets";
 import moment from "moment";
 import api from "../../api/axios";
 import toast from "react-hot-toast";
@@ -44,9 +43,9 @@ const GridAnalytical = ({ filters }) => {
     let items = [...analyticals];
 
     if (filters.category) { items = items.filter(i => i.category?._id === filters.category) }
-    if (filters.date) { items = items.filter(i => moment(i.createdAt).isSame(filters.date, "day")) }
-    if (filters.sort === "asc") { items.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt)) }
-    if (filters.sort === "desc") { items.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)) }
+    if (filters.date) { items = items.filter(i => moment(i.publishedAt).isSame(filters.date, "day")) }
+    if (filters.sort === "asc") { items.sort((a, b) => new Date(a.publishedAt) - new Date(b.publishedAt)) }
+    if (filters.sort === "desc") { items.sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt)) }
     if (filters.search) { const q = filters.search.toLowerCase(); items = items.filter(i => i.title?.toLowerCase().includes(q) || i.excerpt?.toLowerCase().includes(q)) }
 
     return items;

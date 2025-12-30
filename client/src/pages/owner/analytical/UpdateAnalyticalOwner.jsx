@@ -104,7 +104,6 @@ const UpdateAnalyticalOwner = () => {
 
       if (data.success) {
         if (form.status === "published") {
-          console.log(data.id)
           await api.get(`/api/analytical/publish/${data.id}`, { headers: { Authorization: token } });
         }
         toast.success("Аналітичний матеріал оновлено");

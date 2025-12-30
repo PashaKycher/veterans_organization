@@ -185,7 +185,7 @@ export const getSingleNewsById = async (req, res) => {
 };
 
 // publish news
-// PUT: /api/news/publish/:id
+// GET: /api/news/publish/:id
 export const publishNews = async (req, res) => {
     try {
         const { userId } = req;

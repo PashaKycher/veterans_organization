@@ -171,7 +171,7 @@ const NewsCard = () => {
                         <div className="sticky top-20 space-y-4 bg-white shadow p-6 rounded-xl">
                             <h3 className="font-semibold text-lg">Інформація</h3>
                             <p className="text-gray-600 text-sm">
-                                Аналітичний матеріал базується на офіційних джерелах, відкритих даних та експертних оцінках.
+                                Матеріали для публікації відповідають міжнародним стандартам.
                             </p>
                             {/* Author */}
                             <div className="border-t pt-2">

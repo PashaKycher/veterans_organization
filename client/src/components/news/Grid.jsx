@@ -10,7 +10,7 @@ const Grid = ({ filters }) => {
 
   const fetchData = async () => {
     try {
-      const { data } = await api.get("/api/analytical/get");
+      const { data } = await api.get("/api/news/get");
       if (data.success) {
         setAnalyticals(data.data);
       } else {
@@ -25,9 +25,9 @@ const Grid = ({ filters }) => {
     let items = [...analyticals];
 
     if (filters.category) { items = items.filter(i => i.category?._id === filters.category) }
-    if (filters.date) { items = items.filter(i => moment(i.createdAt).isSame(filters.date, "day")) }
-    if (filters.sort === "asc") { items.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt)) }
-    if (filters.sort === "desc") { items.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)) }
+    if (filters.date) { items = items.filter(i => moment(i.publishedAt).isSame(filters.date, "day")) }
+    if (filters.sort === "asc") { items.sort((a, b) => new Date(a.publishedAt) - new Date(b.publishedAt)) }
+    if (filters.sort === "desc") { items.sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt)) }
     if (filters.search) { const q = filters.search.toLowerCase(); items = items.filter(i => i.title?.toLowerCase().includes(q) || i.excerpt?.toLowerCase().includes(q)) }
 
     return items;
@@ -57,7 +57,7 @@ const Grid = ({ filters }) => {
             <div className="mt-auto pt-6 flex justify-between items-center text-xs text-primary">
               <span>{moment(article.publishedAt).format("DD-MM-YYYY")}</span>
 
-              <button type="button" onClick={() => { navigate(`/analytical/${article._id}`); scrollTo(0, 0) }} className=" inline-flex items-center gap-1 text-sm font-medium text-slate-700 hover:text-slate-900 transition-colors duration-200 group">Читати <span className="transform transition-transform duration-200 group-hover:translate-x-1">→</span></button>
+              <button type="button" onClick={() => { navigate(`/news/${article._id}`); scrollTo(0, 0) }} className=" inline-flex items-center gap-1 text-sm font-medium text-slate-700 hover:text-slate-900 transition-colors duration-200 group">Читати <span className="transform transition-transform duration-200 group-hover:translate-x-1">→</span></button>
             </div>
           </motion.article>
         ))}
