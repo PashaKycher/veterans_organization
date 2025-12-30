@@ -239,9 +239,9 @@ export const toggleUserFeaturedNews = async (req, res) => {
         const news = await News.findById(id);
         if (!news) { return res.status(404).json({ success: false, message: "Стаття не знайдена" }); }
 
-        const exists = user.analiticals.includes(id);
-        if (exists) { user.analiticals.pull(id); }
-        else { user.analiticals.push(id); }
+        const exists = user.news.includes(id);
+        if (exists) { user.news.pull(id); }
+        else { user.news.push(id); }
         await user.save();
 
         const token = generateSessionToken(user._id);

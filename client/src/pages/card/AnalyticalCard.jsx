@@ -5,21 +5,36 @@ import toast from "react-hot-toast";
 import api from "../../api/axios";
 import { assets } from "../../assets/assets";
 import moment from "moment";
+import { useDispatch, useSelector } from "react-redux";
+import { setUserData } from "../../store/userSlice";
 
 const AnalyticalCard = () => {
-    const { id } = useParams();
+    const dispatch = useDispatch();
     const navigate = useNavigate();
-
+    const { id } = useParams();
     const [article, setArticle] = useState(null);
     const [currentImage, setCurrentImage] = useState(0);
     const [isLiking, setIsLiking] = useState(false);
-    const [isFeaturing, setIsFeaturing] = useState(false);
+    const [user, setUser] = useState(useSelector((state) => state.user));
+
+    const userData = async () => {
+        try {
+            const token = localStorage.getItem("token");
+            const { data } = await api.get("/api/users/data", { headers: { Authorization: token } });
+            if (data.success) { dispatch(setUserData(data.user)); setUser(data.user) }
+        } catch (error) {
+            console.error(error)
+        }
+    }
 
     const fetchData = async () => {
         try {
             const { data } = await api.get(`/api/analytical/get/${id}`);
             if (data.success) {
+
                 setArticle(data.data);
+                data.data.likes.includes(user._id) ? setArticle((prev) => ({ ...prev, likedByMe: true })) : setArticle((prev) => ({ ...prev, likedByMe: false }));
+                user?.analiticals?.includes(data.data._id) ? setArticle((prev) => ({ ...prev, is_featured: true })) : setArticle((prev) => ({ ...prev, is_featured: false }));
                 setArticle((prev) => ({ ...prev, likes: data.data.likes.length }));
             }
         } catch {
@@ -29,8 +44,12 @@ const AnalyticalCard = () => {
 
     useEffect(() => {
         if (!id) navigate("/analytical");
-        fetchData();
+        userData();
     }, [id]);
+
+    useEffect(() => {
+        fetchData();
+    }, [user]);
 
     const handleLike = async () => {
         if (isLiking) return;
@@ -52,16 +71,10 @@ const AnalyticalCard = () => {
 
     const handleFeatured = async () => {
         try {
-            setIsFeaturing(true);
             await api.put(`/api/users/analytical-featured/${id}`, {}, { headers: { Authorization: localStorage.getItem("token") } });
-            setArticle((prev) => ({
-                ...prev,
-                is_featured: !prev.is_featured,
-            }));
+            setArticle((prev) => ({ ...prev, is_featured: !prev.is_featured }));
         } catch {
             toast.error("Помилка при зміні статусу");
-        } finally {
-            setIsFeaturing(false);
         }
     };
 
@@ -71,7 +84,6 @@ const AnalyticalCard = () => {
         const timer = setTimeout(async () => {
             try {
                 const { data } = await api.get(`/api/analytical/add-view/${id}`);
-                if (data.success) { console.log("View added"); }
             } catch (error) {
                 console.error("Не вдалося оновити view", error);
             }
@@ -80,7 +92,7 @@ const AnalyticalCard = () => {
         return () => clearTimeout(timer);
     }, [id]);
 
-     if (!article) {
+    if (!article) {
         return (
             <div className="w-full py-32 text-center text-gray-500">
                 Завантаження…

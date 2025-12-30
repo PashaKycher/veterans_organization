@@ -5,21 +5,35 @@ import toast from "react-hot-toast";
 import api from "../../api/axios";
 import { assets } from "../../assets/assets";
 import moment from "moment";
+import { useDispatch, useSelector } from "react-redux";
+import { setUserData } from "../../store/userSlice";
 
 const NewsCard = () => {
-    const { id } = useParams();
+    const dispatch = useDispatch();
     const navigate = useNavigate();
-
+    const { id } = useParams();
     const [article, setArticle] = useState(null);
     const [currentImage, setCurrentImage] = useState(0);
     const [isLiking, setIsLiking] = useState(false);
-    const [isFeaturing, setIsFeaturing] = useState(false);
+    const [user, setUser] = useState(useSelector((state) => state.user));
+
+    const userData = async () => {
+        try {
+            const token = localStorage.getItem("token");
+            const { data } = await api.get("/api/users/data", { headers: { Authorization: token } });
+            if (data.success) { dispatch(setUserData(data.user)); setUser(data.user) }
+        } catch (error) {
+            console.error(error)
+        }
+    }
 
     const fetchData = async () => {
         try {
             const { data } = await api.get(`/api/news/get/${id}`);
             if (data.success) {
                 setArticle(data.data);
+                data.data.likes.includes(user._id) ? setArticle((prev) => ({ ...prev, likedByMe: true })) : setArticle((prev) => ({ ...prev, likedByMe: false }));
+                user?.news?.includes(data.data._id) ? setArticle((prev) => ({ ...prev, is_featured: true })) : setArticle((prev) => ({ ...prev, is_featured: false }));
                 setArticle((prev) => ({ ...prev, likes: data.data.likes.length }));
             }
         } catch {
@@ -28,18 +42,20 @@ const NewsCard = () => {
     };
 
     useEffect(() => {
-        if (!id) navigate("/news");
-        fetchData();
+        if (!id) navigate("/analytical");
+        userData();
     }, [id]);
+
+    useEffect(() => {
+        fetchData();
+    }, [user]);
 
     const handleLike = async () => {
         if (isLiking) return;
 
         try {
             setIsLiking(true);
-
             const { data } = await api.put(`/api/news/like/${id}`, {}, { headers: { Authorization: localStorage.getItem("token") } });
-
             if (data.success) {
                 setArticle((prev) => ({ ...prev, likes: data.likes, likedByMe: data.likedByMe, }));
             }
@@ -52,16 +68,10 @@ const NewsCard = () => {
 
     const handleFeatured = async () => {
         try {
-            setIsFeaturing(true);
             await api.put(`/api/users/news-featured/${id}`, {}, { headers: { Authorization: localStorage.getItem("token") } });
-            setArticle((prev) => ({
-                ...prev,
-                is_featured: !prev.is_featured,
-            }));
+            setArticle((prev) => ({ ...prev, is_featured: !prev.is_featured }));
         } catch {
             toast.error("Помилка при зміні статусу");
-        } finally {
-            setIsFeaturing(false);
         }
     };
 
@@ -160,7 +170,7 @@ const NewsCard = () => {
                                 👍 <span className={`text-xs px-3 py-2 rounded-full ${article.likedByMe ? "bg-yellow-100" : ""} `}>{article.likes || 0}</span>
                             </button>
 
-                            <button onClick={handleFeatured} className="text-xs px-3 py-1 bg-gray-200 rounded-full text-gray-700 hover:bg-green-300">
+                            <button onClick={handleFeatured} className={`text-xs px-3 py-1 rounded-full text-gray-700  ${article.is_featured ? "bg-green-300 hover:bg-gray-300" : "bg-gray-200 hover:bg-green-300"} `}>
                                 {article.is_featured ? "Видалити з обраного" : "Додати в обране"}
                             </button>
                         </div>
