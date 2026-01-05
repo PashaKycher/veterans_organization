@@ -4,8 +4,10 @@ import api from "../../../api/axios";
 import toast from "react-hot-toast";
 import { Title } from "../../../components/helpers/Title";
 import { assets } from "../../../assets/assets";
+import { useSelector } from "react-redux";
 
 const UpdateAnalyticalOwner = () => {
+  const user = useSelector((state) => state.user.user);
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -223,8 +225,8 @@ const UpdateAnalyticalOwner = () => {
             <select className="w-full border rounded-lg px-2 py-1" value={form.status} onChange={(e) => setForm({ ...form, status: e.target.value })}>
               <option value="draft">Чернетка</option>
               <option value="review">На перевірці</option>
-              <option value="published">Опубліковано</option>
-              <option value="archived">Архів</option>
+              {(user.roleOwner === "editor" || user.roleOwner === "admin") && <option value="published">Опубліковано</option>}
+              {(user.roleOwner === "editor" || user.roleOwner === "admin") && <option value="archived">Архів</option>}
             </select>
           </div>
         </div>

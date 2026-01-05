@@ -16,12 +16,14 @@ const AnalyticalCard = () => {
     const [currentImage, setCurrentImage] = useState(0);
     const [isLiking, setIsLiking] = useState(false);
     const [user, setUser] = useState(useSelector((state) => state.user));
+    const [isAuto, setIsAuto] = useState(true);
 
     const userData = async () => {
         try {
             const token = localStorage.getItem("token");
             const { data } = await api.get("/api/users/data", { headers: { Authorization: token } });
             if (data.success) { dispatch(setUserData(data.user)); setUser(data.user) }
+            localStorage.setItem("token", data.token);
         } catch (error) {
             console.error(error)
         }
@@ -92,6 +94,17 @@ const AnalyticalCard = () => {
         return () => clearTimeout(timer);
     }, [id]);
 
+    useEffect(() => {
+        if (!article?.image_urls || article.image_urls.length <= 1) return;
+        if (!isAuto) return;
+        const interval = setInterval(() => {
+            setCurrentImage((prev) =>
+                prev === article.image_urls.length - 1 ? 0 : prev + 1
+            );
+        }, 3000); // 3 секунда
+        return () => clearInterval(interval);
+    }, [article?.image_urls, isAuto]);
+
     if (!article) {
         return (
             <div className="w-full py-32 text-center text-gray-500">
@@ -136,11 +149,11 @@ const AnalyticalCard = () => {
                         {/* Image slider */}
                         {article.image_urls?.length > 0 && (
                             <div className="relative">
-                                <img src={article.image_urls[currentImage]} className="w-full rounded-xl object-cover" />
+                                <img src={article.image_urls[currentImage]} className="w-full rounded-xl object-cover aspect-video" />
                                 {article.image_urls.length > 1 && (
                                     <div className="flex justify-center gap-2 mt-3">
                                         {article.image_urls.map((_, index) => (
-                                            <button key={index} onClick={() => setCurrentImage(index)} className={`w-2 h-2 rounded-full ${currentImage === index ? "bg-gray-800" : "bg-gray-300"}`}
+                                            <button key={index} onClick={() => { setCurrentImage(index); setIsAuto(!isAuto); }} className={`w-2 h-2 rounded-full ${currentImage === index ? "bg-gray-800" : "bg-gray-300"}`}
                                             />
                                         ))}
                                     </div>

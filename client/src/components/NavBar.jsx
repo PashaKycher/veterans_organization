@@ -1,34 +1,38 @@
-import React, { use, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "motion/react";
 import { assets, menuLinkFirst, menuLinkSecond } from "../assets/assets";
 import { useLocation, useNavigate } from "react-router-dom";
 import { NavItem } from "./helpers/NavItem";
 import { Logo } from "./helpers/Logo";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setIsOpen } from "../store/loginSlice";
+import api from "../api/axios";
 
 const NavBar = () => {
+  const [user, setUser] = useState({});
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const user = useSelector(state => state.user.user)
 
   const [lgMenuOpen, setLgMenuOpen] = useState(false); // переключення між двома групами меню
   const [mobileOpen, setMobileOpen] = useState(false); // мобільне меню
 
+  const userData = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const { data } = await api.get("/api/users/data", { headers: { Authorization: token } });
+      if (data.success) {
+        setUser(data.user);
+        localStorage.setItem("token", data.token);
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   const hendleUserButton = () => {
-    if (user.role === "user") {
+    if (user.verify_email === true && user.role === "user") {
       navigate("/user")
-    } else if (user.role === "superAdmin") {
-      navigate("/owner")
-    } else if (user.role === "newsAdmin") {
-      navigate("/owner")
-    } else if (user.role === "positionAdmin") {
-      navigate("/owner")
-    } else if (user.role === "analyticalAdmin") {
-      navigate("/owner")
-    } else if (user.role === "clubAdmin") {
-      navigate("/owner")
-    } else if (user.role === "leadersAdmin") {
+    } else if (user.verify_email === true && user.role === "owner") {
       navigate("/owner")
     } else {
       dispatch(setIsOpen(true));
@@ -42,6 +46,10 @@ const NavBar = () => {
   if (isPathAnalytical || isPathNews || isPathVerify) {
     color = true
   }
+
+  useEffect(() => {
+    userData();
+  }, []);
 
   return (
     <motion.nav

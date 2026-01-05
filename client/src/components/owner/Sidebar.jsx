@@ -59,11 +59,11 @@ const Sidebar = () => {
                 </button>
             )}
             {/* user name */}
-            <p className='mt-2 text-base max-md:hidden'>{user?.name}</p>
+            <p className='mt-2 text-base max-md:hidden'>{user.full_name}</p>
             {/* sidebar links menu */}
             <div className='w-full'>
                 {ownerMenuLinks.map((link, index) => (
-                    <NavLink key={index + "linkMenu"} to={link.link} className={`relative flex items-center gap-2 w-full
+                    link.role.includes(user.roleOwner) && <NavLink key={index + "linkMenu"} to={link.link} className={`relative flex items-center gap-2 w-full
                     py-3 pl-4 first-mt-6 ${link.link === location.pathname ? "bg-primary/10" : "text-gray-600"}`}>
                         <img src={link.link === location.pathname ? link.coloredIcon : link.icon} alt="icon" />
                         <span className='max-md:hidden'>{link.title}</span>

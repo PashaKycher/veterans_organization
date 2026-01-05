@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 
 const newsSchema = new mongoose.Schema({
   author: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  positionId: { type: mongoose.Schema.Types.ObjectId, ref: 'Position', default: "" },
 
   title: { type: String, required: true, trim: true },
   slug: { type: String, unique: true, index: true },

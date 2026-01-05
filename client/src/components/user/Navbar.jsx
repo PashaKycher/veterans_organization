@@ -24,7 +24,7 @@ const Navbar = () => {
             {/* profile */}
             <p className='text-right'>Бажаємо здоров'я, {user?.name || "Owner"}</p>
             {/* logout */}
-            <button className='px-3 py=2 rounded-2xl bg-red-400 hover:bg-red-600' onClick={hendlLogout}>Вийти</button>
+            <button className="inline-flex items-center justify-center px-4 py-2 rounded-xl text-sm font-medium text-red-700 bg-red-100 hover:bg-red-600 hover:text-white border border-red-300 transition-all duration-200 active:scale-95" onClick={hendlLogout}>Вийти</button>
         </div>
     )
 }

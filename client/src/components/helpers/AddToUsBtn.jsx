@@ -1,32 +1,41 @@
 import React from 'react'
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { setIsOpen } from '../../store/loginSlice';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { useEffect } from 'react';
+import api from '../../api/axios';
 
 export const AddToUsBtn = () => {
-    const user = useSelector(state => state.user.user)
+    const [user, setUser] = useState({});
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
+    const userData = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const { data } = await api.get("/api/users/data", { headers: { Authorization: token } });
+      if (data.success) {
+        setUser(data.user);
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
     const hendleUserButton = () => {
-        if (user.role === "user") {
+        if (user.verify_email === true && user.role === "user") {
           navigate("/user")
-        } else if (user.role === "superAdmin") {
-          navigate("/owner")
-        } else if (user.role === "newsAdmin") {
-          navigate("/owner")
-        } else if (user.role === "positionAdmin") {
-          navigate("/owner")
-        } else if (user.role === "analyticalAdmin") {
-          navigate("/owner")
-        } else if (user.role === "clubAdmin") {
-          navigate("/owner")
-        } else if (user.role === "leadersAdmin") {
+        } else if (user.verify_email === true && user.role === "owner") {
           navigate("/owner")
         } else {
           dispatch(setIsOpen(true));
         }
       }
+
+    useEffect(() => {
+        userData();
+      }, []);
 
     return (
         <button 

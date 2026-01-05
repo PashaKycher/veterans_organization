@@ -19,7 +19,8 @@ const userSchema = new mongoose.Schema({
     connection: [{ type: String, ref: 'User' }],
 
     status: { type: String, enum: ["active", "inactive", "suspended"], default: "active" },
-    role: { type: String, enum: ["user", "superAdmin", "newsAdmin", "positionAdmin", "analyticalAdmin", "clubAdmin", "leadersAdmin"], default: "user" },
+    role: { type: String, enum: ["user", "owner"], default: "user" },
+    roleOwner:{ type: String, enum: ["reporter", "editor", "admin", "moderator", "user"], default: "user" },
 
     analiticals: [{ type: mongoose.Schema.Types.ObjectId, ref: "Analytical" }],
     stories: [{ type: mongoose.Schema.Types.ObjectId, ref: "Story" }],

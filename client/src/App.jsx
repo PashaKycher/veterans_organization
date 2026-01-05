@@ -58,6 +58,7 @@ function App() {
       const { data } = await api.get("/api/users/data", { headers: { Authorization: token } });
       if (data.success) {
         dispatch(setUserData(data.user));
+        localStorage.setItem("token", data.token);
       }
     } catch (error) {
       console.error(error)
@@ -67,6 +68,7 @@ function App() {
   useEffect(() => {
     userData()
   }, [])
+  
   useEffect(() => {
     if (isOwnerPath || isRehabilitation || isLeaders || isSupport) {
       setIsLearnMore(false)

@@ -28,23 +28,12 @@ const Login = () => {
                     dispatch(setUserData(data.updatedUser));
                     dispatch(setIsOpen(false));
                     toast.success(data.message);
-                    if (data.updatedUser.role === "user") {
+                    if (data.updatedUser.verify_email === true && data.updatedUser.role === "user") {
                         navigate("/user")
-                    } else if (data.updatedUser.role === "superAdmin") {
-                        navigate("/owner")
-                    } else if (data.updatedUser.role === "newsAdmin") {
-                        navigate("/owner")
-                    } else if (data.updatedUser.role === "positionAdmin") {
-                        navigate("/owner")
-                    } else if (data.updatedUser.role === "analyticalAdmin") {
-                        navigate("/owner")
-                    } else if (data.updatedUser.role === "clubAdmin") {
-                        navigate("/owner")
-                    } else if (data.updatedUser.role === "leadersAdmin") {
+                    } else if (data.updatedUser.verify_email === true && data.updatedUser.role === "owner") {
                         navigate("/owner")
                     } else {
                         dispatch(setIsOpen(true));
-                        navigate("/")
                     }
                 } else if (state === "register") {
                     dispatch(setIsOpen(false));

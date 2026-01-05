@@ -146,21 +146,22 @@ export const uploadAvatar = async (req, res) => {
         }
 
         // upload image to ImageKit
-        const fileBuffer = fs.readFileSync(imageFile.path);
         const response = await imagekit.upload({
-            file: fileBuffer,
+            file: imageFile.buffer, // ✅ memoryStorage
             fileName: imageFile.originalname,
-            folder: "/veterans_organization/users/avatars",
-        })
+            folder: "/veterans_organization/avatars"
+        });
         // generation url for image from respons imagekit
         const imageUrl = imagekit.url({
             path: response.filePath,
             transformation: [
-                { width: '1280' },   // Resize to width 1280
-                { quality: 'auto' }, // Auto compression 
-                { format: 'webp' }   // Convert to modern image format
+                { width: "1280" },
+                { height: "720" },
+                { quality: "auto" },
+                { format: "webp" }
             ]
-        })
+        });
+
         const image = imageUrl
 
         const refresh_token = generateRefreshToken(user._id);
@@ -173,6 +174,7 @@ export const uploadAvatar = async (req, res) => {
 
         res.status(200).json({ message: "Аватар успішно завантажено", success: true, error: false, token, user });
     } catch (error) {
+        console.log(error.message || error);
         res.status(500).json({ message: "Помилка завантаження аватара", error, succses: false, error: true });
     }
 }
@@ -183,13 +185,9 @@ export const getUserDataController = async (req, res) => {
     try {
         const { userId } = req
         const user = await User.findOne({ _id: userId }).select("-password");
+        const token = generateSessionToken(user._id);
 
-        res.status(200).json({
-            success: true,
-            error: false,
-            message: "Авторізація успішна",
-            user
-        });
+        res.status(200).json({ success: true, token, error: false, message: "Авторізація успішна", user });
     } catch (error) {
         console.log(error.message || error);
 

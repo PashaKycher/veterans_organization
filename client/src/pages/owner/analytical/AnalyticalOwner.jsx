@@ -8,6 +8,7 @@ import GridAnalyticalCategory from '../../../components/owner/GridAnalyticalCate
 const AnalyticalOwner = () => {
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(true);
+  const [status, setStatus] = useState("");
   const [filters, setFilters] = useState({
     category: "",
     sort: "",
@@ -16,7 +17,7 @@ const AnalyticalOwner = () => {
   });
 
   return (
-    <main className="bg-bg min-h-screen text-text overflow-hidden">
+    <main className="bg-bg min-h-screen text-text overflow-hidden w-full">
 
       <div className='p-4'>
         {isOpen ?
@@ -34,12 +35,23 @@ const AnalyticalOwner = () => {
           <button onClick={() => { navigate("/owner/addanalytical") }} className="inline-flex items-center justify-center px-5 py-2.5 rounded-xl font-medium text-white bg-linear-to-r from-emerald-500 to-emerald-700 hover:from-emerald-600 hover:to-emerald-800 shadow-md hover:shadow-lg transition-all duration-300 active:scale-[0.97]">створити аналітику</button>
           :
           <button onClick={() => { navigate("/owner/addcategoryanalytical") }} className="inline-flex items-center justify-center px-5 py-2.5 rounded-xl font-medium text-white bg-linear-to-r from-indigo-500 to-indigo-700 hover:from-indigo-600 hover:to-indigo-800 shadow-md hover:shadow-lg transition-all duration-300 active:scale-[0.97]">створити категорію</button>}
+
+        {isOpen && <select
+          value={status}
+          onChange={(e) => setStatus(e.target.value)}
+          className="border p-2 rounded-xl text-xs lg:text-medium">
+          <option value="" className='text-purple-600 text-xs lg:text-medium'>● всі статуси</option>
+          <option value="draft" className='text-blue-600 text-xs lg:text-medium'>● чернетка</option>
+          <option value="review" className='text-yellow-600 text-xs lg:text-medium'>● на перевірці</option>
+          <option value="published" className='text-green-600 text-xs lg:text-medium'>● опубліковано</option>
+          <option value="archived" className='text-red-600 text-xs lg:text-medium'>● архів</option>
+        </select>}
       </section>
 
       {isOpen &&
         <div>
           <Filters filters={filters} onChange={setFilters} />
-          <GridAnalytical filters={filters} />
+          <GridAnalytical filters={filters} status={status} />
         </div>
       }
       {!isOpen &&

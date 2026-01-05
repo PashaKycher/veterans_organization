@@ -36,6 +36,7 @@ export const createNews = async (req, res) => {
                     path: response.filePath,
                     transformation: [
                         { width: "1280" },
+                        { height: "720" },
                         { quality: "auto" },
                         { format: "webp" }
                     ]
@@ -112,6 +113,7 @@ export const updateNews = async (req, res) => {
                     path: response.filePath,
                     transformation: [
                         { width: "1280" },
+                        { height: "720" },
                         { quality: "auto" },
                         { format: "webp" }
                     ]
@@ -122,7 +124,7 @@ export const updateNews = async (req, res) => {
         }
 
         /* -------------------- update -------------------- */
-        await news.updateOne({ position_type, status, title, excerpt, content, category, post_type, is_featured, tags, slug, image_urls, author: userId });
+        await news.updateOne({ position_type, status, title, excerpt, content, category, post_type, is_featured, tags, slug, image_urls });
 
         const token = generateSessionToken(user._id);
         return res.status(200).json({ success: true, token, message: "Матеріал оновлено", id: news._id });

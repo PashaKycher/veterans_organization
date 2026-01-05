@@ -4,8 +4,10 @@ import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { Title } from "../../../components/helpers/Title";
 import { assets } from "../../../assets/assets";
+import { useSelector } from "react-redux";
 
 const AddNewsOwner = () => {
+  const user = useSelector((state) => state.user.user);
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -115,8 +117,8 @@ const AddNewsOwner = () => {
             <select className="w-full border rounded-lg px-2 py-1" value={form.status} onChange={(e) => setForm({ ...form, status: e.target.value })}>
               <option value="draft">Чернетка</option>
               <option value="review">На перевірці</option>
-              <option value="published">Опубліковано</option>
-              <option value="archived">Архів</option>
+              {(user.roleOwner === "editor" || user.roleOwner === "admin") && <option value="published">Опубліковано</option>}
+              {(user.roleOwner === "editor" || user.roleOwner === "admin") && <option value="archived">Архів</option>}
             </select>
           </div>
         </div>
