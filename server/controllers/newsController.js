@@ -18,10 +18,10 @@ export const createNews = async (req, res) => {
         }
 
         const { position_type, status, title, excerpt, content, category, post_type, is_featured, tags } = req.body;
-        if (!title || !content)
+        if (!title || !content) {
             return res.status(400).json({ success: false, message: "Дані відсутні" });
+        }
 
-        const slug = slugify(title, { lower: true, strict: true, locale: "uk" });
         /* upload images */
         let image_urls = [];
         if (req.files?.length) {
@@ -46,7 +46,7 @@ export const createNews = async (req, res) => {
             }
         }
 
-
+        const slug = slugify(title, { lower: true, strict: true, locale: "uk" });
         const news = await News.create({ position_type, status, title, excerpt, content, category, post_type, is_featured, tags, author: userId, slug, image_urls });
 
         const token = generateSessionToken(user._id);
@@ -77,21 +77,16 @@ export const updateNews = async (req, res) => {
         }
 
         const { position_type, status, title, excerpt, content, category, post_type, is_featured, tags, existing_images } = req.body;
-
         if (!title || !content || !category) {
             return res.status(400).json({ success: false, message: "Некоректні дані" });
         }
 
-        const slug = slugify(title, { lower: true, strict: true, locale: "uk" });
-
         /* -------------------- images -------------------- */
         // за замовчуванням — залишаємо як є
         let image_urls = news.image_urls || [];
-
         // якщо фронт передав existing_images — значить користувач керує зображеннями
         if (existing_images !== undefined) {
             image_urls = [];
-
             if (Array.isArray(existing_images)) {
                 image_urls.push(...existing_images);
             } else if (typeof existing_images === "string" && existing_images.length > 0) {
@@ -99,7 +94,6 @@ export const updateNews = async (req, res) => {
             }
             // якщо existing_images === "" → масив залишиться порожнім (очищення)
         }
-
         // додаємо нові файли
         if (req.files?.length) {
             for (const file of req.files) {
@@ -123,7 +117,7 @@ export const updateNews = async (req, res) => {
             }
         }
 
-        /* -------------------- update -------------------- */
+        const slug = slugify(title, { lower: true, strict: true, locale: "uk" });
         await news.updateOne({ position_type, status, title, excerpt, content, category, post_type, is_featured, tags, slug, image_urls });
 
         const token = generateSessionToken(user._id);
@@ -140,6 +134,9 @@ export const deleteNews = async (req, res) => {
     try {
         const { userId } = req;
         const user = await User.findById(userId);
+        if (!user) {
+            return res.status(401).json({ success: false, message: "Користувача не знайдено" });
+        }
         if (!user.verify_email) {
             return res.status(403).json({ message: "Підтвердіть email перед входом", succses: false, error: true });
         }
@@ -167,6 +164,7 @@ export const getAllNewsAdmin = async (req, res) => {
 
         res.status(201).json({ success: true, data });
     } catch (error) {
+        console.error("getAllNewsAdmin error:", error);
         res.status(500).json({ success: false, message: error.message });
     }
 };
@@ -177,7 +175,9 @@ export const getSingleNewsById = async (req, res) => {
     try {
         const { id } = req.params;
         const news = await News.findById(id).populate("author").populate("category");
-        if (!news) return res.status(404).json({ success: false, message: "Стаття не знайдена" });
+        if (!news) {
+            return res.status(404).json({ success: false, message: "Стаття не знайдена" });
+        }
 
         res.status(201).json({ success: true, data: news });
     } catch (error) {
@@ -192,13 +192,18 @@ export const publishNews = async (req, res) => {
     try {
         const { userId } = req;
         const user = await User.findById(userId);
+        if (!user) {
+            return res.status(401).json({ success: false, message: "Користувача не знайдено" });
+        }
         if (!user.verify_email) {
             return res.status(403).json({ message: "Підтвердіть email перед входом", succses: false, error: true });
         }
 
         const { id } = req.params
         const news = await News.findById(id);
-        if (!news) return res.status(404).json({ success: false, message: "Стаття не знайдена" });
+        if (!news) {
+            return res.status(404).json({ success: false, message: "Стаття не знайдена" });
+        }
 
         news.status = "published";
         news.publishedAt = new Date();
@@ -216,7 +221,7 @@ export const publishNews = async (req, res) => {
 // GET: /api/news/get
 export const getAllNews = async (req, res) => {
     try {
-        const data = await News.find({ status: "published" }).populate("author").populate("category");
+        const data = await News.find({ status: "published" }).populate("author").populate("category").sort({ createdAt: -1 });
 
         res.status(201).json({ success: true, data });
     } catch (error) {
@@ -231,13 +236,19 @@ export const toggleFeatured = async (req, res) => {
     try {
         const { userId } = req;
         const user = await User.findById(userId);
+        if (!user) {
+            return res.status(401).json({ success: false, message: "Користувача не знайдено" });
+        }
         if (!user.verify_email) {
             return res.status(403).json({ message: "Підтвердіть email перед входом", succses: false, error: true });
         }
 
         const { id } = req.params
         const news = await News.findById(id);
-        if (!news) return res.status(404).json({ success: false, message: "Стаття не знайдена" });
+        if (!news) {
+            return res.status(404).json({ success: false, message: "Стаття не знайдена" });
+        }
+
         news.is_featured = !news.is_featured;
         await news.save();
 
@@ -255,13 +266,18 @@ export const likeNews = async (req, res) => {
     try {
         const { userId } = req;
         const user = await User.findById(userId);
+        if (!user) {
+            return res.status(401).json({ success: false, message: "Користувача не знайдено" });
+        }
         if (!user.verify_email) {
             return res.status(403).json({ message: "Підтвердіть email перед входом", succses: false, error: true });
         }
 
         const { id } = req.params
         const news = await News.findById(id);
-        if (!news) return res.status(404).json({ success: false, message: "Стаття не знайдена" });
+        if (!news) {
+            return res.status(404).json({ success: false, message: "Стаття не знайдена" });
+        }
 
         const isLiked = news.likes.includes(userId);
 
@@ -285,9 +301,9 @@ export const getAddViewNews = async (req, res) => {
         const { id } = req.params;
 
         const news = await News.findOne({ _id: id, status: "published" });
-
-        if (!news)
+        if (!news) {
             return res.status(404).json({ success: false, message: "Стаття не знайдена" });
+        }
 
         news.views_count += 1;
         await news.save();

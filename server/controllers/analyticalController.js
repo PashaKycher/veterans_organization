@@ -18,10 +18,10 @@ export const createAnalytical = async (req, res) => {
         }
 
         const { position_type, status, title, excerpt, content, category, post_type, is_featured, tags } = req.body;
-        if (!title || !content)
+        if (!title || !content) {
             return res.status(400).json({ success: false, message: "Дані відсутні" });
+        }
 
-        const slug = slugify(title, { lower: true, strict: true, locale: "uk" });
         /* upload images */
         let image_urls = [];
         if (req.files?.length) {
@@ -46,12 +46,13 @@ export const createAnalytical = async (req, res) => {
             }
         }
 
-
+        const slug = slugify(title, { lower: true, strict: true, locale: "uk" });
         const analytical = await Analytical.create({ position_type, status, title, excerpt, content, category, post_type, is_featured, tags, author: userId, slug, image_urls });
 
         const token = generateSessionToken(user._id);
         res.status(201).json({ success: true, token, message: "Матеріал створено", id:analytical._id });
     } catch (error) {
+        console.error("createAnalytical:",error);
         res.status(500).json({ success: false, message: error.message });
     }
 };
@@ -76,17 +77,13 @@ export const updateAnalytical = async (req, res) => {
         }
 
         const { position_type, status, title, excerpt, content, category, post_type, is_featured, tags, existing_images } = req.body;
-
         if (!title || !content || !category) {
             return res.status(400).json({ success: false, message: "Некоректні дані" });
         }
 
-        const slug = slugify(title, { lower: true, strict: true, locale: "uk" });
-
         /* -------------------- images -------------------- */
         // за замовчуванням — залишаємо як є
         let image_urls = analytical.image_urls || [];
-
         // якщо фронт передав existing_images — значить користувач керує зображеннями
         if (existing_images !== undefined) {
             image_urls = [];
@@ -98,7 +95,6 @@ export const updateAnalytical = async (req, res) => {
             }
             // якщо existing_images === "" → масив залишиться порожнім (очищення)
         }
-
         // додаємо нові файли
         if (req.files?.length) {
             for (const file of req.files) {
@@ -122,13 +118,13 @@ export const updateAnalytical = async (req, res) => {
             }
         }
 
-        /* -------------------- update -------------------- */
+        const slug = slugify(title, { lower: true, strict: true, locale: "uk" });
         await analytical.updateOne({ position_type, status, title, excerpt, content, category, post_type, is_featured, tags, slug, image_urls });
 
         const token = generateSessionToken(user._id);
         return res.status(200).json({ success: true, token, message: "Матеріал оновлено", id: analytical._id });
     } catch (error) {
-        console.error("updateAnalytical error:", error);
+        console.error("updateAnalytical:", error);
         return res.status(500).json({ success: false, message: error.message });
     }
 };
@@ -139,20 +135,25 @@ export const deleteAnalytical = async (req, res) => {
     try {
         const { userId } = req;
         const user = await User.findById(userId);
+        if (!user) {
+            return res.status(401).json({ success: false, message: "Користувача не знайдено" });
+        }
         if (!user.verify_email) {
-            return res.status(403).json({ message: "Підтвердіть email перед входом", succses: false, error: true });
+            return res.status(403).json({ success: false, message: "Підтвердіть email" });
         }
 
         const { id } = req.params;
         const analytical = await Analytical.findById(id);
-        if (!analytical)
+        if (!analytical) {
             return res.status(404).json({ success: false, message: "Стаття не знайдена" });
+        }
 
         await analytical.deleteOne();
 
         const token = generateSessionToken(user._id);
         res.status(201).json({ success: true, token, message: "Матеріал видалено" });
     } catch (error) {
+        console.error("deleteAnalytical:", error);
         res.status(500).json({ success: false, message: error.message });
     }
 };
@@ -165,6 +166,7 @@ export const getAllAnalyticalAdmin = async (req, res) => {
 
         res.status(201).json({ success: true, data });
     } catch (error) {
+        console.error("getAllAnalyticalAdmin:", error);
         res.status(500).json({ success: false, message: error.message });
     }
 };
@@ -175,10 +177,13 @@ export const getSingleAnalyticalById = async (req, res) => {
     try {
         const { id } = req.params;
         const analytical = await Analytical.findById(id).populate("author").populate("category");
-        if (!analytical) return res.status(404).json({ success: false, message: "Стаття не знайдена" });
+        if (!analytical) {
+            return res.status(404).json({ success: false, message: "Стаття не знайдена" });
+        }
 
         res.status(201).json({ success: true, data: analytical });
     } catch (error) {
+        console.error("getSingleAnalyticalById:", error);
         res.status(500).json({ success: false, message: error.message });
     }
 };
@@ -189,13 +194,18 @@ export const publishAnalytical = async (req, res) => {
     try {
         const { userId } = req;
         const user = await User.findById(userId);
+        if (!user) {
+            return res.status(401).json({ success: false, message: "Користувача не знайдено" });
+        }
         if (!user.verify_email) {
-            return res.status(403).json({ message: "Підтвердіть email перед входом", succses: false, error: true });
+            return res.status(403).json({ success: false, message: "Підтвердіть email" });
         }
 
         const { id } = req.params
         const analytical = await Analytical.findById(id);
-        if (!analytical) return res.status(404).json({ success: false, message: "Стаття не знайдена" });
+        if (!analytical) {
+            return res.status(404).json({ success: false, message: "Стаття не знайдена" });
+        }
 
         analytical.status = "published";
         analytical.publishedAt = new Date();
@@ -204,6 +214,7 @@ export const publishAnalytical = async (req, res) => {
         const token = generateSessionToken(user._id);
         res.status(201).json({ success: true, token, message: "Опубліковано" });
     } catch (error) {
+        console.error("publishAnalytical:", error);
         res.status(500).json({ success: false, message: error.message });
     }
 };
@@ -226,19 +237,26 @@ export const toggleFeatured = async (req, res) => {
     try {
         const { userId } = req;
         const user = await User.findById(userId);
+        if (!user) {
+            return res.status(401).json({ success: false, message: "Користувача не знайдено" });
+        }
         if (!user.verify_email) {
-            return res.status(403).json({ message: "Підтвердіть email перед входом", succses: false, error: true });
+            return res.status(403).json({ success: false, message: "Підтвердіть email" });
         }
 
         const { id } = req.params
         const analytical = await Analytical.findById(id);
-        if (!analytical) return res.status(404).json({ success: false, message: "Стаття не знайдена" });
+        if (!analytical) {
+            return res.status(404).json({ success: false, message: "Стаття не знайдена" });
+        }
+
         analytical.is_featured = !analytical.is_featured;
         await analytical.save();
 
         const token = generateSessionToken(user._id);
         res.json({ success: true, token, message: analytical.is_featured ? "Додано в обране" : "Знято з обраного" });
     } catch (error) {
+        console.error("toggleFeatured:", error);
         res.status(500).json({ success: false, message: error.message });
     }
 };
@@ -249,13 +267,18 @@ export const likeAnalytical = async (req, res) => {
     try {
         const { userId } = req;
         const user = await User.findById(userId);
+        if (!user) {
+            return res.status(401).json({ success: false, message: "Користувача не знайдено" });
+        }
         if (!user.verify_email) {
-            return res.status(403).json({ message: "Підтвердіть email перед входом", succses: false, error: true });
+            return res.status(403).json({ success: false, message: "Підтвердіть email" });
         }
 
         const { id } = req.params
         const analytical = await Analytical.findById(id);
-        if (!analytical) return res.status(404).json({ success: false, message: "Стаття не знайдена" });
+        if (!analytical) {
+            return res.status(404).json({ success: false, message: "Стаття не знайдена" });
+        }
 
         const isLiked = analytical.likes.includes(userId);
 
@@ -267,6 +290,7 @@ export const likeAnalytical = async (req, res) => {
         const token = generateSessionToken(user._id);
         res.status(201).json({ success: true, token, message: isLiked ? "Ви видалили лайк" : "Ви додали лайк", likes: analytical.likes.length, likedByMe: isLiked ? false : true });
     } catch (error) {
+        console.error("likeAnalytical:", error);
         res.status(500).json({ success: false, message: error.message });
     }
 };
@@ -279,14 +303,16 @@ export const getAddViewAnalytical = async (req, res) => {
 
         const analytical = await Analytical.findOne({ _id: id, status: "published" });
 
-        if (!analytical)
+        if (!analytical) {
             return res.status(404).json({ success: false, message: "Стаття не знайдена" });
+        }
 
         analytical.views_count += 1;
         await analytical.save();
 
         res.status(201).json({ success: true, data: analytical });
     } catch (error) {
+        console.error("getAddViewAnalytical:", error);
         res.status(500).json({ success: false, message: error.message });
     }
 };

@@ -22,10 +22,12 @@ const userSchema = new mongoose.Schema({
     role: { type: String, enum: ["user", "owner"], default: "user" },
     roleOwner:{ type: String, enum: ["reporter", "editor", "admin", "moderator", "user"], default: "user" },
 
-    analiticals: [{ type: mongoose.Schema.Types.ObjectId, ref: "Analytical" }],
     stories: [{ type: mongoose.Schema.Types.ObjectId, ref: "Story" }],
     posts: [{ type: mongoose.Schema.Types.ObjectId, ref: "Post" }],
+    
+    analiticals: [{ type: mongoose.Schema.Types.ObjectId, ref: "Analytical" }],
     news: [{ type: mongoose.Schema.Types.ObjectId, ref: "News" }],
+    position: [{ type: mongoose.Schema.Types.ObjectId, ref: "Position" }],
 
     refresh_token: { type: String, default: "" },
 

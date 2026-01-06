@@ -1,8 +1,11 @@
 import express from 'express';
-
 import  protect  from '../middlewares/authMiddleware.js';
 import  upload  from '../configs/multer.js'
-import { getUserDataController, loginUser, registerUser, verifyEmail, uploadAvatar, toggleUserFeaturedAnalytical, toggleUserFeaturedNews } from '../controllers/userController.js';
+
+import { 
+    getUserDataController, loginUser, registerUser, verifyEmail, uploadAvatar, 
+    toggleUserFeaturedAnalytical, toggleUserFeaturedNews, toggleUserFeaturedPosition 
+} from '../controllers/userController.js';
 
 const userRouter = express.Router();
 
@@ -13,5 +16,6 @@ userRouter.get('/data', protect, getUserDataController)
 userRouter.post('/avatar',upload.single('avatar'), protect, uploadAvatar)
 userRouter.put("/analytical-featured/:id", protect, toggleUserFeaturedAnalytical);
 userRouter.put("/news-featured/:id", protect, toggleUserFeaturedNews);
+userRouter.put("/position-featured/:id", protect, toggleUserFeaturedPosition);
 
 export default userRouter

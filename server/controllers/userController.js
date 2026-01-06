@@ -9,6 +9,7 @@ import fs from "fs";
 import imagekit from "../configs/imageKit.js";
 import Analytical from "../models/analyticalModel.js";
 import News from "../models/newsModel.js";
+import Position from "../models/positionModel.js";
 
 
 // register user 
@@ -16,7 +17,6 @@ import News from "../models/newsModel.js";
 export const registerUser = async (req, res) => {
     try {
         const { full_name, email, password } = req.body;
-
         if (!full_name) {
             return res.status(400).json({ message: "Введіть ім'я", succses: false, error: true });
         }
@@ -48,11 +48,7 @@ export const registerUser = async (req, res) => {
         res.status(201).json({ message: "Реєстрація успішна. Перевірте email для підтвердження.", succses: true, error: false });
     } catch (error) {
         console.error("REGISTER ERROR:", error);
-        return res.status(500).json({
-            message: "Помилка при реєстрації",
-            succses: false,
-            error: true
-        });
+        res.status(500).json({ message: "Помилка при реєстрації", succses: false, error: true });
     }
 }
 
@@ -85,6 +81,7 @@ export const verifyEmail = async (req, res) => {
         res.status(200).json({ success: true, message: "Email підтверджено" });
 
     } catch (error) {
+        console.error("VERIFY EMAIL ERROR:", error);
         res.status(500).json({ message: "Помилка верифікації", error });
     }
 };
@@ -124,6 +121,7 @@ export const loginUser = async (req, res) => {
 
         res.status(200).json({ message: "User logged in successfully", succses: true, error: false, token, refresh_token, updatedUser });
     } catch (error) {
+        console.error("LOGIN ERROR:", error);
         res.status(500).json({ message: "Error logging in user", error, succses: false, error: true });
     }
 }
@@ -174,7 +172,7 @@ export const uploadAvatar = async (req, res) => {
 
         res.status(200).json({ message: "Аватар успішно завантажено", success: true, error: false, token, user });
     } catch (error) {
-        console.log(error.message || error);
+        console.log("UPLOAD AVATAR ERROR:", error);
         res.status(500).json({ message: "Помилка завантаження аватара", error, succses: false, error: true });
     }
 }
@@ -189,13 +187,8 @@ export const getUserDataController = async (req, res) => {
 
         res.status(200).json({ success: true, token, error: false, message: "Авторізація успішна", user });
     } catch (error) {
-        console.log(error.message || error);
-
-        res.status(500).json({
-            success: false,
-            error: true,
-            message: error.message || error
-        });
+        console.log("GET USER DATA ERROR:", error);
+        res.status(500).json({ success: false, error: true, message: error.message || error });
     }
 };
 
@@ -220,6 +213,7 @@ export const toggleUserFeaturedAnalytical = async (req, res) => {
         const token = generateSessionToken(user._id);
         res.status(200).json({ success: true, token, featured: !exists, message: exists ? "Статтю видалено з обраного" : "Статтю додано в обране" });
     } catch (error) {
+        console.log("toggleUserFeaturedAnalytical:", error);
         res.status(500).json({ success: false, message: error.message });
     }
 };
@@ -245,6 +239,33 @@ export const toggleUserFeaturedNews = async (req, res) => {
         const token = generateSessionToken(user._id);
         res.status(200).json({ success: true, token, featured: !exists, message: exists ? "Статтю видалено з обраного" : "Статтю додано в обране" });
     } catch (error) {
+        console.log("toggleUserFeaturedNews:", error);
+        res.status(500).json({ success: false, message: error.message });
+    }
+};
+
+// toggle position featured news
+// PUT: /api/user/position-featured/:id
+export const toggleUserFeaturedPosition = async (req, res) => {
+    try {
+        const { userId } = req;
+        const { id } = req.params;
+
+        const user = await User.findById(userId);
+        if (!user.verify_email) { return res.status(403).json({ success: false, message: "Підтвердіть email перед входом" }); }
+
+        const position = await Position.findById(id);
+        if (!position) { return res.status(404).json({ success: false, message: "Позицію не знайдена" }); }
+
+        const exists = user.position.includes(id);
+        if (exists) { user.position.pull(id); }
+        else { user.news.push(id); }
+        await user.save();
+
+        const token = generateSessionToken(user._id);
+        res.status(200).json({ success: true, token, featured: !exists, message: exists ? "Позицію видалено з обраного" : "Позицію додано в обране" });
+    } catch (error) {
+        console.log("toggleUserFeaturedPosition:", error);
         res.status(500).json({ success: false, message: error.message });
     }
 };
