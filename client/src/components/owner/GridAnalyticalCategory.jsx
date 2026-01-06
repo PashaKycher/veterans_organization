@@ -3,9 +3,11 @@ import { motion } from "motion/react";
 import toast from "react-hot-toast";
 import api from "../../api/axios";
 import moment from "moment";
+import { useSelector } from "react-redux";
 
 
 const GridAnalyticalCategory = ({ filters }) => {
+    const user = useSelector(state => state.user.user);
     const [category, setCategory] = useState([]);
 
     const fetchData = async () => {
@@ -62,7 +64,7 @@ const GridAnalyticalCategory = ({ filters }) => {
                                 <span>{moment(article.createdAt).format("DD-MM-YYYY")}</span>
                             </div>
 
-                            <button className="inline-flex items-center justify-center text-xs font-medium px-3 py-1.5 rounded-lg text-red-700 bg-red-100 hover:bg-red-600 hover:text-white border border-red-300 transition-all duration-200 active:scale-95" type="button" onClick={()=>delCategory(article._id)}>видалити</button>
+                            {(user.roleOwner === "editor" || user.roleOwner === "admin") && <button className="inline-flex items-center justify-center text-xs font-medium px-3 py-1.5 rounded-lg text-red-700 bg-red-100 hover:bg-red-600 hover:text-white border border-red-300 transition-all duration-200 active:scale-95" type="button" onClick={()=>delCategory(article._id)}>видалити</button>}
                         </div>
                     </motion.article>
                 ))}

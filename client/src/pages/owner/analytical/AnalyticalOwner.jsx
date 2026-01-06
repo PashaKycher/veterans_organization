@@ -4,8 +4,10 @@ import GridAnalytical from '../../../components/owner/GridAnalytical';
 import { useNavigate } from 'react-router-dom';
 import { Title } from '../../../components/helpers/Title';
 import GridAnalyticalCategory from '../../../components/owner/GridAnalyticalCategory';
+import { useSelector } from 'react-redux';
 
 const AnalyticalOwner = () => {
+  const user = useSelector(state => state.user.user);
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(true);
   const [status, setStatus] = useState("");
@@ -34,7 +36,7 @@ const AnalyticalOwner = () => {
         {isOpen ?
           <button onClick={() => { navigate("/owner/addanalytical") }} className="inline-flex items-center justify-center px-5 py-2.5 rounded-xl font-medium text-white bg-linear-to-r from-emerald-500 to-emerald-700 hover:from-emerald-600 hover:to-emerald-800 shadow-md hover:shadow-lg transition-all duration-300 active:scale-[0.97]">створити аналітику</button>
           :
-          <button onClick={() => { navigate("/owner/addcategoryanalytical") }} className="inline-flex items-center justify-center px-5 py-2.5 rounded-xl font-medium text-white bg-linear-to-r from-indigo-500 to-indigo-700 hover:from-indigo-600 hover:to-indigo-800 shadow-md hover:shadow-lg transition-all duration-300 active:scale-[0.97]">створити категорію</button>}
+          (user.roleOwner === "editor" || user.roleOwner === "admin") && <button onClick={() => { navigate("/owner/addcategoryanalytical") }} className="inline-flex items-center justify-center px-5 py-2.5 rounded-xl font-medium text-white bg-linear-to-r from-indigo-500 to-indigo-700 hover:from-indigo-600 hover:to-indigo-800 shadow-md hover:shadow-lg transition-all duration-300 active:scale-[0.97]">створити категорію</button>}
 
         {isOpen && <select
           value={status}

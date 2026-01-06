@@ -66,7 +66,7 @@ const GridNews = ({ filters, status }) => {
           article.author?._id === user._id && <motion.article
             key={article._id}
             whileHover={{ y: -4 }}
-            className="bg-white border border-neutral-200 rounded-xl p-6 cursor-pointer transition flex flex-col h-full">
+            className="relative bg-white border border-neutral-200 rounded-xl p-6 cursor-pointer transition flex flex-col h-full">
 
             {/* article.status */}
             <span className={`absolute top-4 right-4 text-xs font-medium px-2 py-2 rounded-full ${article.status === "draft" ? "bg-blue-600" : article.status === "review" ? "bg-yellow-600" : article.status === "published" ? "bg-green-600" : "bg-red-600"}`}></span>
@@ -81,9 +81,9 @@ const GridNews = ({ filters, status }) => {
 
             <div className="mt-auto pt-6 flex justify-between items-center text-xs text-gray-500">
               {(article.status === "draft" || (user.roleOwner === "editor" || user.roleOwner === "admin")) && <div className="flex flex-col md:flex-row gap-2 md:gap-8 mx-auto items-center">
-                <button type="button" className="inline-flex items-center justify-center text-xs font-medium px-3 py-1.5 rounded-lg text-slate-700 bg-slate-100 hover:bg-slate-700 hover:text-white border border-slate-300 transition-all duration-200 active:scale-95" onClick={() => navigate(`/owner/editanalytical/${article._id}`)}>змінити</button>
+                <button type="button" className="inline-flex items-center justify-center text-xs font-medium px-3 py-1.5 rounded-lg text-slate-700 bg-slate-100 hover:bg-slate-700 hover:text-white border border-slate-300 transition-all duration-200 active:scale-95" onClick={() => navigate(`/owner/editnews/${article._id}`)}>змінити</button>
 
-                {article.status === "draft" && <button type="button" className="inline-flex items-center justify-center text-xs font-medium px-3 py-1.5 rounded-lg text-red-700 bg-red-100 hover:bg-red-600 hover:text-white border border-red-300 transition-all duration-200 active:scale-95" onClick={() => delAnalytical(article._id)}>видалити</button>}
+                {article.status === "draft" && <button type="button" className="inline-flex items-center justify-center text-xs font-medium px-3 py-1.5 rounded-lg text-red-700 bg-red-100 hover:bg-red-600 hover:text-white border border-red-300 transition-all duration-200 active:scale-95" onClick={() => delNews(article._id)}>видалити</button>}
               </div>}
 
               <div className="flex flex-col md:flex-row gap-2 md:gap-8 mx-auto items-center">
@@ -117,7 +117,7 @@ const GridNews = ({ filters, status }) => {
 
             <div className="mt-auto pt-6 flex justify-between items-center text-xs text-gray-500">
               <div className="flex flex-col md:flex-row gap-2 md:gap-8 mx-auto items-center">
-                <button type="button" className="inline-flex items-center justify-center text-xs font-medium px-3 py-1.5 rounded-lg text-slate-700 bg-slate-100 hover:bg-slate-700 hover:text-white border border-slate-300 transition-all duration-200 active:scale-95" onClick={() => navigate(`/owner/editanalytical/${article._id}`)}>змінити</button>
+                <button type="button" className="inline-flex items-center justify-center text-xs font-medium px-3 py-1.5 rounded-lg text-slate-700 bg-slate-100 hover:bg-slate-700 hover:text-white border border-slate-300 transition-all duration-200 active:scale-95" onClick={() => navigate(`/owner/editnews/${article._id}`)}>змінити</button>
 
                 {/* <button type="button" className="inline-flex items-center justify-center text-xs font-medium px-3 py-1.5 rounded-lg text-red-700 bg-red-100 hover:bg-red-600 hover:text-white border border-red-300 transition-all duration-200 active:scale-95" onClick={() => delAnalytical(article._id)}>видалити</button> */}
               </div>
