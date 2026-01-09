@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 
 const analyticalSchema = new mongoose.Schema({
   author: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  positionId: { type: mongoose.Schema.Types.ObjectId, ref: 'Position' },
 
   title: { type: String, required: true, trim: true },
   slug: { type: String, unique: true, index: true },
@@ -16,7 +17,7 @@ const analyticalSchema = new mongoose.Schema({
 
   post_type: { type: String, enum: ['text', 'image', 'text_with_image'], required: true },
 
-  position_type: { type: String, enum: ['analysis', 'position'], default: 'analysis' },
+  position_type: { type: String, enum: ['Analytical', 'position'], default: 'Analytical' },
 
   status: { type: String, enum: ['draft', 'review', 'published', 'archived'], default: 'draft' },
 

@@ -55,7 +55,7 @@ const UpdateAnalyticalOwner = () => {
           content: post.content || "",
           category: post.category?._id || "",
           tags: post.tags?.join(", ") || "",
-          position_type: post.position_type || "analysis",
+          position_type: post.position_type || "Analytical",
           status: post.status || "draft",
           is_featured: post.is_featured || false,
         });

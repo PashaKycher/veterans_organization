@@ -5,6 +5,7 @@ import upload from "../configs/multer.js";
 import { createAnalytical, updateAnalytical, deleteAnalytical, getAllAnalytical, publishAnalytical, toggleFeatured,
   likeAnalytical, getSingleAnalyticalById, getAllAnalyticalAdmin,
   getAddViewAnalytical,
+  addPosition,
 } from "../controllers/analyticalController.js";
 
 const analyticalRouts = express.Router();
@@ -18,6 +19,7 @@ analyticalRouts.delete("/delete/:id", protect, deleteAnalytical);
 analyticalRouts.get("/publish/:id", protect, publishAnalytical);
 analyticalRouts.put("/featured/:id", protect, toggleFeatured);
 analyticalRouts.put("/like/:id", protect, likeAnalytical);
+analyticalRouts.put("/addposition/:id", protect, addPosition);
 
 // public
 analyticalRouts.get("/get", getAllAnalytical);

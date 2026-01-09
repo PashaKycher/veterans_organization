@@ -11,6 +11,8 @@ import analyticalRouts from './routes/analyticalRouts.js'
 import newsCategoryRouts from './routes/newsCategoryRouts.js'
 import newsRouts from './routes/newsRouts.js'
 
+import positionRouts from './routes/positionRouts.js'
+
 const app = express()
 
 await connectDB()
@@ -29,6 +31,8 @@ app.use('/api/analytical', analyticalRouts)
 
 app.use('/api/newscategory', newsCategoryRouts)
 app.use('/api/news', newsRouts)
+
+app.use('/api/position', positionRouts)
 
 
 

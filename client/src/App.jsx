@@ -37,6 +37,9 @@ import NewsOwner from './pages/owner/news/NewsOwner'
 import AddCategoryNewsOwner from './pages/owner/news/AddCategoryNewsOwner'
 import AddNewsOwner from './pages/owner/news/AddNewsOwner'
 import UpdateNewsOwner from './pages/owner/news/UpdateNewsOwner'
+import PositionOwner from './pages/owner/position/PositionOwner'
+import AddPositionOwner from './pages/owner/position/AddPositionOwner'
+import UpdatePositionOwner from './pages/owner/position/UpdatePositionOwner'
 
 
 function App() {
@@ -103,7 +106,7 @@ function App() {
             <Route path="/news/:id" element={<NewsCard />} />
 
             <Route path="/position" element={<Position />} />
-            {/* <Route path="/position/:id" element={<PositionCard />} /> */}
+            <Route path="/position/:id" element={<PositionCard />} />
 
             <Route path="/leaders" element={<Leaders />} />
             {/* <Route path="/leaders/:id" element={<LeadersCard />} /> */}
@@ -123,6 +126,10 @@ function App() {
               <Route path='addcategorynews' element={<AddCategoryNewsOwner />} />
               <Route path='addnews' element={<AddNewsOwner />} />
               <Route path='editnews/:id' element={<UpdateNewsOwner />} />
+
+              <Route path='position' element={<PositionOwner />} />
+              <Route path='addposition' element={<AddPositionOwner />} />
+              <Route path='editposition/:id' element={<UpdatePositionOwner />} />
 
               <Route path='position' element={<p>position</p>} />
               <Route path='users' element={<p>leaders</p>} />

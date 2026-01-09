@@ -1,30 +1,128 @@
-import React from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
-import { assets } from '../../assets/assets'
+import { assets } from "../..//assets/assets";
+import React, { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import api from "../../api/axios";
+import moment from "moment";
 
 const PositionCard = () => {
-    const { id } = useParams()
-    const navigate = useNavigate()
+    const { id } = useParams();
+    const navigate = useNavigate();
+
+    const [position, setPosition] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    const fetchPosition = async () => {
+        try {
+            const { data } = await api.get(`/api/position/get/${id}`);
+            if (data.data) {
+                setPosition(data.data);
+            }
+        } catch (err) {
+            console.error(err);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchPosition();
+    }, [id]);
+
+    if (loading) return <div className="py-16 text-center text-gray-500">Завантаження…</div>;
+    if (!position) return <div className="py-16 text-center">Позицію не знайдено</div>;
 
     return (
-        <div className='bg-sand-500/20'>
-            {/* HEADER BACKGROUND */}
-            <div className='w-full py-10 md:py-16'></div>
+        <div className="bg-gray-50 min-h-screen">
+            <section className="max-w-4xl mx-auto px-4 py-12">
 
-            <div className='px-6 md:px-16 lg:px-24 xl:px-32 mt-6'>
-
-                {/* Back button */}
+                {/* Back */}
                 <button
                     onClick={() => navigate(-1)}
-                    className='flex items-center gap-2 mb-8 text-primary font-medium'
+                    className="flex items-center gap-2 mb-8 text-primary font-medium hover:opacity-80"
                 >
                     <img src={assets.arrow_icon} className="rotate-180 opacity-70" />
                     Назад
                 </button>
-            </div>
-            <div>{id}</div>
-        </div>
-    )
-}
 
-export default PositionCard
+                {/* STRUCTURAL HERO */}
+                <div className="mb-10">
+                    <p className="text-xs uppercase tracking-wide text-gray-500 mb-2">
+                        Позиція
+                    </p>
+
+                    <h1 className="text-3xl md:text-4xl font-semibold leading-tight mb-4">
+                        {position.title}
+                    </h1>
+
+                    <div className="flex flex-wrap items-center gap-3 text-sm text-gray-500">
+                        <span>{moment(position.publishedAt).format("DD MMMM YYYY")}</span>
+                        <span>•</span>
+                        <span>{position.author?.user_name}</span>
+                        {position.position_type && (
+                            <>
+                                <span>•</span>
+                                <span className="capitalize">{position.position_type}</span>
+                            </>
+                        )}
+                    </div>
+                </div>
+
+                {/* POSITION CARD */}
+                <div className="bg-white border border-gray-200 rounded-xl shadow-sm px-6 md:px-10 py-8">
+
+                    {/* Content */}
+                    <article
+                        className="prose prose-gray max-w-none"
+                        dangerouslySetInnerHTML={{ __html: position.content }}
+                    />
+
+                    {/* Related article */}
+                    {position.article && (
+                        <div className="mt-10 p-5 border rounded-lg bg-gray-50">
+                            <p className="text-xs uppercase tracking-wide opacity-60 mb-2">
+                                Позиція щодо матеріалу
+                            </p>
+                            <button
+                                onClick={() =>
+                                    navigate(
+                                        `/${position.article_model === "News" ? "news" : "analytical"}/${position.article._id}`
+                                    )
+                                }
+                                className="text-primary font-medium hover:underline"
+                            >
+                                {position.article.title}
+                            </button>
+                        </div>
+                    )}
+
+                    {/* Tags */}
+                    {position.tags?.length > 0 && (
+                        <div className="mt-8 flex flex-wrap gap-2">
+                            {position.tags.map(tag => (
+                                <span
+                                    key={tag}
+                                    className="px-3 py-1 text-xs rounded-full bg-gray-100 text-gray-700"
+                                >
+                                    #{tag}
+                                </span>
+                            ))}
+                        </div>
+                    )}
+
+                    {/* Divider */}
+                    <hr className="my-10" />
+
+                    {/* Service info */}
+                    <div className="text-sm text-gray-500 leading-relaxed">
+                        <p>
+                            Цей матеріал є публічною позицією автора та відображає його субʼєктну
+                            оцінку подій, процесів або рішень.
+                        </p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    );
+};
+
+export default PositionCard;

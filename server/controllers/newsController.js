@@ -314,3 +314,34 @@ export const getAddViewNews = async (req, res) => {
         res.status(500).json({ success: false, message: error.message });
     }
 };
+
+// add position
+// PUT: /api/news/add-position/:id
+export const addPosition = async (req, res) => {
+    try {
+        const { userId } = req;
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(401).json({ success: false, message: "Користувача не знайдено" });
+        }
+        if (!user.verify_email) {
+            return res.status(403).json({ message: "Підтвердіть email перед входом", succses: false, error: true });
+        }
+
+        const { id } = req.params
+        const news = await News.findById(id);
+        if (!news) {
+            return res.status(404).json({ success: false, message: "Стаття не знайдена" });
+        }
+
+        const {_id} = req.body
+        news.positionId = _id;
+        await news.save();
+
+        const token = generateSessionToken(user._id);
+        res.status(201).json({ success: true, token, message: "Додано позицію", position: news.position });
+    } catch (error) {
+        console.error("addPosition error:", error);
+        res.status(500).json({ success: false, message: error.message });
+    }
+};

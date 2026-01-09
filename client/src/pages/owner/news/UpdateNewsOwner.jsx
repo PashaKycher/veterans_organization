@@ -55,7 +55,7 @@ const UpdateNewsOwner = () => {
           content: post.content || "",
           category: post.category?._id || "",
           tags: post.tags?.join(", ") || "",
-          position_type: post.position_type || "news",
+          position_type: post.position_type || "News",
           status: post.status || "draft",
           is_featured: post.is_featured || false,
         });

@@ -8,7 +8,7 @@ const positionSchema = new mongoose.Schema({
     content: { type: String, required: true },
     tags: [{ type: String, index: true }],
 
-    position_type: { type: String, enum: ['analysis', 'news', 'single'], default: 'single' },
+    position_type: { type: String, enum: ['Analytical', 'News', 'single'], default: 'single' },
     article: { type: mongoose.Schema.Types.ObjectId, refPath: 'article_model', default: null },
     article_model: { type: String, enum: ['Analytical', 'News'], default: null },
 

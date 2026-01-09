@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 
 const newsSchema = new mongoose.Schema({
   author: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  positionId: { type: mongoose.Schema.Types.ObjectId, ref: 'Position' },
 
   title: { type: String, required: true, trim: true },
   slug: { type: String, unique: true, index: true },
@@ -16,7 +17,7 @@ const newsSchema = new mongoose.Schema({
 
   post_type: { type: String, enum: ['text', 'image', 'text_with_image'], required: true },
 
-  position_type: { type: String, enum: ['news', 'position'], default: 'news' },
+  position_type: { type: String, enum: ['News', 'position'], default: 'News' },
 
   status: { type: String, enum: ['draft', 'review', 'published', 'archived'], default: 'draft' },
 

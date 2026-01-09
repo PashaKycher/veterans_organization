@@ -20,7 +20,7 @@ const AddAnalyticalOwner = () => {
     content: "",
     category: "",
     tags: "",
-    position_type: "analysis",
+    position_type: "Analytical",
     status: "draft",
     is_featured: false,
     post_type: "",
@@ -107,7 +107,7 @@ const AddAnalyticalOwner = () => {
           <div className="grid gap-2">
             <label className="label">Тип матеріалу</label>
             <select className="w-full border rounded-lg px-2 py-1" value={form.position_type} onChange={(e) => setForm({ ...form, position_type: e.target.value })}>
-              <option value="analysis">Аналітика</option>
+              <option value="Analytical">Аналітика</option>
               {/* <option value="position">Позиція</option> */}
             </select>
           </div>

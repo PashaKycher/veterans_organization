@@ -20,7 +20,7 @@ const AddNewsOwner = () => {
     content: "",
     category: "",
     tags: "",
-    position_type: "news",
+    position_type: "News",
     status: "draft",
     is_featured: false,
     post_type: "",
@@ -107,7 +107,7 @@ const AddNewsOwner = () => {
           <div className="grid gap-2">
             <label className="label">Тип матеріалу</label>
             <select className="w-full border rounded-lg px-2 py-1" value={form.position_type} onChange={(e) => setForm({ ...form, position_type: e.target.value })}>
-              <option value="news">Новини</option>
+              <option value="News">Новини</option>
               {/* <option value="position">Позиція</option> */}
             </select>
           </div>

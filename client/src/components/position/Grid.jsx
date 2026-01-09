@@ -1,10 +1,26 @@
-import React from 'react'
+import React, { use, useEffect, useState } from 'react'
 import { motion } from "framer-motion";
 import { positions } from '../../assets/assets'
 import { useNavigate } from 'react-router-dom';
+import api from '../../api/axios';
 
 const Grid = () => {
     const navigate = useNavigate();
+    const [positions, setPositions] = useState([]);
+
+    const fetchPositions = async() => {
+        const { data } = await api.get("/api/position/get");
+        console.log(data)
+
+        if (data.success) {
+            setPositions(data.data);
+            console.log(data.data)
+        }
+    }
+
+    useEffect(() => {
+        fetchPositions();
+    }, [])
 
     return (
         <motion.section
@@ -17,9 +33,9 @@ const Grid = () => {
                     <motion.article
                         key={item._id}
                         whileHover={{ y: -2 }}
-                        className="bg-white rounded-xl border border-neutral-200 p-6 cursor-pointer hover:shadow-md transition"
-                        > 
-                        {/* onClick={() => { navigate(`/position/${item._id}`); scrollTo(0, 0); }} */}
+                        className="bg-white rounded-xl border border-neutral-200 p-6 cursor-pointer hover:shadow-md transition" 
+                        onClick={() => { navigate(`/position/${item._id}`); scrollTo(0, 0); }}
+                        >
                         <p className="text-xs uppercase tracking-wide text-text mb-2">
                             Позиція КЗУ · {item.date}
                         </p>

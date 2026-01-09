@@ -17,7 +17,7 @@ positionRouts.post("/update/:id", protect, updatePosition);
 positionRouts.delete("/delete/:id", protect, deletePosition);
 positionRouts.get("/publish/:id", protect, publishPosition);
 positionRouts.put("/featured/:id", protect, toggleFeaturedPosition);
-positionRouts.put("/like/:id", protect, toggleLikePosition);
+positionRouts.put("/like/:id", protect, toggleLikePosition); 
 
 // public
 positionRouts.get("/get", getPublishedPositions);

@@ -49,7 +49,7 @@ export const updatePosition = async (req, res) => {
             return res.status(403).json({ message: "Підтвердіть email перед входом", succses: false, error: true });
         }
 
-        const { title, content, tags, position_type, article, article_model } = req.body;
+        const { title, content, tags, position_type, article, article_model, status } = req.body;
         if (!title || !content) {
             return res.status(400).json({ success: false, message: "Дані відсутні" });
         }
@@ -61,7 +61,7 @@ export const updatePosition = async (req, res) => {
 
         const slug = slugify(title, { lower: true, strict: true, locale: "uk" });
         const data = await Position.findByIdAndUpdate(id, {
-            author: user._id, title, slug, content, tags, position_type,
+            author: user._id, title, slug, content, tags, position_type, status,
             article: article || null,
             article_model: article ? article_model : null
         }, { new: true });
@@ -105,7 +105,7 @@ export const deletePosition = async (req, res) => {
 // GET: /api/position/get-admin
 export const getAllPositions = async (req, res) => {
     try {
-        const data = await Position.find({}).populate("author").sort({ createdAt: -1 });
+        const data = await Position.find().populate("author").populate("article").sort({ createdAt: -1 });
 
         res.json({ success: true, data });
     } catch (error) {
