@@ -10,11 +10,8 @@ const Grid = () => {
 
     const fetchPositions = async() => {
         const { data } = await api.get("/api/position/get");
-        console.log(data)
-
         if (data.success) {
             setPositions(data.data);
-            console.log(data.data)
         }
     }
 

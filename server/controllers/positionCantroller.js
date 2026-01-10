@@ -61,7 +61,7 @@ export const updatePosition = async (req, res) => {
 
         const slug = slugify(title, { lower: true, strict: true, locale: "uk" });
         const data = await Position.findByIdAndUpdate(id, {
-            author: user._id, title, slug, content, tags, position_type, status,
+            title, slug, content, tags, position_type, status,
             article: article || null,
             article_model: article ? article_model : null
         }, { new: true });

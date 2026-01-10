@@ -9,7 +9,7 @@ const Hero = () => {
 
         <section className="relative w-full overflow-hidden">
 
-            <img src={assets.leadersHero} alt="Hero" className="w-full h-auto lg:h-screen object-cover" />
+            <img src={assets.leadersHero} alt="Hero" className="aspect-video lg:w-full lg:h-screen object-cover" />
 
             <Blackout />
             

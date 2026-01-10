@@ -176,7 +176,7 @@ export const getAllAnalyticalAdmin = async (req, res) => {
 export const getSingleAnalyticalById = async (req, res) => {
     try {
         const { id } = req.params;
-        const analytical = await Analytical.findById(id).populate("author").populate("category");
+        const analytical = await Analytical.findById(id).populate("author").populate("category").populate("positionId");
         if (!analytical) {
             return res.status(404).json({ success: false, message: "Стаття не знайдена" });
         }

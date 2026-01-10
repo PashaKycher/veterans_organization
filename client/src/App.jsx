@@ -43,6 +43,8 @@ import UpdatePositionOwner from './pages/owner/position/UpdatePositionOwner'
 
 
 function App() {
+  const dispatch = useDispatch();
+
   const isOwnerPath = useLocation().pathname.includes("/owner")
   const isUserPath = useLocation().pathname.includes("/user")
   const isRehabilitation = useLocation().pathname.includes("/rehabilitation")
@@ -50,10 +52,24 @@ function App() {
   const isSupport = useLocation().pathname.includes("/support")
   const isOpen = useSelector(state => state.login.isOpen);
 
+  useEffect(() => {
+    if (isOwnerPath || isRehabilitation || isLeaders || isSupport) {
+      setIsLearnMore(false)
+    } else {
+      setIsLearnMore(true)
+    }
+  }, [isOwnerPath, isRehabilitation, isLeaders, isSupport])
+
   const [isLearnMore, setIsLearnMore] = useState(true)
   const [isNawBar, setIsNawBar] = useState(true)
 
-  const dispatch = useDispatch();
+  useEffect(() => {
+    if (isUserPath || isOwnerPath) {
+      setIsNawBar(false)
+    } else {
+      setIsNawBar(true)
+    }
+  }, [isUserPath, isOwnerPath])
 
   const userData = async () => {
     try {
@@ -71,22 +87,6 @@ function App() {
   useEffect(() => {
     userData()
   }, [])
-  
-  useEffect(() => {
-    if (isOwnerPath || isRehabilitation || isLeaders || isSupport) {
-      setIsLearnMore(false)
-    } else {
-      setIsLearnMore(true)
-    }
-  }, [isOwnerPath, isRehabilitation, isLeaders, isSupport])
-
-  useEffect(() => {
-      if (isUserPath || isOwnerPath) {
-        setIsNawBar(false)
-      } else {
-        setIsNawBar(true)
-      }
-    }, [isUserPath, isOwnerPath])
 
   return (
     <>
@@ -142,7 +142,7 @@ function App() {
 
           {isLearnMore && <LearnMore />}
 
-          <Footer />
+          {!isOwnerPath && <Footer />}
         </>
       ) : (
         <>

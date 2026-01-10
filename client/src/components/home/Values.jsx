@@ -9,7 +9,7 @@ const Values = () => {
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 1 }}
       className="bg-white py-24">
-      <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-3 gap-12">
+      <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 lg:grid-cols-3 gap-12">
 
         {values.map((v, i) => (
           <div key={i} className="p-8 border border-border-button">

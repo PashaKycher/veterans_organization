@@ -174,7 +174,7 @@ export const getAllNewsAdmin = async (req, res) => {
 export const getSingleNewsById = async (req, res) => {
     try {
         const { id } = req.params;
-        const news = await News.findById(id).populate("author").populate("category");
+        const news = await News.findById(id).populate("author").populate("category").populate("positionId");
         if (!news) {
             return res.status(404).json({ success: false, message: "Стаття не знайдена" });
         }

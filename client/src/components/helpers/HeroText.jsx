@@ -22,7 +22,7 @@ export const HeroText = ({ title, subTitle }) => {
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1 }}
-            className="relative z-20 flex flex-col items-center gap-4 px-4 md:absolute md:top-16 lg:top-26 md:left-1/2 md:-translate-x-1/2 md:w-160 lg:w-200" >
+            className="relative z-20 flex flex-col items-center gap-4 px-4 md:absolute md:top-8 lg:top-26 md:left-1/2 md:-translate-x-1/2 md:w-160 lg:w-200" >
 
             <h1 className="mt-6 text-3xl lg:text-5xl font-bold text-black md:text-white max-w-4xl">
                 {title}

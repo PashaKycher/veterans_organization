@@ -7,14 +7,14 @@ export const ModalWindow = ({ isOpen, onClose, items }) => {
     <AnimatePresence>
       {isOpen && (
         <motion.div
-          className="fixed inset-0 z-50 flex items-center justify-center"
+          className="hidden [@media(min-width:370px)]:flex fixed inset-0 z-50 items-center justify-center"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
         >
           {/* modal body */}
           <motion.div
-            className="hidden [@media(min-width:370px)]:block relative w-[90%] max-w-2xl h-[10%]"
+            className="relative w-[90%] max-w-2xl h-[10%]"
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.9, opacity: 0 }}

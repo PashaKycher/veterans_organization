@@ -51,7 +51,7 @@ const GridAnalyticalCategory = ({ filters }) => {
                         key={article._id}
                         className="bg-white border border-neutral-200 rounded-xl p-6 transition flex flex-col h-full">
 
-                        <h3 className="text-xl font-semibold text-title">
+                        <h3 className="text-lg md:text-xl font-semibold text-title">
                             {article.title}
                         </h3>
 

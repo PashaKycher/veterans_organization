@@ -54,7 +54,11 @@ const NewsCard = () => {
 
     const handleLike = async () => {
         if (isLiking) return;
-
+        const token = localStorage.getItem("token");
+        if (!token) {
+            toast.error("Ви не авторизовані");
+            return
+        }
         try {
             setIsLiking(true);
             const { data } = await api.put(`/api/news/like/${id}`, {}, { headers: { Authorization: localStorage.getItem("token") } });
@@ -69,6 +73,11 @@ const NewsCard = () => {
     };
 
     const handleFeatured = async () => {
+        const token = localStorage.getItem("token");
+        if (!token) {
+            toast.error("Ви не авторизовані");
+            return
+        }
         try {
             await api.put(`/api/users/news-featured/${id}`, {}, { headers: { Authorization: localStorage.getItem("token") } });
             setArticle((prev) => ({ ...prev, is_featured: !prev.is_featured }));
@@ -83,7 +92,6 @@ const NewsCard = () => {
         const timer = setTimeout(async () => {
             try {
                 const { data } = await api.get(`/api/news/add-view/${id}`);
-                if (data.success) { console.log("View added"); }
             } catch (error) {
                 console.error("Не вдалося оновити view", error);
             }
@@ -110,13 +118,12 @@ const NewsCard = () => {
             </div>
         );
     }
-
     return (
         <div className="bg-gray-50 pt-18">
             <div className="px-6 md:px-16 lg:px-24 xl:px-32 py-12">
 
                 {/* Back */}
-                <button onClick={() => navigate(-1)} className="flex items-center gap-2 mb-8 text-sm text-gray-600 hover:text-gray-900">
+                <button onClick={() => {navigate(-1); scrollTo(0, 0)}} className="flex items-center gap-2 mb-8 text-sm text-gray-600 hover:text-gray-900">
                     <img src={assets.arrow_icon} className="rotate-180 opacity-60" />Назад
                 </button>
 
@@ -131,11 +138,11 @@ const NewsCard = () => {
 
                         {/* Category & Date */}
                         <div className="text-sm text-gray-500">
-                            {article.category?.title} ·{" "}{moment(article.publishedAt).format("DD.MM.YYYY")}
+                            {article.category?.title} • {moment(article.publishedAt).format("DD.MM.YYYY")}
                         </div>
 
                         {/* Title */}
-                        <h1 className="text-3xl font-semibold text-gray-900 leading-tight">
+                        <h1 className="text-xl lg:text-3xl font-semibold text-gray-900 leading-tight">
                             {article.title}
                         </h1>
 
@@ -150,30 +157,19 @@ const NewsCard = () => {
                                 <img src={article.image_urls[currentImage]} className="w-full rounded-xl object-cover aspect-video" />
                                 {article.image_urls.length > 1 && (
                                     <div className="flex justify-center gap-2 mt-3">
-                                        {article.image_urls.map((_, index) => (
-                                            <button key={index} onClick={() => { setCurrentImage(index); setIsAuto(!isAuto); }} className={`w-2 h-2 rounded-full ${currentImage === index ? "bg-gray-800" : "bg-gray-300"}`}
-                                            />
-                                        ))}
+                                        {article.image_urls.map((_, index) => (<button key={index} onClick={() => { setCurrentImage(index); setIsAuto(!isAuto); }} className={`w-2 h-2 rounded-full ${currentImage === index ? "bg-gray-800" : "bg-gray-300"}`} />))}
                                     </div>
                                 )}
                             </div>
                         )}
 
                         {/* Content */}
-                        <div
-                            className="prose prose-gray max-w-none leading-relaxed border-t pt-6"
-                            style={{ whiteSpace: "pre-line" }}
-                            dangerouslySetInnerHTML={{ __html: article.content }}
-                        />
+                        <div className="prose prose-gray max-w-none leading-relaxed border-t pt-6" style={{ whiteSpace: "pre-line" }} dangerouslySetInnerHTML={{ __html: article.content }} />
 
                         {/* Tags */}
                         {article.tags?.length > 0 && (
                             <div className="flex flex-wrap gap-2 pt-6">
-                                {article.tags.map((tag) => (
-                                    <span key={tag} className="text-xs px-3 py-1 bg-gray-200 rounded-full text-gray-700">
-                                        #{tag}
-                                    </span>
-                                ))}
+                                {article.tags.map((tag) => (<span key={tag} className="text-xs px-3 py-1 bg-gray-200 rounded-full text-gray-700">#{tag}</span>))}
                             </div>
                         )}
 
@@ -183,7 +179,8 @@ const NewsCard = () => {
                                 👍 <span className={`text-xs px-3 py-2 rounded-full ${article.likedByMe ? "bg-yellow-100" : ""} `}>{article.likes || 0}</span>
                             </button>
 
-                            <button onClick={handleFeatured} className={`text-xs px-3 py-1 rounded-full text-gray-700  ${article.is_featured ? "bg-green-300 hover:bg-gray-300" : "bg-gray-200 hover:bg-green-300"} `}> {article.is_featured ? "Видалити з обраного" : "Додати в обране"}
+                            <button onClick={handleFeatured} className={`text-xs px-3 py-1 rounded-full text-gray-700  ${article.is_featured ? "bg-green-300 hover:bg-gray-300" : "bg-gray-200 hover:bg-green-300"} `}>
+                                {article.is_featured ? "Видалити з обраного" : "Додати в обране"}
                             </button>
                         </div>
                     </motion.div>
@@ -197,24 +194,27 @@ const NewsCard = () => {
                             </p>
                             {/* Author */}
                             <div className="border-t pt-2">
-                                <p className="text-gray-600 text-medium underline-offs">
-                                    Автор.
-                                </p>
+                                <p className="text-gray-600 text-medium underline-offs">Автор</p>
                                 <div className="flex items-center gap-4 pt-2">
                                     <img src={article.author?.avatar} className="w-12 h-12 rounded-full object-cover" />
                                     <div>
-                                        <p className="font-medium text-gray-900">
-                                            {article.author?.full_name}
-                                        </p>
-                                        <p className="text-sm text-gray-500">
-                                            {article.author?.email}
-                                        </p>
+                                        <p className="font-medium text-gray-900">{article.author?.user_name}</p>
+                                        <p className="text-sm text-gray-500">{article.author?.email}</p>
                                     </div>
                                 </div>
                             </div>
+                            {/* position */}
+                            {article.positionId && <div className="border-t pt-2">
+                                <p className="text-gray-600 text-medium underline-offs">Позиція</p>
+
+                                <div className="mt-5 p-5 border rounded-lg bg-gray-50">
+                                    <button className="text-primary font-medium hover:underline" onClick={() => navigate(`/position/${article.positionId._id}`)}>
+                                        {article.positionId.title}
+                                    </button>
+                                </div>
+                            </div>}
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>

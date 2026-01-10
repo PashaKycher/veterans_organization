@@ -6,7 +6,7 @@ const Hero = () => {
     return (
         <section className=" relative w-full overflow-hidden">
 
-            <img src={assets.clubHero} alt="Hero" className="w-full h-auto lg:h-screen object-cover" />
+            <img src={assets.clubHero} alt="Hero" className="aspect-video lg:w-full lg:h-screen object-cover" />
 
             <Blackout />
 

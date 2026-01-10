@@ -9,7 +9,7 @@ const PositionCard = ({ position, refresh, editable }) => {
   const publish = async () => {
     await api.get(`/api/position/publish/${position._id}`, { headers: { Authorization: localStorage.getItem("token") } });
     if (position.position_type !== null) {
-      const {data} = await api.put(`/api/${position.position_type === "News" ? "news" : "analytical"}/addposition/${position.article._id}`, {_id: position._id}, { headers: { Authorization: localStorage.getItem("token") } });
+      const { data } = await api.put(`/api/${position.position_type === "News" ? "news" : "analytical"}/addposition/${position.article._id}`, { _id: position._id }, { headers: { Authorization: localStorage.getItem("token") } });
     }
     refresh();
   };
@@ -46,19 +46,20 @@ const PositionCard = ({ position, refresh, editable }) => {
           </button>
         )}
 
-        {editable && (
-          <>
-            <button onClick={() => navigate(`/owner/editposition/${position._id}`)} className=" text-gray-600 hover:underline">
-              Редагувати
-            </button>
-
-            {position.status === "published" ? ("") : (
-              <button onClick={remove} className=" text-red-600 hover:underline">
-                Видалити
-              </button>)
-            }
-          </>
+        {position.status !== "draft" && (user.roleOwner === "editor" || user.roleOwner === "admin") && (
+          <button onClick={() => navigate(`/owner/editposition/${position._id}`)} className=" text-gray-600 hover:underline">
+            Редагувати
+          </button>
         )}
+
+        {editable && (position.status === "published" ? ("") : (<>
+          <button onClick={() => navigate(`/owner/editposition/${position._id}`)} className=" text-gray-600 hover:underline">
+            Редагувати
+          </button>
+          <button onClick={remove} className=" text-red-600 hover:underline">
+            Видалити
+          </button>
+        </>))}
 
       </div>
     </div>

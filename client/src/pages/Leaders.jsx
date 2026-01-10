@@ -2,12 +2,10 @@ import React from 'react'
 
 import Hero from '../components/leaders/Hero'
 import Manifest from '../components/leaders/Manifest'
-import People from '../components/leaders/People'
+import People from '../components/helpers/People'
 import Cases from '../components/leaders/Cases'
 import CTA from '../components/leaders/CTA'
-
 import { AdditionalBlock } from '../components/helpers/AdditionalBlock'
-
 
 const Leaders = () => {
     return (

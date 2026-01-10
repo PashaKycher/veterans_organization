@@ -1,13 +1,22 @@
+import { useMemo } from "react";
 import PositionCard from "./PositionCard";
 
-const GridPosition = ({ positions, refresh, editable = false }) => {
+const GridPosition = ({ filter, positions, refresh, editable = false }) => {
   if (!positions.length)
     return <p className="text-gray-500 text-sm">Немає позицій</p>;
 
+  const data = useMemo(() => {
+    let itemsData = [...positions];
+
+    if (filter) { const q = filter.toLowerCase(); itemsData = itemsData.filter(i => i.title?.toLowerCase().includes(q) || i.excerpt?.toLowerCase().includes(q)) }
+
+    return itemsData;
+  }, [filter, positions]);
+
   return (
-    <section className="px-6 md:px-16 lg:px-24 xl:px-40 py-16">
+    <section>
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-10">
-        {positions.map(pos => (
+        {data.map(pos => (
           <PositionCard
             key={pos._id}
             position={pos}
