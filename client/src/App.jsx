@@ -23,8 +23,6 @@ import VerifyEmail from './components/helpers/VerifyEmail'
 import AnalyticalCard from './pages/card/AnalyticalCard'
 import NewsCard from './pages/card/NewsCard'
 import PositionCard from './pages/card/PositionCard'
-import LeadersCard from './pages/card/LeadersCard'
-import ClubCard from './pages/card/ClubCard'
 
 import LayoutUser from './pages/user/LayoutUser'
 
@@ -109,9 +107,7 @@ function App() {
             <Route path="/position/:id" element={<PositionCard />} />
 
             <Route path="/leaders" element={<Leaders />} />
-            {/* <Route path="/leaders/:id" element={<LeadersCard />} /> */}
             <Route path="/club" element={<Club />} />
-            {/* <Route path="/club/:id" element={<ClubCard />} /> */}
 
             <Route path="/support" element={<SupportAndInteraction />} />
 

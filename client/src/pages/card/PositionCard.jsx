@@ -36,7 +36,7 @@ const PositionCard = () => {
             <section className="max-w-4xl mx-auto px-4 py-12">
 
                 {/* Back */}
-                <button onClick={() => {navigate(-1); scrollTo(0, 0)}} className="flex items-center gap-2 mb-8 text-primary font-medium hover:opacity-80">
+                <button onClick={() => {navigate("/position"); scrollTo(0, 0)}} className="flex items-center gap-2 mb-8 text-primary font-medium hover:opacity-80">
                     <img src={assets.arrow_icon} className="rotate-180 opacity-70" />
                     Назад
                 </button>

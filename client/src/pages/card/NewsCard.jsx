@@ -123,7 +123,7 @@ const NewsCard = () => {
             <div className="px-6 md:px-16 lg:px-24 xl:px-32 py-12">
 
                 {/* Back */}
-                <button onClick={() => {navigate(-1); scrollTo(0, 0)}} className="flex items-center gap-2 mb-8 text-sm text-gray-600 hover:text-gray-900">
+                <button onClick={() => {navigate("/news"); scrollTo(0, 0)}} className="flex items-center gap-2 mb-8 text-sm text-gray-600 hover:text-gray-900">
                     <img src={assets.arrow_icon} className="rotate-180 opacity-60" />Назад
                 </button>
 
