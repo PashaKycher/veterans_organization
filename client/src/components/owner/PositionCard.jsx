@@ -19,7 +19,7 @@ const PositionCard = ({ position, refresh, editable }) => {
     refresh();
   };
 
-  return (
+  return position.status === "draft" && !editable ? null : (
     <div className="bg-white rounded-xl shadow p-6 space-y-4 flex flex-col h-full">
       <div className="text-xs text-gray-500 uppercase">
         {position.position_type} · {position.status}
@@ -52,15 +52,14 @@ const PositionCard = ({ position, refresh, editable }) => {
           </button>
         )}
 
-        {editable && (position.status === "published" ? ("") : (<>
+        {editable && (position.status === "draft" ? (<>
           <button onClick={() => navigate(`/owner/editposition/${position._id}`)} className=" text-gray-600 hover:underline">
             Редагувати
           </button>
           <button onClick={remove} className=" text-red-600 hover:underline">
             Видалити
           </button>
-        </>))}
-
+        </>) : (""))}
       </div>
     </div>
   );

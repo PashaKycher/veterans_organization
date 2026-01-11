@@ -101,6 +101,7 @@ const GridAnalytical = ({ filters, status }) => {
 
       {user.roleOwner === "editor" || user.roleOwner === "admin" ? <div className="my-10 py-0.5 bg-primary"></div> : ""}
 
+      {user.roleOwner === "editor" || user.roleOwner === "admin" ?<>
       <button onClick={() => setShowOthers(!showOthers)} className="font-medium text-gray-700 mb-4">
         {showOthers ? "▾" : "▸"} Статті інших авторів
       </button>
@@ -137,6 +138,7 @@ const GridAnalytical = ({ filters, status }) => {
           </motion.article>
         ))}
       </div>
+      </> : ""}
     </section>
   );
 };

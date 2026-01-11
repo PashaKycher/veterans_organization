@@ -31,7 +31,7 @@ const NewsOwner = () => {
 
       <section className="my-8 mx-6 md:mx-16 lg:mx-24 xl:mx-40 bg-white border border-border-button rounded-xl p-6 grid grid-cols-1 md:grid-cols-3 gap-4">
 
-        <button onClick={() => { setIsOpen(!isOpen) }} className="inline-flex items-center justify-center px-5 py-2.5 rounded-xl font-medium text-white bg-linear-to-r from-slate-600 to-slate-800 hover:from-slate-700 hover:to-slate-900 shadow-md hover:shadow-lg transition-all duration-300 active:scale-[0.97]">{isOpen ? "котегорії" : "новини"}</button>
+        <button onClick={() => { setIsOpen(!isOpen) }} className="inline-flex items-center justify-center px-5 py-2.5 rounded-xl font-medium text-white bg-linear-to-r from-slate-600 to-slate-800 hover:from-slate-700 hover:to-slate-900 shadow-md hover:shadow-lg transition-all duration-300 active:scale-[0.97]">{isOpen ? "категорії" : "новини"}</button>
 
         {isOpen ?
           <button onClick={() => { navigate("/owner/addnews") }} className="inline-flex items-center justify-center px-5 py-2.5 rounded-xl font-medium text-white bg-linear-to-r from-emerald-500 to-emerald-700 hover:from-emerald-600 hover:to-emerald-800 shadow-md hover:shadow-lg transition-all duration-300 active:scale-[0.97]">створити новину</button>
