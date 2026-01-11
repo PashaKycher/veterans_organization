@@ -38,6 +38,8 @@ import UpdateNewsOwner from './pages/owner/news/UpdateNewsOwner'
 import PositionOwner from './pages/owner/position/PositionOwner'
 import AddPositionOwner from './pages/owner/position/AddPositionOwner'
 import UpdatePositionOwner from './pages/owner/position/UpdatePositionOwner'
+import SupportPage from './pages/SupportPage'
+import ContactPage from './pages/ContactPage'
 
 
 function App() {
@@ -110,6 +112,8 @@ function App() {
             <Route path="/club" element={<Club />} />
 
             <Route path="/support" element={<SupportAndInteraction />} />
+            <Route path="/contact" element={<ContactPage />} />
+            <Route path="/supportform" element={<SupportPage/>} />
 
             <Route path='/owner' element={<LayoutOwner />}>
               <Route index element={<p>Dashboard</p>} />

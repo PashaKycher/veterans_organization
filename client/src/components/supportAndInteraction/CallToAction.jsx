@@ -1,7 +1,10 @@
 import React from 'react'
 import { motion } from "framer-motion";
+import { useNavigate } from 'react-router-dom';
 
 const CallToAction = () => {
+    const navigate = useNavigate();
+
     return (
         <motion.section
             initial={{ opacity: 0, y: 40 }}
@@ -20,10 +23,10 @@ const CallToAction = () => {
 
 
                 <div className="mt-10 flex justify-center gap-4">
-                    <button className="cursor-pointer px-6 py-3 rounded-xl bg-[#A5B4B6] text-[#1F2328] font-medium hover:opacity-90">
+                    <button className="cursor-pointer px-6 py-3 rounded-xl bg-[#A5B4B6] text-[#1F2328] font-medium hover:opacity-90" onClick={() => { navigate("/supportform?mode=support") }}>
                         Підтримати проєкти
                     </button>
-                    <button className="cursor-pointer px-6 py-3 rounded-xl border border-[#A5B4B6] text-text hover:bg-bg hover:text-[#1F2328]">
+                    <button className="cursor-pointer px-6 py-3 rounded-xl border border-[#A5B4B6] text-text hover:bg-bg hover:text-[#1F2328]" onClick={() => { navigate("/supportform?mode=partner") }}>
                         Стати партнером
                     </button>
                 </div>
