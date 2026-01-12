@@ -8,23 +8,24 @@ const userSchema = new mongoose.Schema({
     user_name: { type: String, unique: true },
     bio: { type: String, default: "Бажаю здоров'я." },
     mobile: { type: String, default: null },
-    address: [{ type: mongoose.Schema.Types.ObjectId, ref: "Address" }],
+    address: {
+        pincode: { type: String, default: "" },
+        country: { type: String, default: "" },
+        state: { type: String, default: "" },
+        city: { type: String, default: "" },
+        street: { type: String, default: "" },
+        bilding: { type: String, default: "" },
+        apartment: { type: String, default: "" },
+    },
     locstion: { type: String, default: "" },
 
     avatar: { type: String, default: "" },
     cover_photo: { type: String, default: "" },
-    
-    followers: [{ type: String, ref: 'User' }],
-    following: [{ type: String, ref: 'User' }],
-    connection: [{ type: String, ref: 'User' }],
 
     status: { type: String, enum: ["active", "inactive", "suspended"], default: "active" },
     role: { type: String, enum: ["user", "owner"], default: "user" },
-    roleOwner:{ type: String, enum: ["reporter", "editor", "admin", "moderator", "user"], default: "user" },
+    roleOwner: { type: String, enum: ["reporter", "editor", "admin", "moderator", "user"], default: "user" },
 
-    stories: [{ type: mongoose.Schema.Types.ObjectId, ref: "Story" }],
-    posts: [{ type: mongoose.Schema.Types.ObjectId, ref: "Post" }],
-    
     analiticals: [{ type: mongoose.Schema.Types.ObjectId, ref: "Analytical" }],
     news: [{ type: mongoose.Schema.Types.ObjectId, ref: "News" }],
     position: [{ type: mongoose.Schema.Types.ObjectId, ref: "Position" }],
@@ -34,10 +35,17 @@ const userSchema = new mongoose.Schema({
     email_verify_token: { type: String, default: null },
     email_verify_expiry: { type: Date, default: null },
     verify_email: { type: Boolean, default: false },
-    
+
+    followers: [{ type: String, ref: 'User' }],
+    following: [{ type: String, ref: 'User' }],
+    connection: [{ type: String, ref: 'User' }],
+
+    stories: [{ type: mongoose.Schema.Types.ObjectId, ref: "Story" }],
+    posts: [{ type: mongoose.Schema.Types.ObjectId, ref: "Post" }],
+
     forgot_password_otp: { type: String, default: null },
     forgot_password_expiry: { type: Date, default: "" },
-    
+
 }, { timestamps: true });
 
 const User = mongoose.model("User", userSchema);

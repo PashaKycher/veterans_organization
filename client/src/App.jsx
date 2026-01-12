@@ -41,6 +41,8 @@ import UpdatePositionOwner from './pages/owner/position/UpdatePositionOwner'
 import SupportPage from './pages/SupportPage'
 import ContactPage from './pages/ContactPage'
 
+import UserIdentityPage from './pages/UserIdentityPage'
+
 
 function App() {
   const dispatch = useDispatch();
@@ -131,8 +133,9 @@ function App() {
               <Route path='addposition' element={<AddPositionOwner />} />
               <Route path='editposition/:id' element={<UpdatePositionOwner />} />
 
-              <Route path='position' element={<p>position</p>} />
               <Route path='users' element={<p>leaders</p>} />
+
+              <Route path='updateusers' element={<UserIdentityPage />} />
             </Route>
 
             <Route path='/user' element={<LayoutUser />}>

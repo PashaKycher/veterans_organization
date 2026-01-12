@@ -10,6 +10,7 @@ const AddAnalyticalOwner = () => {
   const user = useSelector((state) => state.user.user);
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
+  const MAX_FILE_SIZE = 5 * 1024 * 1024;
 
   const [categories, setCategories] = useState([]);
   const [images, setImages] = useState([]);
@@ -45,6 +46,23 @@ const AddAnalyticalOwner = () => {
   const onSubmitHandler = async (e) => {
     e.preventDefault();
     if (isLoading) return;
+
+    if (images.length > 5) {
+      toast.error("Максимальна кількість зображень - 5");
+      return;
+    }
+
+    if (form.image) {
+      if (form.image.size > MAX_FILE_SIZE) {
+        toast.error("Розмір зображення не повинен перевищувати 5 МБ");
+        return;
+      }
+    }
+
+    if (form.excerpt.length > 300) {
+      toast.error("Максимальна кількість символів у описі - 300");
+      return;
+    }
 
     if (!form.title || !form.content || !form.category) {
       toast.error("Заповніть обовʼязкові поля");

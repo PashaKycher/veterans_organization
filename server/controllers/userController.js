@@ -5,11 +5,11 @@ import { generateSessionToken } from "../utils/generateSessionToken.js";
 import { generateRefreshToken } from "../utils/generateRefreshToken.js";
 import { generateEmailVerifyToken } from "../utils/generateEmailVerifyToken.js";
 import { sendVerifyEmail } from "../utils/sendVerifyEmail.js";
-import fs from "fs";
 import imagekit from "../configs/imageKit.js";
 import Analytical from "../models/analyticalModel.js";
 import News from "../models/newsModel.js";
 import Position from "../models/positionModel.js";
+import Address from "../models/addressModel.js";
 
 
 // register user 
@@ -176,6 +176,92 @@ export const uploadAvatar = async (req, res) => {
         res.status(500).json({ message: "Помилка завантаження аватара", error, succses: false, error: true });
     }
 }
+
+// upload user
+// PUT: /api/users/update
+export const updateUser = async (req, res) => {
+    try {
+        const { userId } = req
+        const user = await User.findOne({ _id: userId });
+        if (!user) {
+            return res.status(404).json({ message: "User not found", succses: false, error: true });
+        }
+        if (!user.verify_email) {
+            return res.status(403).json({
+                message: "Підтвердіть email перед входом",
+            });
+        }
+
+        const { user_name, bio, mobile, locstion, address } = req.body;
+
+        // поля
+        if (user_name) user.user_name = user_name;
+        if (bio) user.bio = bio;
+        if (mobile) user.mobile = mobile;
+        if (locstion) user.locstion = locstion;
+        if (address) {
+            const parsed = JSON.parse(address);
+            user.address = {
+                ...user.address,
+                ...parsed
+            };
+        }
+        // файли
+        /* ---------- avatar ---------- */
+        if (req.files?.avatar?.[0]) {
+            const avatarFile = req.files.avatar[0];
+
+            const response = await imagekit.upload({
+                file: avatarFile.buffer,              // memoryStorage
+                fileName: avatarFile.originalname,
+                folder: `/veterans_organization/avatars`
+            });
+
+            const avatarUrl = imagekit.url({
+                path: response.filePath,
+                transformation: [
+                    { width: "512" },
+                    { height: "512" },
+                    { quality: "auto" },
+                    { format: "webp" }
+                ]
+            });
+
+            user.avatar = avatarUrl;
+        }
+
+        /* ---------- cover photo ---------- */
+        if (req.files?.cover_photo?.[0]) {
+            const coverFile = req.files.cover_photo[0];
+
+            const response = await imagekit.upload({
+                file: coverFile.buffer,
+                fileName: coverFile.originalname,
+                folder: `/veterans_organization/covers`
+            });
+
+            const coverUrl = imagekit.url({
+                path: response.filePath,
+                transformation: [
+                    { width: "1280" },
+                    { height: "720" },
+                    { quality: "auto" },
+                    { format: "webp" }
+                ]
+            });
+
+            user.cover_photo = coverUrl;
+        }
+
+        await user.save();
+
+        const token = generateSessionToken(user._id);
+        res.json({ success: true, token, message: "Профіль оновлено", user });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Помилка оновлення профілю" });
+    }
+};
 
 // get user by using token
 // GET: /api/users/data

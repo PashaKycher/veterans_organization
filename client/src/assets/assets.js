@@ -10,6 +10,7 @@ import userLogin from './icon/userLogin.png'
 import dashboardIcon from './icon/dashboardIcon.svg'
 import dashboardIconColored from './icon/dashboardIconColored.svg'
 import upload_icon from './icon/upload_icon.svg'
+import bridge from './icon/bridge.png'
 
 import homeHero from './homeHero.png'
 import positionHero from './positionHero.webp'
@@ -28,6 +29,7 @@ export const assets = {
   arrow_icon,
   userLogin,
   upload_icon,
+  bridge,
 
   homeHero,
   positionHero,
@@ -256,6 +258,13 @@ export const ownerMenuLinks = [
     coloredIcon: dashboardIconColored,
     role: ["admin", "moderator"] 
   },
+  {
+    title: "Профіль",
+    link: "/owner/updateusers",
+    icon: dashboardIcon, 
+    coloredIcon: dashboardIconColored,
+    role: ["reporter", "editor", "admin", "moderator", "user"] 
+  },
 ]
 
 // // user menu link
@@ -281,6 +290,12 @@ export const userMenuLinks = [
   {
     title: "Позиція",
     link: "/user/position",
+    icon: dashboardIcon, 
+    coloredIcon: dashboardIconColored,
+  },
+  {
+    title: "Профіль",
+    link: "/user/updateusers",
     icon: dashboardIcon, 
     coloredIcon: dashboardIconColored,
   },

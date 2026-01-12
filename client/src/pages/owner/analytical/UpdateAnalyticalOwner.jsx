@@ -72,6 +72,23 @@ const UpdateAnalyticalOwner = () => {
     e.preventDefault();
     if (isLoading) return;
 
+    if (images.length > 5) {
+      toast.error("Максимальна кількість зображень - 5");
+      return;
+    }
+
+    if (form.image) {
+      if (form.image.size > MAX_FILE_SIZE) {
+        toast.error("Розмір зображення не повинен перевищувати 5 МБ");
+        return;
+      }
+    }
+
+    if (form.excerpt.length > 300) {
+      toast.error("Максимальна кількість символів у описі - 300");
+      return;
+    }
+
     if (!form.title || !form.content || !form.category) {
       toast.error("Заповніть обовʼязкові поля");
       return;
