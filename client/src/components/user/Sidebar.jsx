@@ -4,6 +4,7 @@ import { NavLink, useLocation } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import { useDispatch, useSelector } from 'react-redux'
 import api from '../../api/axios'
+import { setUserData } from '../../store/userSlice'
 
 const Sidebar = () => {
     const dispatch = useDispatch()

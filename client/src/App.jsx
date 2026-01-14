@@ -17,6 +17,7 @@ import Position from './pages/Position'
 import Leaders from './pages/Leaders'
 import Club from './pages/Club'
 import SupportAndInteraction from './pages/SupportAndInteraction'
+import UserIdentityPage from './pages/UserIdentityPage'
 
 import VerifyEmail from './components/helpers/VerifyEmail'
 
@@ -40,8 +41,7 @@ import AddPositionOwner from './pages/owner/position/AddPositionOwner'
 import UpdatePositionOwner from './pages/owner/position/UpdatePositionOwner'
 import SupportPage from './pages/SupportPage'
 import ContactPage from './pages/ContactPage'
-
-import UserIdentityPage from './pages/UserIdentityPage'
+import UsersOwner from './pages/owner/user/UsersOwner'
 
 
 function App() {
@@ -133,13 +133,15 @@ function App() {
               <Route path='addposition' element={<AddPositionOwner />} />
               <Route path='editposition/:id' element={<UpdatePositionOwner />} />
 
-              <Route path='users' element={<p>leaders</p>} />
+              <Route path='users' element={<UsersOwner/>} />
 
               <Route path='updateusers' element={<UserIdentityPage />} />
+              
             </Route>
 
             <Route path='/user' element={<LayoutUser />}>
               <Route index element={<p>Dashboard</p>} />
+              <Route path='updateusers' element={<UserIdentityPage />} />
             </Route>
           </Routes>
 

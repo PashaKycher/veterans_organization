@@ -9,8 +9,6 @@ import imagekit from "../configs/imageKit.js";
 import Analytical from "../models/analyticalModel.js";
 import News from "../models/newsModel.js";
 import Position from "../models/positionModel.js";
-import Address from "../models/addressModel.js";
-
 
 // register user 
 // POST: /api/users/register
@@ -199,13 +197,7 @@ export const updateUser = async (req, res) => {
         if (bio) user.bio = bio;
         if (mobile) user.mobile = mobile;
         if (locstion) user.locstion = locstion;
-        if (address) {
-            const parsed = JSON.parse(address);
-            user.address = {
-                ...user.address,
-                ...parsed
-            };
-        }
+        if (address) { const parsed = JSON.parse(address); user.address = { ...user.address, ...parsed } }
         // файли
         /* ---------- avatar ---------- */
         if (req.files?.avatar?.[0]) {
@@ -356,3 +348,205 @@ export const toggleUserFeaturedPosition = async (req, res) => {
     }
 };
 
+// chenge user role Lider
+// PUT: /api/users/is-leader
+export const updateIsLeader = async (req, res) => {
+    try {
+        const { userId } = req
+        const user = await User.findOne({ _id: userId });
+        if (!user) {
+            return res.status(404).json({ message: "Не знайдено користувача", succses: false, error: true });
+        }
+        if (!user.verify_email) {
+            return res.status(403).json({
+                message: "Підтвердіть email перед входом",
+            });
+        }
+        if (user.role !== "owner") {
+            return res.status(403).json({ success: false, message: "Недостатньо прав доступу" });
+        }
+        if (!["admin", "moderator"].includes(user.roleOwner)) {
+            return res.status(403).json({ success: false, message: "Недостатньо прав доступу" });
+        }
+
+        const { id, isLeader } = req.body;
+        const userUpdate = await User.findOne({ _id: id });
+        if (!userUpdate) {
+            return res.status(404).json({ message: "Не знайдено користувача", succses: false, error: true });
+        }
+        userUpdate.isLeader = Boolean(isLeader);
+        await userUpdate.save();
+
+        res.json({ success: true, message: "Користувача опублікован на сторінці лідерів", userUpdate });
+    } catch (error) {
+        console.log("updateIsLeader:", error);
+        res.status(500).json({ message: "Помилка оновлення isLeader" });
+    }
+};
+
+// chenge user role Club Lider
+// PUT: /api/users/is-club-leader
+export const updateIsClubLeader = async (req, res) => {
+    try {
+        const { userId } = req
+        const user = await User.findOne({ _id: userId });
+        if (!user) {
+            return res.status(404).json({ message: "Не знайдено користувача", succses: false, error: true });
+        }
+        if (!user.verify_email) {
+            return res.status(403).json({
+                message: "Підтвердіть email перед входом",
+            });
+        }
+        if (user.role !== "owner") {
+            return res.status(403).json({ success: false, message: "Недостатньо прав доступу" });
+        }
+        if (!["admin", "moderator"].includes(user.roleOwner)) {
+            return res.status(403).json({ success: false, message: "Недостатньо прав доступу" });
+        }
+
+        const { id, isClubLeader } = req.body;
+        const userUpdate = await User.findOne({ _id: id });
+        if (!userUpdate) {
+            return res.status(404).json({ message: "Не знайдено користувача", succses: false, error: true });
+        }
+        userUpdate.isClubLeader = Boolean(isClubLeader);
+        await userUpdate.save();
+
+        res.json({ success: true, message: "Користувача опублікован на сторінці клубу", userUpdate });
+    } catch (error) {
+        console.log("updateIsLeader:", error);
+        res.status(500).json({ message: "Помилка оновлення isClubLeader" });
+    }
+};
+
+// chenge user role Stories Lider
+// PUT: /api/users/stories-for-page
+export const updateStoriesForPage = async (req, res) => {
+    try {
+        const { userId } = req
+        const user = await User.findOne({ _id: userId });
+        if (!user) {
+            return res.status(404).json({ message: "Не знайдено користувача", succses: false, error: true });
+        }
+        if (!user.verify_email) {
+            return res.status(403).json({
+                message: "Підтвердіть email перед входом",
+            });
+        }
+        if (user.role !== "owner") {
+            return res.status(403).json({ success: false, message: "Недостатньо прав доступу" });
+        }
+        if (!["admin", "moderator"].includes(user.roleOwner)) {
+            return res.status(403).json({ success: false, message: "Недостатньо прав доступу" });
+        }
+
+        const { id, storiesForPage } = req.body;
+        const userUpdate = await User.findOne({ _id: id });
+        if (!userUpdate) {
+            return res.status(404).json({ message: "Не знайдено користувача", succses: false, error: true });
+        }
+        userUpdate.storiesForPage = storiesForPage || "";
+        await userUpdate.save();
+
+        const token = generateSessionToken(user._id);
+        res.json({ success: true, token, message: "Історію користувача додано", userUpdate });
+    } catch (error) {
+        console.log("updateIsLeader:", error);
+        res.status(500).json({ message: "Помилка оновлення storiesForPage" });
+    }
+};
+
+// chenge user Role 
+// PUT: /api/users/role
+export const updateUserRole = async (req, res) => {
+    try {
+        const { userId } = req
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({ message: "Не знайдено користувача", succses: false, error: true });
+        }
+        if (!user.verify_email) {
+            return res.status(403).json({
+                message: "Підтвердіть email перед входом",
+            });
+        }
+        if (user.role !== "owner") {
+            return res.status(403).json({ success: false, message: "Недостатньо прав доступу" });
+        }
+        if (!["admin", "moderator"].includes(user.roleOwner)) {
+            return res.status(403).json({ success: false, message: "Недостатньо прав доступу" });
+        }
+
+        const { id, role } = req.body;
+        const userUpdate = await User.findOne({ _id: id });
+        if (!userUpdate) {
+            return res.status(404).json({ message: "User not found" });
+        }
+        const allRoles = ["user", "owner"];
+        if (!allRoles.includes(role)) {
+            return res.status(400).json({ message: "Некоректна роль" });
+        }
+        userUpdate.role = role;
+        await userUpdate.save();
+
+        const token = generateSessionToken(user._id);
+        res.json({ success: true, token, message: "Роль користувача оновлена", userUpdate });
+    } catch (error) {
+        console.log("updateUserRole:", error);
+        res.status(500).json({ message: "Помилка оновлення role" });
+    }
+};
+
+// chenge user Owner Role 
+// PUT: /api/users/role-owner
+export const updateRoleOwner = async (req, res) => {
+    try {
+        const { userId } = req
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({ message: "Не знайдено користувача", succses: false, error: true });
+        }
+        if (!user.verify_email) {
+            return res.status(403).json({
+                message: "Підтвердіть email перед входом",
+            });
+        }
+        if (user.role !== "owner") {
+            return res.status(403).json({ success: false, message: "Недостатньо прав доступу" });
+        }
+        if (!["admin", "moderator"].includes(user.roleOwner)) {
+            return res.status(403).json({ success: false, message: "Недостатньо прав доступу" });
+        }
+
+        const { id, roleOwner } = req.body;
+        const userUpdate = await User.findOne({ _id: id });
+        if (!userUpdate) {
+            return res.status(404).json({ message: "User not found" });
+        }
+        const allowedRoles = ["reporter", "editor", "admin", "moderator", "user"];
+        if (!allowedRoles.includes(roleOwner)) {
+            return res.status(400).json({ message: "Некоректний roleOwner" });
+        }
+        userUpdate.roleOwner = roleOwner;
+        await userUpdate.save();
+
+        const token = generateSessionToken(user._id);
+        res.json({ success: true, token, message: "Користувачк додано права", userUpdate });
+    } catch (error) {
+        console.log("updateRoleOwner:", error);
+        res.status(500).json({ message: "Помилка оновлення roleOwner" });
+    }
+};
+
+// get all users
+// GET: /api/users
+export const getAllUsers = async (req, res) => {
+    try {
+        const users = await User.find({}).select("-password");
+        res.json({ success: true, users });
+    } catch (error) {
+        console.log("getAllUsers:", error);
+        res.status(500).json({ message: "Помилка отримання всіх користувачів" });
+    }
+};

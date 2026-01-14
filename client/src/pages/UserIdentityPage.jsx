@@ -15,6 +15,7 @@ const UserIdentityPage = () => {
   const user = useSelector(state => state.user.user);
 
   const [form, setForm] = useState({
+    full_name: user.full_name || "",
     user_name: user.user_name || "",
     bio: user.bio || "",
     mobile: user.mobile || "",
@@ -118,7 +119,8 @@ const UserIdentityPage = () => {
         </div>
 
         <div className="flex-1">
-          <input name="user_name" value={form.user_name} onChange={onChange} placeholder="Імʼя в спільноті" className="text-2xl font-semibold w-full border-b pb-1 outline-none px-3"/>
+          <input name="user_name" value={form.user_name} onChange={onChange} placeholder="Імʼя в спільноті" className="text-2xl font-semibold w-full border-b pb-1 outline-none px-3 my-1"/>
+          <input name="full_name" value={form.full_name} onChange={onChange} placeholder="Повне імʼя" className="text-2xl font-semibold w-full border-b pb-1 outline-none px-3 my-1"/>
           <div>
             <h3 className="font-semibold my-2">Контакт і локація</h3>
             <input name="locstion" value={form.locstion} onChange={onChange} placeholder="Місто / регіон" className="w-full border p-2 rounded mb-3"/>

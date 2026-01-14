@@ -228,7 +228,7 @@ export const ownerMenuLinks = [
     link: "/owner", 
     icon: dashboardIcon, 
     coloredIcon: dashboardIconColored,
-    role: ["reporter", "editor", "admin"] 
+    role: ["reporter", "editor", "admin", "moderator", "user"] 
   },
   {
     title: "Аналітика",

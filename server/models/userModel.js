@@ -30,6 +30,10 @@ const userSchema = new mongoose.Schema({
     news: [{ type: mongoose.Schema.Types.ObjectId, ref: "News" }],
     position: [{ type: mongoose.Schema.Types.ObjectId, ref: "Position" }],
 
+    isLeader: { type: Boolean, default: false },
+    isClubLeader: { type: Boolean, default: false },
+    storiesForPage: { type: String, default: "" },
+
     refresh_token: { type: String, default: "" },
 
     email_verify_token: { type: String, default: null },
