@@ -190,13 +190,14 @@ export const updateUser = async (req, res) => {
             });
         }
 
-        const { user_name, bio, mobile, locstion, address } = req.body;
+        const { user_name, bio, mobile, locstion, address, full_name } = req.body;
 
         // поля
         if (user_name) user.user_name = user_name;
         if (bio) user.bio = bio;
         if (mobile) user.mobile = mobile;
         if (locstion) user.locstion = locstion;
+        if (full_name) user.full_name = full_name;
         if (address) { const parsed = JSON.parse(address); user.address = { ...user.address, ...parsed } }
         // файли
         /* ---------- avatar ---------- */
@@ -540,7 +541,7 @@ export const updateRoleOwner = async (req, res) => {
 };
 
 // get all users
-// GET: /api/users
+// GET: /api/users/users
 export const getAllUsers = async (req, res) => {
     try {
         const users = await User.find({}).select("-password");
@@ -550,3 +551,27 @@ export const getAllUsers = async (req, res) => {
         res.status(500).json({ message: "Помилка отримання всіх користувачів" });
     }
 };
+
+// get users isLeader
+// GET: /api/users/usersleader
+export const getAllUsersLeader = async (req, res) => {
+    try {
+        const users = await User.find({ isLeader: true }).select("-password");
+        res.json({ success: true, users });
+    } catch (error) {
+        console.log("getAllUsersLeader:", error);
+        res.status(500).json({ message: "Помилка отримання всіх користувачів" });
+    }
+};
+
+// get users isClubLeader
+// GET: /api/users/usersclubleader
+export const getAllUsersClubLeader = async (req, res) => {
+    try {
+        const users = await User.find({ isClubLeader: true }).select("-password");
+        res.json({ success: true, users });
+    } catch (error) {
+        console.log("getAllUsersClubLeader:", error);
+        res.status(500).json({ message: "Помилка отримання всіх користувачів" });
+    }
+}

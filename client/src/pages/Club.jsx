@@ -2,7 +2,7 @@ import React from 'react'
 
 import Hero from '../components/club/Hero'
 import Mission from '../components/club/Mission'
-import People from '../components/helpers/People'
+import People from '../components/club/People'
 import Principles from '../components/club/Principles'
 import Join from '../components/club/Join'
 import { AdditionalBlock } from '../components/helpers/AdditionalBlock'

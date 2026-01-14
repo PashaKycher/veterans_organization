@@ -51,6 +51,7 @@ const UserIdentityPage = () => {
     try {
       const formData = new FormData();
 
+      formData.append("full_name", form.full_name);
       formData.append("user_name", form.user_name);
       formData.append("bio", form.bio);
       formData.append("mobile", form.mobile);
@@ -68,6 +69,7 @@ const UserIdentityPage = () => {
         dispatch(setUserData(data.user))
         localStorage.setItem("token", data.token)
         setForm({
+          full_name: "",
           user_name: "",
           bio: "",
           mobile: "",
