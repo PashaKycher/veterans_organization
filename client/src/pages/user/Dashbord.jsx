@@ -1,7 +1,7 @@
 import React from 'react'
 import { Title } from '../../components/helpers/Title';
 
-const DashboardUser = () => {
+const Dashboard = () => {
   return (
     <section className="w-full min-h-screen bg-neutral-50 px-8 py-10 text-neutral-900">
       {/* Header */}
@@ -68,5 +68,5 @@ const Action = ({ label }) => (
   </button>
 );
 
-export default DashboardUser;
+export default Dashboard;
 

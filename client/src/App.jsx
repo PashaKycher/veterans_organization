@@ -28,7 +28,6 @@ import UserProfile from './pages/card/UserProfile'
 
 import LayoutUser from './pages/user/LayoutUser'
 
-import DashboardUser from './pages/user/Dashborduser'
 
 import LayoutOwner from './pages/owner/LayoutOwner'
 import AnalyticalOwner from './pages/owner/analytical/AnalyticalOwner'
@@ -46,6 +45,8 @@ import SupportPage from './pages/SupportPage'
 import ContactPage from './pages/ContactPage'
 import UsersOwner from './pages/owner/user/UsersOwner'
 import DashbordOwner from './pages/owner/DashbordOwner'
+import Dashboard from './pages/user/Dashbord'
+
 
 
 function App() {
@@ -145,7 +146,7 @@ function App() {
             </Route>
 
             <Route path='/user' element={<LayoutUser />}>
-              <Route index element={<DashboardUser />} />
+              <Route index element={<Dashboard />} />
               <Route path='updateusers' element={<UserIdentityPage />} />
             </Route>
           </Routes>
