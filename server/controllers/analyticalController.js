@@ -50,9 +50,9 @@ export const createAnalytical = async (req, res) => {
         const analytical = await Analytical.create({ position_type, status, title, excerpt, content, category, post_type, is_featured, tags, author: userId, slug, image_urls });
 
         const token = generateSessionToken(user._id);
-        res.status(201).json({ success: true, token, message: "Матеріал створено", id:analytical._id });
+        res.status(201).json({ success: true, token, message: "Матеріал створено", id: analytical._id });
     } catch (error) {
-        console.error("createAnalytical:",error);
+        console.error("createAnalytical:", error);
         res.status(500).json({ success: false, message: error.message });
     }
 };
@@ -318,7 +318,7 @@ export const getAddViewAnalytical = async (req, res) => {
 };
 
 // add position
-// PUT: /api/news/add-position/:id
+// PUT: /api/analytical/add-position/:id
 export const addPosition = async (req, res) => {
     try {
         const { userId } = req;
@@ -336,7 +336,7 @@ export const addPosition = async (req, res) => {
             return res.status(404).json({ success: false, message: "Стаття не знайдена" });
         }
 
-        const {_id} = req.body
+        const { _id } = req.body
         news.positionId = _id;
         await news.save();
 
@@ -344,6 +344,31 @@ export const addPosition = async (req, res) => {
         res.status(201).json({ success: true, token, message: "Додано позицію", position: news.position });
     } catch (error) {
         console.error("addPosition error:", error);
+        res.status(500).json({ success: false, message: error.message });
+    }
+};
+
+// get analitical by user id
+// GET: /api/analytical/get-by-user-id/:id
+export const getAnalyticalByUserId = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const analytical = await Analytical.find({ author: id, status: "published" }).populate("author").populate("category").populate("positionId");
+        res.status(201).json({ success: true, data: analytical });
+    } catch (error) {
+        console.error("getAnalyticalByUserId:", error);
+        res.status(500).json({ success: false, message: error.message });
+    }
+};
+
+// get length all analytical
+// GET: /api/analytical/get-length
+export const getLengthAnalytical = async (req, res) => {
+    try {
+        const data = await Analytical.countDocuments({ status: "published" });
+        res.json({ success: true, data });
+    } catch (error) {
+        console.error("getLengthAnalytical:", error);
         res.status(500).json({ success: false, message: error.message });
     }
 };

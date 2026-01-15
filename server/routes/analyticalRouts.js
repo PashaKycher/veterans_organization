@@ -3,9 +3,8 @@ import protect from "../middlewares/authMiddleware.js";
 import upload from "../configs/multer.js";
 
 import { createAnalytical, updateAnalytical, deleteAnalytical, getAllAnalytical, publishAnalytical, toggleFeatured,
-  likeAnalytical, getSingleAnalyticalById, getAllAnalyticalAdmin,
-  getAddViewAnalytical,
-  addPosition,
+  likeAnalytical, getSingleAnalyticalById, getAllAnalyticalAdmin, getAddViewAnalytical, addPosition, getAnalyticalByUserId,
+  getLengthAnalytical,
 } from "../controllers/analyticalController.js";
 
 const analyticalRouts = express.Router();
@@ -25,5 +24,7 @@ analyticalRouts.put("/addposition/:id", protect, addPosition);
 analyticalRouts.get("/get", getAllAnalytical);
 analyticalRouts.get("/get/:id", getSingleAnalyticalById);
 analyticalRouts.get("/add-view/:id", getAddViewAnalytical);
+analyticalRouts.get("/get-by-user-id/:id", getAnalyticalByUserId);
+analyticalRouts.get("/get-length", getLengthAnalytical);
 
 export default analyticalRouts;

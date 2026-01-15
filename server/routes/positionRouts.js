@@ -2,8 +2,8 @@ import express from "express";
 import protect from "../middlewares/authMiddleware.js";
 
 import { 
-    addPositionView, createPosition, deletePosition, getAllPositions, getPositionById, getPublishedPositions, 
-    publishPosition, toggleFeaturedPosition, toggleLikePosition, updatePosition 
+    addPositionView, createPosition, deletePosition, getAllPositions, getLengthPosition, getPositionById, getPositionByUserId,  
+    publishPosition, toggleFeaturedPosition, toggleLikePosition, updatePosition, getPublishedPositions, 
 } from "../controllers/positionCantroller.js";
 
 
@@ -23,5 +23,8 @@ positionRouts.put("/like/:id", protect, toggleLikePosition);
 positionRouts.get("/get", getPublishedPositions);
 positionRouts.get("/get/:id", getPositionById);
 positionRouts.get("/add-view/:id", addPositionView);
+
+positionRouts.get("/get-by-user-id/:id", getPositionByUserId);
+positionRouts.get("/get-length", getLengthPosition);
 
 export default positionRouts;

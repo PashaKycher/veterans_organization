@@ -271,6 +271,19 @@ export const getUserDataController = async (req, res) => {
     }
 };
 
+// get user by id
+// GET: /api/users/profile/:id
+export const getUserById = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const user = await User.findById(id).select("-password");
+        res.status(200).json({ success: true, error: false, message: "Користувач знайдений", user });
+    } catch (error) {
+        console.log("GET USER DATA ERROR:", error);
+        res.status(500).json({ success: false, error: true, message: error.message || error });
+    }
+}
+
 // toggle user featured analytical
 // PUT: /api/user/analytical-featured/:id
 export const toggleUserFeaturedAnalytical = async (req, res) => {

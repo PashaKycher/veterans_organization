@@ -6,11 +6,8 @@ import {
     getUserDataController, loginUser, registerUser, verifyEmail, uploadAvatar,
     toggleUserFeaturedAnalytical, toggleUserFeaturedNews, toggleUserFeaturedPosition,
     updateUser, updateIsLeader, updateIsClubLeader, updateStoriesForPage, updateUserRole, 
-    updateRoleOwner, getAllUsers,
-    getAllUsersLeader,
-    getAllUsersClubLeader
+    updateRoleOwner, getAllUsers, getAllUsersLeader, getAllUsersClubLeader, getUserById
 } from '../controllers/userController.js';
-import { get } from 'mongoose';
 
 const userRouter = express.Router();
 
@@ -31,5 +28,7 @@ userRouter.put("/role-owner", protect, updateRoleOwner);
 userRouter.get("/users", getAllUsers);
 userRouter.get("/usersleader", getAllUsersLeader);
 userRouter.get("/usersclubleader", getAllUsersClubLeader);
+
+userRouter.get("/profile/:id", getUserById)
 
 export default userRouter

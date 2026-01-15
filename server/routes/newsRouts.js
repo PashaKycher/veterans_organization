@@ -5,6 +5,8 @@ import upload from "../configs/multer.js";
 import { createNews, updateNews, deleteNews, getAllNews, publishNews, toggleFeatured, likeNews, getSingleNewsById, getAllNewsAdmin,
     getAddViewNews,
     addPosition,
+    getNewsByUserId,
+    getLengthNews,
 } from "../controllers/newsController.js";
 
 const newsRouts = express.Router();
@@ -24,5 +26,8 @@ newsRouts.put("/addposition/:id", protect, addPosition);
 newsRouts.get("/get", getAllNews);
 newsRouts.get("/get/:id", getSingleNewsById);
 newsRouts.get("/add-view/:id", getAddViewNews);
+
+newsRouts.get("/get-by-user-id/:id", getNewsByUserId);
+newsRouts.get("/get-length", getLengthNews);
 
 export default newsRouts;

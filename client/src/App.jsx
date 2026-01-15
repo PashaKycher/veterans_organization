@@ -24,8 +24,10 @@ import VerifyEmail from './components/helpers/VerifyEmail'
 import AnalyticalCard from './pages/card/AnalyticalCard'
 import NewsCard from './pages/card/NewsCard'
 import PositionCard from './pages/card/PositionCard'
+import UserProfile from './pages/card/UserProfile'
 
 import LayoutUser from './pages/user/LayoutUser'
+import DashboardUser from './pages/user/Dashborduser'
 
 import LayoutOwner from './pages/owner/LayoutOwner'
 import AnalyticalOwner from './pages/owner/analytical/AnalyticalOwner'
@@ -42,6 +44,7 @@ import UpdatePositionOwner from './pages/owner/position/UpdatePositionOwner'
 import SupportPage from './pages/SupportPage'
 import ContactPage from './pages/ContactPage'
 import UsersOwner from './pages/owner/user/UsersOwner'
+import DashbordOwner from './pages/owner/DashbordOwner'
 
 
 function App() {
@@ -112,13 +115,14 @@ function App() {
 
             <Route path="/leaders" element={<Leaders />} />
             <Route path="/club" element={<Club />} />
+            <Route path='/user/:id' element={<UserProfile />} />
 
             <Route path="/support" element={<SupportAndInteraction />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/supportform" element={<SupportPage/>} />
 
             <Route path='/owner' element={<LayoutOwner />}>
-              <Route index element={<p>Dashboard</p>} />
+              <Route index element={<DashbordOwner />} />
               <Route path='analytical' element={<AnalyticalOwner />} />
               <Route path='addcategoryanalytical' element={<AddCategoryAnalyticalOwner />} />
               <Route path='addanalytical' element={<AddAnalyticalOwner />} />
@@ -140,7 +144,7 @@ function App() {
             </Route>
 
             <Route path='/user' element={<LayoutUser />}>
-              <Route index element={<p>Dashboard</p>} />
+              <Route index element={<DashboardUser />} />
               <Route path='updateusers' element={<UserIdentityPage />} />
             </Route>
           </Routes>

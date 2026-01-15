@@ -259,3 +259,28 @@ export const addPositionView = async (req, res) => {
         res.status(500).json({ success: false });
     }
 };
+
+// get position by user id
+// GET: /api/position/get-by-user-id/:id
+export const getPositionByUserId = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const analytical = await Position.find({ author: id, status: "published" }).populate("author").populate("article");
+        res.status(201).json({ success: true, data: analytical });
+    } catch (error) {
+        console.error("getAnalyticalByUserId:", error);
+        res.status(500).json({ success: false, message: error.message });
+    }
+};
+
+// get length all position
+// GET: /api/position/get-length
+export const getLengthPosition = async (req, res) => {
+    try {
+        const data = await Position.countDocuments({ status: "published" });
+        res.json({ success: true, data });
+    } catch (error) {
+        console.error("getLengthPosition:", error);
+        res.status(500).json({ success: false, message: error.message });
+    }
+};

@@ -334,7 +334,7 @@ export const addPosition = async (req, res) => {
             return res.status(404).json({ success: false, message: "Стаття не знайдена" });
         }
 
-        const {_id} = req.body
+        const { _id } = req.body
         news.positionId = _id;
         await news.save();
 
@@ -342,6 +342,31 @@ export const addPosition = async (req, res) => {
         res.status(201).json({ success: true, token, message: "Додано позицію", position: news.position });
     } catch (error) {
         console.error("addPosition error:", error);
+        res.status(500).json({ success: false, message: error.message });
+    }
+};
+
+// get news by user id
+// GET: /api/news/get-by-user-id/:id
+export const getNewsByUserId = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const analytical = await News.find({ author: id, status: "published" }).populate("author").populate("category").populate("positionId");
+        res.status(201).json({ success: true, data: analytical });
+    } catch (error) {
+        console.error("getAnalyticalByUserId:", error);
+        res.status(500).json({ success: false, message: error.message });
+    }
+};
+
+// get length all news
+// GET: /api/news/get-length
+export const getLengthNews = async (req, res) => {
+    try {
+        const data = await News.countDocuments({ status: "published" });
+        res.json({ success: true, data });
+    } catch (error) {
+        console.error("getLengthNews:", error);
         res.status(500).json({ success: false, message: error.message });
     }
 };

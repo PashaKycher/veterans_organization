@@ -35,8 +35,7 @@ const People = () => {
                         </div>
                         <p className="text-sm text-neutral-700 leading-relaxed flex-1">{p.storiesForPage}</p>
                         <div>
-                            <button type='button' className="inline-flex items-center justify-center px-4 py-2 rounded-lg border cursor-pointer border-primary text-primary font-semibold hover:bg-primary/10 transition">
-                            {/* onClick={() => { navigate(`/leaders/${p._id}`); scrollTo(0, 0); }} */}
+                            <button type='button' className="inline-flex items-center justify-center px-4 py-2 rounded-lg border cursor-pointer border-primary text-primary font-semibold hover:bg-primary/10 transition" onClick={() => { navigate(`/user/${p._id}`); scrollTo(0, 0); }}>
                                 Дізнатися більше
                             </button>
                         </div>
