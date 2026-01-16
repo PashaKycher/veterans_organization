@@ -44,7 +44,7 @@ const NewsCard = () => {
     };
 
     useEffect(() => {
-        if (!id) { navigate("/news"); return; }
+        if (!id) { navigate(-1); scrollTo(0, 0); return; }
         userData();
     }, [id]);
     useEffect

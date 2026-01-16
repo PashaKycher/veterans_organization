@@ -35,7 +35,7 @@ const AnalyticalCard = () => {
     const fetchData = async () => {
         try {
             const token = localStorage.getItem("token");
-            const { data } = await api.get(`/api/news/get/${id}`, { headers: token ? { Authorization: token } : {}, });
+            const { data } = await api.get(`/api/analytical/get/${id}`, { headers: token ? { Authorization: token } : {}, });
             if (data.success) {setArticle({ ...data.data, likes: data.data.likes.length, likedByMe: data.data.likedByMe, })}
             user.news.map(news => news._id === data.data._id) ? setArticle((prev) => ({ ...prev, is_featured: true })) : setArticle((prev) => ({ ...prev, is_featured: false }));
         } catch {
@@ -44,7 +44,7 @@ const AnalyticalCard = () => {
     };
 
     useEffect(() => {
-        if (!id) { navigate("/news"); return; }
+        if (!id) { navigate(-1); scrollTo(0, 0); return; }
         userData();
     }, [id]);
     useEffect
