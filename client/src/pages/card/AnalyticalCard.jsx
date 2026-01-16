@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 import api from "../../api/axios";
 import { assets } from "../../assets/assets";
 import moment from "moment";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setUserData } from "../../store/userSlice";
 
 const AnalyticalCard = () => {
@@ -15,7 +15,7 @@ const AnalyticalCard = () => {
     const [article, setArticle] = useState(null);
     const [currentImage, setCurrentImage] = useState(0);
     const [isLiking, setIsLiking] = useState(false);
-    const [user, setUser] = useState(useSelector((state) => state.user));
+    const [user, setUser] = useState(null);
     const [isAuto, setIsAuto] = useState(true);
 
     const userData = async () => {

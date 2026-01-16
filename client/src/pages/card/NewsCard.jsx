@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 import api from "../../api/axios";
 import { assets } from "../../assets/assets";
 import moment from "moment";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setUserData } from "../../store/userSlice";
 
 const NewsCard = () => {
