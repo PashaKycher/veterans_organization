@@ -261,7 +261,9 @@ export const updateUser = async (req, res) => {
 export const getUserDataController = async (req, res) => {
     try {
         const { userId } = req
-        const user = await User.findOne({ _id: userId }).select("-password");
+        const user = await User.findOne({ _id: userId }).select("-password")
+            .populate({ path: "analiticals", options: { sort: { createdAt: -1 } } })
+            .populate({ path: "news", options: { sort: { createdAt: -1 } } });;
         const token = generateSessionToken(user._id);
 
         res.status(200).json({ success: true, token, error: false, message: "Авторізація успішна", user });

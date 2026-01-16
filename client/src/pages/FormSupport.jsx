@@ -1,7 +1,7 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
 
-const SupportPage = () => {
+const FormSupport = () => {
     const query = new URLSearchParams(useLocation().search);
     const mode = query.get("mode") || "support"; // support | partner
 
@@ -35,7 +35,6 @@ const SupportPage = () => {
                             <p>— Логіка використання ресурсів</p>
                         </div>
                     </section>
-
                     <section>
                         <h2 className="text-xl font-semibold mb-4">
                             {isPartner ? "Умови співпраці" : "Реквізити для підтримки"}
@@ -47,27 +46,19 @@ const SupportPage = () => {
                         </div>
                     </section>
                 </div>
-
                 {/* SIDEBAR */}
                 <aside className="space-y-8">
                     <div className="bg-neutral-50 border border-neutral-200 rounded-xl p-6">
-                        <h3 className="font-semibold mb-3">
-                            Принципи
-                        </h3>
+                        <h3 className="font-semibold mb-3">Принципи</h3>
                         <ul className="text-sm leading-relaxed opacity-80 space-y-2">
                             <li>• Прозорість</li>
                             <li>• Публічна відповідальність</li>
                             <li>• Довгострокове мислення</li>
                         </ul>
                     </div>
-
                     <div className="bg-neutral-50 border border-neutral-200 rounded-xl p-6">
-                        <h3 className="font-semibold mb-3">
-                            Контакт для взаємодії
-                        </h3>
-                        <p className="text-sm opacity-80">
-                            Тут буде відповідальна контактна інформація
-                        </p>
+                        <h3 className="font-semibold mb-3">Контакт для взаємодії</h3>
+                        <p className="text-sm opacity-80">Тут буде відповідальна контактна інформація</p>
                     </div>
                 </aside>
             </div>
@@ -75,4 +66,4 @@ const SupportPage = () => {
     );
 };
 
-export default SupportPage;
+export default FormSupport;

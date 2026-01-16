@@ -286,13 +286,6 @@ export const userMenuLinks = [
     icon: dashboardIcon, 
     coloredIcon: dashboardIconColored,
   },
-
-  {
-    title: "Позиція",
-    link: "/user/position",
-    icon: dashboardIcon, 
-    coloredIcon: dashboardIconColored,
-  },
   {
     title: "Профіль",
     link: "/user/updateusers",

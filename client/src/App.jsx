@@ -8,6 +8,8 @@ import { setUserData } from './store/userSlice'
 import NavBar from './components/NavBar'
 import LearnMore from './components/LearnMore'
 import Footer from './components/Footer'
+import VerifyEmail from './components/helpers/VerifyEmail'
+import UserIdentityPage from './pages/UserIdentityPage'
 
 import Home from './pages/Home'
 import Login from './pages/Login'
@@ -17,9 +19,6 @@ import Position from './pages/Position'
 import Leaders from './pages/Leaders'
 import Club from './pages/Club'
 import SupportAndInteraction from './pages/SupportAndInteraction'
-import UserIdentityPage from './pages/UserIdentityPage'
-
-import VerifyEmail from './components/helpers/VerifyEmail'
 
 import AnalyticalCard from './pages/card/AnalyticalCard'
 import NewsCard from './pages/card/NewsCard'
@@ -27,9 +26,12 @@ import PositionCard from './pages/card/PositionCard'
 import UserProfile from './pages/card/UserProfile'
 
 import LayoutUser from './pages/user/LayoutUser'
-
+import Dashboard from './pages/user/Dashbord'
+import AnaliticalsUser from './pages/user/AnaliticalsUser'
+import NewsUser from './pages/user/NewsUser'
 
 import LayoutOwner from './pages/owner/LayoutOwner'
+import DashbordOwner from './pages/owner/DashbordOwner'
 import AnalyticalOwner from './pages/owner/analytical/AnalyticalOwner'
 import AddCategoryAnalyticalOwner from './pages/owner/analytical/AddCategoryAnalyticalOwner'
 import AddAnalyticalOwner from './pages/owner/analytical/AddAnalyticalOwner'
@@ -41,11 +43,12 @@ import UpdateNewsOwner from './pages/owner/news/UpdateNewsOwner'
 import PositionOwner from './pages/owner/position/PositionOwner'
 import AddPositionOwner from './pages/owner/position/AddPositionOwner'
 import UpdatePositionOwner from './pages/owner/position/UpdatePositionOwner'
-import SupportPage from './pages/SupportPage'
-import ContactPage from './pages/ContactPage'
 import UsersOwner from './pages/owner/user/UsersOwner'
-import DashbordOwner from './pages/owner/DashbordOwner'
-import Dashboard from './pages/user/Dashbord'
+
+import FormContact from './pages/FormContact'
+import FormSupport from './pages/FormSupport'
+import FormClub from './pages/FormClub'
+import FormIdea from './pages/FormIdea'
 
 
 
@@ -104,49 +107,51 @@ function App() {
 
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/verify-email" element={<VerifyEmail />} />
-
             <Route path="/analytical" element={<Analytical />} />
-            <Route path="/analytical/:id" element={<AnalyticalCard />} />
-
             <Route path="/news" element={<News />} />
-            <Route path="/news/:id" element={<NewsCard />} />
-
             <Route path="/position" element={<Position />} />
-            <Route path="/position/:id" element={<PositionCard />} />
-
             <Route path="/leaders" element={<Leaders />} />
             <Route path="/club" element={<Club />} />
+            <Route path="/support" element={<SupportAndInteraction />} />
+
+            <Route path="/analytical/:id" element={<AnalyticalCard />} />
+            <Route path="/news/:id" element={<NewsCard />} />
+            <Route path="/position/:id" element={<PositionCard />} />
             <Route path='/user/:id' element={<UserProfile />} />
 
-            <Route path="/support" element={<SupportAndInteraction />} />
-            <Route path="/contact" element={<ContactPage />} />
-            <Route path="/supportform" element={<SupportPage/>} />
+            <Route path="/verify-email" element={<VerifyEmail />} />
+            <Route path="/contactform" element={<FormContact />} />
+            <Route path="/supportform" element={<FormSupport />} />
+            <Route path="/clubform" element={<FormClub />} />
+            <Route path="/ideaform" element={<FormIdea />} />
 
             <Route path='/owner' element={<LayoutOwner />}>
               <Route index element={<DashbordOwner />} />
               <Route path='analytical' element={<AnalyticalOwner />} />
+              <Route path='news' element={<NewsOwner />} />
+              <Route path='position' element={<PositionOwner />} />
+
               <Route path='addcategoryanalytical' element={<AddCategoryAnalyticalOwner />} />
               <Route path='addanalytical' element={<AddAnalyticalOwner />} />
               <Route path='editanalytical/:id' element={<UpdateAnalyticalOwner />} />
 
-              <Route path='news' element={<NewsOwner />} />
               <Route path='addcategorynews' element={<AddCategoryNewsOwner />} />
               <Route path='addnews' element={<AddNewsOwner />} />
               <Route path='editnews/:id' element={<UpdateNewsOwner />} />
 
-              <Route path='position' element={<PositionOwner />} />
               <Route path='addposition' element={<AddPositionOwner />} />
               <Route path='editposition/:id' element={<UpdatePositionOwner />} />
 
-              <Route path='users' element={<UsersOwner/>} />
+              <Route path='users' element={<UsersOwner />} />
 
               <Route path='updateusers' element={<UserIdentityPage />} />
-              
             </Route>
 
             <Route path='/user' element={<LayoutUser />}>
               <Route index element={<Dashboard />} />
+              <Route path='analytical' element={<AnaliticalsUser />} />
+              <Route path='news' element={<NewsUser />} />
+
               <Route path='updateusers' element={<UserIdentityPage />} />
             </Route>
           </Routes>

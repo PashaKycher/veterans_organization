@@ -15,14 +15,17 @@ const NewsCard = () => {
     const [article, setArticle] = useState(null);
     const [currentImage, setCurrentImage] = useState(0);
     const [isLiking, setIsLiking] = useState(false);
-    const [user, setUser] = useState(useSelector((state) => state.user));
+    const [user, setUser] = useState(null);
     const [isAuto, setIsAuto] = useState(true);
 
     const userData = async () => {
         try {
             const token = localStorage.getItem("token");
             const { data } = await api.get("/api/users/data", { headers: { Authorization: token } });
-            if (data.success) { dispatch(setUserData(data.user)); setUser(data.user) }
+            if (data.success) {
+                dispatch(setUserData(data.user));
+                setUser(data.user)
+            }
             localStorage.setItem("token", data.token);
         } catch (error) {
             console.error(error)
@@ -31,24 +34,23 @@ const NewsCard = () => {
 
     const fetchData = async () => {
         try {
-            const { data } = await api.get(`/api/news/get/${id}`);
-            if (data.success) {
-                setArticle(data.data);
-                data.data.likes.includes(user._id) ? setArticle((prev) => ({ ...prev, likedByMe: true })) : setArticle((prev) => ({ ...prev, likedByMe: false }));
-                user?.news?.includes(data.data._id) ? setArticle((prev) => ({ ...prev, is_featured: true })) : setArticle((prev) => ({ ...prev, is_featured: false }));
-                setArticle((prev) => ({ ...prev, likes: data.data.likes.length }));
-            }
+            const token = localStorage.getItem("token");
+            const { data } = await api.get(`/api/news/get/${id}`, { headers: token ? { Authorization: token } : {}, });
+            if (data.success) {setArticle({ ...data.data, likes: data.data.likes.length, likedByMe: data.data.likedByMe, })}
+            user.news.map(news => news._id === data.data._id) ? setArticle((prev) => ({ ...prev, is_featured: true })) : setArticle((prev) => ({ ...prev, is_featured: false }));
         } catch {
             toast.error("Не вдалося завантажити статтю");
         }
     };
 
     useEffect(() => {
-        if (!id) navigate("/analytical");
+        if (!id) { navigate("/news"); return; }
         userData();
     }, [id]);
+    useEffect
 
     useEffect(() => {
+        if (!user) return;
         fetchData();
     }, [user]);
 
@@ -76,15 +78,18 @@ const NewsCard = () => {
         const token = localStorage.getItem("token");
         if (!token) {
             toast.error("Ви не авторизовані");
-            return
+            return;
         }
         try {
-            await api.put(`/api/users/news-featured/${id}`, {}, { headers: { Authorization: localStorage.getItem("token") } });
-            setArticle((prev) => ({ ...prev, is_featured: !prev.is_featured }));
+            const { data } = await api.put(`/api/users/news-featured/${id}`, {}, { headers: { Authorization: token } });
+            if (data.success) {
+                setArticle(prev => ({ ...prev, is_featured: data.featured, }));
+            }
         } catch {
             toast.error("Помилка при зміні статусу");
         }
     };
+
 
     useEffect(() => {
         if (!id) return;
@@ -123,7 +128,7 @@ const NewsCard = () => {
             <div className="px-6 md:px-16 lg:px-24 xl:px-32 py-12">
 
                 {/* Back */}
-                <button onClick={() => {navigate("/news"); scrollTo(0, 0)}} className="flex items-center gap-2 mb-8 text-sm text-gray-600 hover:text-gray-900">
+                <button onClick={() => { navigate("/news"); scrollTo(0, 0) }} className="flex items-center gap-2 mb-8 text-sm text-gray-600 hover:text-gray-900">
                     <img src={assets.arrow_icon} className="rotate-180 opacity-60" />Назад
                 </button>
 

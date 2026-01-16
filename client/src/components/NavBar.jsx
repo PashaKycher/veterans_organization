@@ -46,7 +46,9 @@ const NavBar = () => {
   const isPasitionCard = useLocation().pathname.includes("/position/")
   const isContact = useLocation().pathname.includes("/contact")
   const isSupport = useLocation().pathname.includes("/supportform")
-  if (isPathAnalytical || isPathNews || isPathVerify || isPasitionCard || isContact || isSupport) {
+  const isIdea = useLocation().pathname.includes("/ideaform")
+  const isClub = useLocation().pathname.includes("/clubform")
+  if (isPathAnalytical || isPathNews || isPathVerify || isPasitionCard || isContact || isSupport || isIdea || isClub) {
     color = true
   }
 
